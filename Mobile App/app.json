@@ -5,6 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
     "splash": {
       "resizeMode": "contain",
       "backgroundColor": "#10241b"
@@ -14,6 +15,8 @@
     ],
     "ios": {
       "supportsTablet": true,
+      "bundleIdentifier": "com.anaajai.mobile",
+      "buildNumber": "1",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Allow Anaaj AI to use your location to suggest relevant farming information.",
         "NSMicrophoneUsageDescription": "Allow Anaaj AI to use your microphone for voice queries."
