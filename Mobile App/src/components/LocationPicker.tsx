@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { View, StyleSheet, ActivityIndicator, Pressable, Platform } from 'react-native';
-import MapView, { Marker, Region, PROVIDER_DEFAULT } from 'react-native-maps';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { AppText, GradientButton, ScreenCard } from './ui';
@@ -46,11 +45,7 @@ export function LocationPicker({
     }
   }, [hasPermission, initialLocation]);
 
-  const handleRegionChangeComplete = (region: Region) => {
-    setSelectedLocation(region);
-    debouncedReverseGeocode(region.latitude, region.longitude);
-  };
-
+  // Used to have Region handling here, removed since MapView is gone.
   const handleConfirm = () => {
     if (locationData) {
       onLocationSelect(locationData);
@@ -76,53 +71,38 @@ export function LocationPicker({
         </Pressable>
       </View>
 
-      {/* Map */}
-      <View style={styles.mapContainer}>
-        <MapView
-          style={styles.map}
-          provider={PROVIDER_DEFAULT}
-          initialRegion={selectedLocation}
-          onRegionChangeComplete={handleRegionChangeComplete}
-          showsUserLocation
-          showsMyLocationButton={false}
-          showsCompass
-          rotateEnabled={false}
-        >
-          {/* Center Marker */}
-          <Marker
-            coordinate={{
-              latitude: selectedLocation.latitude,
-              longitude: selectedLocation.longitude,
-            }}
-            anchor={{ x: 0.5, y: 0.5 }}
-          >
-            <View style={styles.markerFixed}>
-              <MaterialIcons name="location-on" size={40} color={theme.colors.primary} />
-            </View>
-          </Marker>
-        </MapView>
+      {/* Map Fallback View */}
+      <View style={[styles.mapContainer, { justifyContent: 'center', alignItems: 'center', backgroundColor: theme.colors.surfaceMuted }]}>
+        <MaterialIcons name="gps-fixed" size={64} color={theme.colors.primary} />
+        <AppText variant="heading" style={{ marginTop: 24 }}>
+          {loading ? 'Finding you...' : 'Location Ready'}
+        </AppText>
+        <AppText color={theme.colors.textMuted} style={{ marginTop: 8, textAlign: 'center', paddingHorizontal: 32 }}>
+          {loading 
+            ? 'Accessing your GPS coordinates. Please wait...' 
+            : 'We have fetched your current location. Please verify the address below.'}
+        </AppText>
 
         {/* Current Location Button */}
-        {hasPermission && !permissionDenied && (
-          <Pressable
-            style={styles.currentLocationButton}
+        {hasPermission && !permissionDenied && !loading && (
+          <GradientButton
+            label="Refresh Current Location"
             onPress={handleUseCurrentLocation}
-            disabled={loading}
-          >
-            <MaterialIcons name="my-location" size={24} color={theme.colors.primary} />
-          </Pressable>
+            style={{ marginTop: 24, paddingHorizontal: 24 }}
+            leftIcon={<MaterialIcons name="my-location" size={20} color={theme.colors.textOnDark} />}
+          />
         )}
 
         {/* Permission Denied Message */}
         {permissionDenied && (
-          <View style={styles.permissionDenied}>
+          <View style={{ marginTop: 24, width: '90%' }}>
             <ScreenCard>
               <MaterialIcons name="location-off" size={32} color={theme.colors.danger} />
               <AppText color={theme.colors.danger} style={{ marginTop: 8 }}>
                 Location permission denied
               </AppText>
               <AppText color={theme.colors.textMuted} style={{ marginTop: 4 }}>
-                You can still select location manually
+                Please enable location permissions in your app settings, or cancel and select your district manually from the list.
               </AppText>
             </ScreenCard>
           </View>

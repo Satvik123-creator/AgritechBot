@@ -68,9 +68,28 @@ export function useLocationPicker(initialLocation?: Partial<LocationData>) {
         return null;
       }
 
-      const location = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Balanced,
-      });
+      // Android APKs sometimes hang on getCurrentPositionAsync.
+      // We wrap it in a timeout and fallback to getLastKnownPositionAsync.
+      let location = null;
+      try {
+        location = await Promise.race([
+          Location.getCurrentPositionAsync({
+            accuracy: Location.Accuracy.Balanced,
+          }),
+          new Promise<never>((_, reject) => 
+            setTimeout(() => reject(new Error('Timeout getting location')), 8000)
+          )
+        ]);
+      } catch (timeoutErr) {
+        console.warn('getCurrentPositionAsync timed out or failed, trying last known position...', timeoutErr);
+        location = await Location.getLastKnownPositionAsync({
+          maxAge: 60000,
+        });
+      }
+
+      if (!location) {
+        throw new Error('Could not determine location');
+      }
 
       const newRegion: Region = {
         latitude: location.coords.latitude,
@@ -88,7 +107,7 @@ export function useLocationPicker(initialLocation?: Partial<LocationData>) {
       return newRegion;
     } catch (err) {
       console.error('Get location error:', err);
-      setError('Failed to get current location');
+      setError('Failed to get current location. Ensure GPS is turned on.');
       return null;
     } finally {
       setLoading(false);
