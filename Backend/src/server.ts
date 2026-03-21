@@ -15,10 +15,9 @@ async function main(): Promise<void> {
     await connectRedis();
     redisConnected = true;
   } catch (err) {
-    logger.warn({ err }, 'Redis connection failed. Queue/cache features unavailable, but OTP auth will work.');
-    if (env.NODE_ENV === 'production') {
-      throw err;
-    }
+    logger.warn({ err }, 'Redis connection failed. Queue/cache features unavailable, but core API will work.');
+    // We do NOT throw here in production anymore to allow graceful degradation.
+    // The server will still bind to Render's PORT and serve Auth/Healthcheck endpoints.
   }
 
   // Start queue workers only when Redis is available
