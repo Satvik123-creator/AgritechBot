@@ -1,0 +1,1458 @@
+[
+  {
+    "product_name": "BIOZYME GRANULES",
+    "category": "biostimulant",
+    "form": "granules",
+    "active_ingredient": "Seaweed (Ascophyllum nodosum) fermented biomass containing algenic acid 0.05% Min 5%",
+    "technology": "B.I.L.T. (Biostadt Induced Lacto-fermentation Technology)",
+    "key_feature": "Better Root & Plant Development",
+    "benefits": [
+      "Primary & Secondary (feeder) root development",
+      "Increases Microbial Activity in soil and nutrient uptake",
+      "Develops tolerance for biotic & abiotic stress",
+      "Improves photosynthesis and the greenness of plants",
+      "Enhances bud stimulation for more fruiting branches"
+    ],
+    "crops": "All crops",
+    "dose": "8 to 16 kg per acre",
+    "application_method": "soil"
+  },
+  {
+    "product_name": "BIOZYME POWER+ GRANULES",
+    "category": "biostimulant",
+    "form": "granules",
+    "active_ingredient": "Seaweed (Ascophyllum nodosum) fermented biomass containing algenic acid 0.05% Min 6.5%",
+    "key_feature": "Better Root & Plant Development",
+    "benefits": [
+      "Primary & Secondary (feeder) root development",
+      "Increases Microbial activity in soil and nutrient uptake",
+      "Develops tolerance for Biotic & Abiotic stress",
+      "Improves photosynthesis and the greenness of plants",
+      "Enhances number of productive tillers"
+    ],
+    "crops": "Paddy",
+    "dose": "6 to 12 kg per acre",
+    "application_method": "soil"
+  },
+  {
+    "product_name": "BIOZYME BIOCANE+ GRANULES",
+    "category": "biostimulant",
+    "form": "granules",
+    "active_ingredient": "Seaweed (Ascophyllum nodosum) fermented biomass containing algenic acid 0.05% Min 5%",
+    "key_feature": "More productive tillers",
+    "benefits": [
+      "Primary & secondary (feeder) root development",
+      "Increases microbial activity in soil and nutrient uptake",
+      "Develops tolerance for biotic & abiotic stress",
+      "Increases photosynthesis and the greenness of plants",
+      "Develops more productive tillers",
+      "Increase inter nodal length, cane girth and helps in higher yield"
+    ],
+    "crops": "Sugarcane",
+    "dose": "8 to 16 kg per acre",
+    "application_method": "soil"
+  },
+  {
+    "product_name": "BIOZYME FRUIT+ GRANULES",
+    "category": "biostimulant",
+    "form": "granules",
+    "active_ingredient": "Seaweed (Ascophyllum nodosum) fermented biomass containing algenic acid 0.05% Min 5%",
+    "key_feature": "Better Root Development & Bud stimulation",
+    "benefits": [
+      "Primary & Secondary (feeder) root development",
+      "Increases Microbial Activity in Soil and Nutrient uptake",
+      "Develops tolerance for biotic & Abiotic stress",
+      "Increase photosynthesis and the greenness of plants",
+      "Helps in bud stimulation for more fruiting branches"
+    ],
+    "crops": "All Fruit crops",
+    "dose": "Apple - 750 gm per plant; Other fruits Crops 48-60 kg per acre",
+    "application_method": "soil"
+  },
+  {
+    "product_name": "BIOZYME VEGETABLES+ GRANULES",
+    "category": "biostimulant",
+    "form": "granules",
+    "active_ingredient": "Seaweed (Ascophyllum nodosum) fermented biomass containing algenic acid 0.05% Min 5%",
+    "key_feature": "Better Root & Plant Development",
+    "benefits": [
+      "Primary & Secondary (feeder) root development",
+      "Increases Microbial Activity in soil and nutrient uptake",
+      "Develops tolerance for biotic & abiotic stress",
+      "Improves photosynthesis and the greenness of plants",
+      "Enhances bud stimulation for more fruiting branches"
+    ],
+    "crops": "All Vegetables Crops",
+    "dose": "8 to 16 kg per acre",
+    "application_method": "soil"
+  },
+  {
+    "product_name": "BIOZYME GRAIN+ GRANULES",
+    "category": "biostimulant",
+    "form": "granules",
+    "active_ingredient": "Seaweed (Ascophyllum nodosum) fermented biomass containing algenic acid 0.05% Min 5%",
+    "key_feature": "More Productive Tillers",
+    "benefits": [
+      "Primary & Secondary (feeder) root development",
+      "Increases Microbial activity in soil and nutrient uptake",
+      "Develops tolerance for biotic & abiotic stress",
+      "Increases photosynthesis and the greenness of plants",
+      "Enhances bud stimulation for more productive tillers"
+    ],
+    "crops": "Wheat, Maize & Bajra",
+    "dose": "8 to 16 kg per acre",
+    "application_method": "soil"
+  },
+  {
+    "product_name": "BIOZYME CROP+",
+    "category": "biostimulant",
+    "form": "liquid",
+    "active_ingredient": "Seaweed (Ascophyllum nodosum) fermented biomass containing algenic acid 0.5% Min 22%",
+    "key_feature": "Better Crop Canopy",
+    "benefits": [
+      "Better photosynthesis",
+      "Primary & Secondary (feeder) root development",
+      "Increases Microbial activity in soil and nutrient uptake",
+      "Develops tolerance for biotic & abiotic stress",
+      "Enhances bud stimulation, more fruiting/more productive tillers"
+    ],
+    "crops": "All Crops",
+    "dose": "250-300 ml per Acre",
+    "application_method": "foliar"
+  },
+  {
+    "product_name": "BIOZYME POWER+",
+    "category": "biostimulant",
+    "form": "liquid",
+    "active_ingredient": "Seaweed (Ascophyllum nodosum) fermented biomass containing algenic acid 0.25% Min 25%; Amino acid 5%",
+    "key_feature": "Uniform Penicle emergence and better Yield",
+    "benefits": [
+      "Better photosynthesis",
+      "More axillary branches & growth",
+      "Enhances flowering",
+      "Protects from Biotic and Abiotic stress",
+      "Improves flower to Capsule formation",
+      "More Seed weight and better seed shining"
+    ],
+    "crops": "Paddy",
+    "dose": "250-300 ml per Acre",
+    "application_method": "foliar"
+  },
+  {
+    "product_name": "BIOZYME SEED+",
+    "category": "biostimulant",
+    "form": "liquid",
+    "active_ingredient": "Seaweed (Ascophyllum nodosum) fermented biomass containing algenic acid 0.5% Min 22%; L-Amino acid 6%",
+    "key_feature": "Uniform & Better Seed Germination",
+    "benefits": [
+      "Quick & uniform germination",
+      "Stimulates the initial vegetative growth of plants and helps in early establishment of seedling",
+      "Quick root & shoot development leads to better plant establishment",
+      "Provides energy which improves root growth and nutrient uptake",
+      "Enhances stress tolerance",
+      "Better Plant population & healthy seedling"
+    ],
+    "crops": "All Crops",
+    "dose": "3 to 5 ml per kg seed; Seedling Treatment 150-200 ml per acre seedling",
+    "application_method": "seed_treatment"
+  },
+  {
+    "product_name": "BIOZYME DRIP+",
+    "category": "biostimulant",
+    "form": "liquid",
+    "active_ingredient": "Seaweed (Ascophyllum nodosum) fermented biomass containing algenic acid 0.5% Min 18%; Humic Acid 4%; Amino acids 4%",
+    "key_feature": "Active Rhizosphere & Better Nutrition",
+    "benefits": [
+      "More white root feeder root development to build the active rhizosphere",
+      "Stimulates growth & activity of microorganisms",
+      "Improves the CN ratio of the soil",
+      "Increase the capacity to withstand stress & unfavourable water condition",
+      "Improves nutrient availability by soil PH balance",
+      "Better photosynthesis & leaf care"
+    ],
+    "crops": "All Crops",
+    "dose": "Vegetable 2.5 Lit/Hectare",
+    "application_method": "drip"
+  },
+  {
+    "product_name": "BIOZYME FRUIT+",
+    "category": "biostimulant",
+    "form": "liquid",
+    "active_ingredient": "Seaweed (Ascophyllum nodosum) fermented biomass containing algenic acid 0.5% Min 30%; Amino acid 4%",
+    "key_feature": "Better Fruit Setting and Fruit Size",
+    "benefits": [
+      "Better photosynthesis & foliage care",
+      "Improves flower to Fruit formation",
+      "Reduces flower & fruit dropping",
+      "Protects from biotic and abiotic stress",
+      "Improve fruit size, color & shining (Quality of Fruits)",
+      "More yield with high quality"
+    ],
+    "crops": "All Fruit Crops",
+    "dose": "1.5 ml to 2 ml per lit of water",
+    "application_method": "foliar"
+  },
+  {
+    "product_name": "BIOZYME VEGETABLE+",
+    "category": "biostimulant",
+    "form": "liquid",
+    "active_ingredient": "Seaweed (Ascophyllum nodosum) fermented biomass containing algenic acid 0.5% Min 28%; Amino acid 5%",
+    "key_feature": "Better fruit setting and fruit size",
+    "benefits": [
+      "Better photosynthesis & foliage care",
+      "Improves flower to fruit formation",
+      "Reduces flower & fruit dropping",
+      "Protects from biotic and abiotic stress",
+      "Improve fruit size, color & shining (Quality of fruits)",
+      "More yield with high quality"
+    ],
+    "crops": "All vegetable crops",
+    "dose": "250-300 ml per Acre",
+    "application_method": "foliar"
+  },
+  {
+    "product_name": "BIOZYME PULSE+",
+    "category": "biostimulant",
+    "form": "liquid",
+    "active_ingredient": "Seaweed (Ascophyllum nodosum) fermented biomass containing algenic acid 0.1% Min 30%; Amino acid 4%",
+    "key_feature": "Better pod filling & more yield",
+    "benefits": [
+      "Improves flowering and pod formation",
+      "More flower and pod retention",
+      "Better photosynthesis & Leaf care",
+      "Increases pod size and grain shining",
+      "More yield"
+    ],
+    "crops": "Soybean, groundnut, & pulses crop",
+    "dose": "250-300 ml per Acre",
+    "application_method": "foliar"
+  },
+  {
+    "product_name": "BIOZYME MIRCHI+",
+    "category": "biostimulant",
+    "form": "liquid",
+    "active_ingredient": "Seaweed (Ascophyllum nodosum) fermented biomass containing algenic acid 0.25% Min 25%; Amino acid 5%",
+    "key_feature": "More picking & Better Yield",
+    "benefits": [
+      "Better photosynthesis & Leaf care",
+      "More branches & growth",
+      "Protects from biotic and abiotic stress",
+      "Improves flowering and fruit formation",
+      "Improve Fruit Size and Fruit shining",
+      "Keep rhizosphere active",
+      "Improves food translocation from leaves to fruits",
+      "More yield with high quality fruits"
+    ],
+    "crops": "Chilli",
+    "dose": "250-300 ml per Acre",
+    "application_method": "foliar"
+  },
+  {
+    "product_name": "BIOZYME TEA+",
+    "category": "biostimulant",
+    "form": "liquid",
+    "active_ingredient": "Seaweed (Ascophyllum nodosum) fermented biomass containing algenic acid 0.1% Min 30%; L-Amino acids 9%",
+    "key_feature": "High Quality & More plucking leaves",
+    "benefits": [
+      "Helps in bud Stimulation",
+      "Primary & secondary feeder root development",
+      "Improves root and shoot growth",
+      "Increases microbial activities in soil and improves nutrients uptake",
+      "More chlorophyll formation & photosynthesis",
+      "Reduces plucking interval",
+      "Develops tolerance for biotic & abiotic stress",
+      "Improves leaf quality & yield"
+    ],
+    "crops": "Tea",
+    "dose": "500 ml per Hectare",
+    "application_method": "foliar"
+  },
+  {
+    "product_name": "BIOZYME BT+",
+    "category": "biostimulant",
+    "form": "liquid",
+    "active_ingredient": "Seaweed (Ascophyllum nodosum) fermented biomass containing algenic acid 0.25% Min 5%; Amino acids 5%",
+    "key_feature": "Better Boll development & lint quality",
+    "benefits": [
+      "Improves flowering to boll formation, boll retention",
+      "Better photosynthesis & Leaf care",
+      "Improves boll size and lint length (Quality of cotton)",
+      "Improves yield with high quality"
+    ],
+    "crops": "Cotton",
+    "dose": "250-300 ml per Acre",
+    "application_method": "foliar"
+  },
+  {
+    "product_name": "AMAZE X",
+    "category": "speciality_biostimulant",
+    "form": "granules",
+    "active_ingredient": "Seaweed (Ascophyllum nodosum) 15%; Humic acid 1%; Amino Acid 1%; Silica base clay",
+    "key_feature": "Powerful Bio stimulant with Silica based granules",
+    "benefits": [
+      "Improves microbial activity in soil",
+      "Vigorous root & shoot development",
+      "Increase strength of steam",
+      "Reduce logging / dropping",
+      "More number of tillers / branches",
+      "Helps in stress / drought tolerance",
+      "Better yield with higher qualities"
+    ],
+    "crops": "All crops",
+    "dose": "4 to 8 kg per acre",
+    "application_method": "soil"
+  },
+  {
+    "product_name": "AMAZE XL",
+    "category": "speciality_biostimulant",
+    "form": "liquid",
+    "active_ingredient": "Seaweed (Ascophyllum nodosum) extract 8%; L-Amino acids 20%",
+    "key_feature": "Unique combination of Korean Amino Acid with Norwegian Sea Weed",
+    "benefits": [
+      "Improves fruit setting & reduces fruit drop",
+      "Helps in fruit/pod development",
+      "Helps in uniform shape, Size & color",
+      "Improves weight & TSS",
+      "Gives premium & higher yield"
+    ],
+    "crops": "All fruits & vegetable crops",
+    "dose": "1 to 2 ml per lit of water",
+    "application_method": "foliar"
+  },
+  {
+    "product_name": "REJOICE WG",
+    "category": "speciality_biostimulant",
+    "form": "wettable_granule",
+    "active_ingredient": "Seaweed extract 8%; Hydrolyzed proteins 5%; Polysaccharides 25%",
+    "key_feature": "First Wettable Granule (WG) formulation of bio-stimulant",
+    "benefits": [
+      "Gives more number of flowers",
+      "Reduces flower drop",
+      "Improve fruit setting",
+      "Avoid early abortion of bunches",
+      "Gives more reproductive growth"
+    ],
+    "crops": "All crops",
+    "dose": "1 to 2 gm per lit water or 200 gm per acre",
+    "application_method": "foliar"
+  },
+  {
+    "product_name": "BIOGREEN ZINC PLUS",
+    "category": "fertilizer",
+    "form": "liquid",
+    "active_ingredient": "Zinc Oxide Suspension Concentrate 39.5%",
+    "technology": "Microencapsulation technology (imported from Europe)",
+    "key_feature": "Concentrated Zinc suspension for foliar application",
+    "benefits": [
+      "Catalyst for enzymes in photosynthesis",
+      "Enhance root development",
+      "Improves immunity of crop to various diseases"
+    ],
+    "crops": "Fruit crops, Vegetables, Cumin, Gram, Field crops",
+    "dose": "0.5 to 1 ml per lit of water",
+    "application_method": "foliar",
+    "crop_stages": {
+      "fruit_crops": "30-35 and 45-50 days after pruning/bahar treatment",
+      "vegetables": "20-25 and 55-60 days after transplanting",
+      "field_crops": "25 to 30 days after sowing"
+    }
+  },
+  {
+    "product_name": "BIOGREEN BORON",
+    "category": "fertilizer",
+    "form": "liquid",
+    "active_ingredient": "Boron Ethanolamine 10%",
+    "technology": "Microencapsulation technology (imported from Europe)",
+    "key_feature": "Liquid micronutrient fertilizer for boron deficiency",
+    "benefits": [
+      "Movement of sugar or energy into growing parts of plants",
+      "Pollination and seed setting"
+    ],
+    "crops": "Fruit crops, Vegetables, Cumin, Gram, Melons, Field crops",
+    "dose": "1 to 1.5 ml per lit of water",
+    "application_method": "foliar"
+  },
+  {
+    "product_name": "BIOGREEN CALCIUM",
+    "category": "fertilizer",
+    "form": "liquid",
+    "active_ingredient": "Concentrated Liquid Calcium 11%",
+    "technology": "Microencapsulation technology (imported from Europe)",
+    "key_feature": "High concentration calcium for foliar application",
+    "benefits": [
+      "Responsible for cell strengthening",
+      "Important for managing stress",
+      "Maintain good fruit quality and minimize fruit disorders"
+    ],
+    "crops": "Fruit crops, Vegetables, Melons",
+    "dose": "2 to 3 ml per lit of water",
+    "application_method": "foliar"
+  },
+  {
+    "product_name": "BIOGREEN CALCIUM B PLUS",
+    "category": "fertilizer",
+    "form": "liquid",
+    "active_ingredient": "Calcium 14% + Boron 6.9% + Nitrogen 4%",
+    "technology": "Microencapsulation technology (imported from Europe)",
+    "key_feature": "Combined Calcium & Boron for balanced nutrition",
+    "benefits": [
+      "Movement of sugar or energy into growing parts of plants",
+      "Pollination and seed setting",
+      "Cell wall strengthening",
+      "Improves fruit development, fruit quality & reduce fruit disorders"
+    ],
+    "crops": "Fruit crops, Vegetables",
+    "dose": "1 ml per lit of water",
+    "application_method": "foliar"
+  },
+  {
+    "product_name": "BIOGREEN POTASH",
+    "category": "fertilizer",
+    "form": "liquid",
+    "active_ingredient": "Concentrated Liquid Potassium 46.5%",
+    "technology": "Microencapsulation technology (imported from Europe)",
+    "key_feature": "High potassium concentration for premium fruit quality",
+    "benefits": [
+      "Promote strong early growth & maximise Crop productivity",
+      "Improves fruit quality, gives uniform size and colour",
+      "Speeds up ripening & minimize fruit disorders"
+    ],
+    "crops": "Fruit crops, Vegetables, Cumin, Melons, Field crops",
+    "dose": "2 to 2.5 ml per lit of water",
+    "application_method": "foliar"
+  },
+  {
+    "product_name": "BIOGREEN ZINC",
+    "category": "fertilizer",
+    "form": "powder",
+    "active_ingredient": "Zinc EDTA 12%",
+    "technology": "Chelated zinc (imported from Europe)",
+    "key_feature": "Water soluble chelated zinc",
+    "benefits": [
+      "Corrects zinc deficiencies in plant",
+      "Helps in protein synthesis",
+      "Helps in pollen germination & seed formation"
+    ],
+    "crops": "Fruits, Vegetables, Field Crops",
+    "dose": {
+      "fruits_foliar": "1.5 to 2 gram per liter of water, 2 to 3 applications",
+      "vegetables_foliar": "1 to 1.5 gram per liter, 2 applications",
+      "field_crops_foliar": "1 to 1.5 gram per liter, 2 to 3 applications",
+      "soil_application": "2.5 to 5 kg per hectare, 2 to 3 applications"
+    },
+    "application_method": "foliar_or_soil"
+  },
+  {
+    "product_name": "BIOGREEN IRON",
+    "category": "fertilizer",
+    "form": "powder",
+    "active_ingredient": "Ferrous EDTA 12%",
+    "technology": "Chelated iron (imported from Europe)",
+    "key_feature": "Water soluble chelated iron",
+    "benefits": [
+      "Helps in chlorophyll production",
+      "Helps in photosynthesis",
+      "Helps in nitrogen fixation",
+      "Helps in protein synthesis"
+    ],
+    "crops": "Fruits, Vegetables, Field Crops",
+    "dose": {
+      "fruits_foliar": "1.5 to 2 gram per liter of water, 2 to 3 applications",
+      "vegetables_foliar": "1 to 1.5 gram per liter, 2 applications",
+      "soil_application": "2.5 to 5 kg per hectare"
+    },
+    "application_method": "foliar_or_soil"
+  },
+  {
+    "product_name": "MOBILIZER",
+    "category": "fertilizer",
+    "form": "granules",
+    "active_ingredient": "Arbuscular mycorrhiza fungus",
+    "technology": "Sol-Gel technology with >90% endo mycorrhiza spores",
+    "key_feature": "Mycorrhizal Biofertilizer - increases root absorption area >700 times",
+    "benefits": [
+      "Improves Soil health",
+      "Fungi works as root extension to access water & Nutrients beyond the Root Zone",
+      "Increases root absorption area >700 times",
+      "Hyphae absorbs and actively delivers nutrients directly to roots",
+      "Symbiosis increases effective water utilization",
+      "Improves tolerance to stress and resistance to drought"
+    ],
+    "crops": "All crops",
+    "dose": "As recommended",
+    "application_method": "soil"
+  },
+  {
+    "product_name": "ROKO",
+    "category": "fungicide",
+    "form": "WP",
+    "active_ingredient": "Thiophanate Methyl 70% WP",
+    "source": "Nippon Soda, Japan (introduced in India 1995)",
+    "key_feature": "Dual Mode of Action - Preventive, Curative and Systemic",
+    "benefits": [
+      "Broad spectrum systemic fungicide",
+      "Perfect solution for Anthracnose, Cercospora leaf spot, Powdery mildew, Venturia scab, Sclerotinia Rot, Botritis and Fusarium wilt",
+      "Quick and uniformly dissolves in water",
+      "Blue triangle product (low toxicity)"
+    ],
+    "crops_pests": [
+      {"crop": "Papaya", "pest": "Powdery Mildew", "dose_gm_ha": 715},
+      {"crop": "Apple", "pest": "Scab", "dose_gm_ha": 715},
+      {"crop": "Wheat", "pest": "Brown rust & leaf Blight", "dose_gm_ha": 715},
+      {"crop": "Bottle Gourd", "pest": "Anthracnose", "dose_gm_ha": "1070-1430"},
+      {"crop": "Tomato", "pest": "Ring Rot", "dose_gm_ha": 715},
+      {"crop": "Cucurbits", "pest": "Powdery Mildew", "dose_gm_ha": 1430},
+      {"crop": "Pigeon Pea", "pest": "Fusarium Wilt", "dose_gm_ha": 1430},
+      {"crop": "Grapes", "pest": "Powdery Mildew, Anthracnose, Rust", "dose_gm_ha": 715},
+      {"crop": "Paddy", "pest": "Blast, Sheath rot, Grain Discoloration", "dose_gm_ha": 1000}
+    ]
+  },
+  {
+    "product_name": "ROKO FLO",
+    "category": "fungicide",
+    "form": "SC",
+    "active_ingredient": "Thiophanate Methyl 41.7% SC",
+    "key_feature": "Broad spectrum systemic fungicide in liquid SC formulation",
+    "benefits": [
+      "Faster absorption & quickly translocated in the plant system",
+      "Being liquid flowable no dust problem",
+      "Better Suspensibility and No sedimentation",
+      "No inhalation hazard to the applicator during mixing & spraying"
+    ],
+    "crops_pests": [
+      {"crop": "Paddy", "pest": "Blast, Sheath rot, Grain Discoloration", "dose_ml_ha": 1000},
+      {"crop": "Groundnut", "pest": "Tikka leaf spot", "dose_ml_ha": 1000},
+      {"crop": "Chilli", "pest": "Fruit Rot/Anthracnose", "dose_ml_ha": 1000}
+    ]
+  },
+  {
+    "product_name": "BIOMYCIN",
+    "category": "fungicide",
+    "form": "SL",
+    "active_ingredient": "Kasugamycin 3% SL",
+    "source": "Hokko Chemical, Japan",
+    "key_feature": "Broad spectrum fungicide for fungal AND bacterial diseases",
+    "benefits": [
+      "Broad spectrum action - fungicidal as well as bactericidal action",
+      "Better efficacy against Paddy blast",
+      "Long duration control on disease",
+      "Very cost effective",
+      "No resistance developed against Paddy blast"
+    ],
+    "crops_pests": [
+      {"crop": "Rice", "pest": "Blast", "dose_ml_ha": "1000-1500"},
+      {"crop": "Tomato", "pest": "Early Blight", "dose_ml_ha": "1000-1500"}
+    ]
+  },
+  {
+    "product_name": "ALLIANCE",
+    "category": "fungicide",
+    "form": "SC",
+    "active_ingredient": "Azoxystrobin 11% + Tebuconazole 18.3% SC",
+    "key_feature": "Broad Spectrum Systemic Fungicide with Dual Mode of Action",
+    "benefits": [
+      "Long Duration Disease Control",
+      "Low Biotic Stress & Good Quality Yield",
+      "Low Resistance Development",
+      "Better Rain Fastness"
+    ],
+    "crops_pests": [
+      {"crop": "Chilli", "pest": "Fruit rot, Powdery mildew, Die-back", "dose_ml_ha": 600},
+      {"crop": "Rice", "pest": "Sheath Blight", "dose_ml_ha": 750},
+      {"crop": "Onion", "pest": "Purple blotch", "dose_ml_ha": 750},
+      {"crop": "Apple", "pest": "Scab, powdery mildew & premature leaf fall", "dose": "1 ml/lit water"},
+      {"crop": "Wheat", "pest": "Yellow Rust", "dose_ml_ha": 750},
+      {"crop": "Tomato", "pest": "Early blight", "dose_ml_ha": 750},
+      {"crop": "Potato", "pest": "Early blight, Late blight", "dose_ml_ha": 750},
+      {"crop": "Grapes", "pest": "Downy mildew, Powdery mildew", "dose_ml_ha": 750}
+    ]
+  },
+  {
+    "product_name": "BENDACO",
+    "category": "fungicide",
+    "form": "WP",
+    "active_ingredient": "Carbendazim 12% + Mancozeb 63% WP",
+    "key_feature": "Systemic & Contact action - classic proven fungicide",
+    "benefits": [
+      "Cost effective with both Systemic & Contact action",
+      "Effective across a range of crops and diseases"
+    ],
+    "crops_pests": [
+      {"crop": "Groundnut", "pest": "Leaf spot & Rust", "dose_gm_ha": 500},
+      {"crop": "Paddy", "pest": "Blast", "dose_gm_ha": 750},
+      {"crop": "Potato", "pest": "Early blight, late blight, black scruff", "dose_gm_ha": 1750},
+      {"crop": "Tea", "pest": "Blister blight, grey blight, red rust, die-back, black rot", "dose_gm_ha": 1250},
+      {"crop": "Grape", "pest": "Downey mildew, powdery mildew, anthracnose", "dose": "0.15%"},
+      {"crop": "Mango", "pest": "Powdery mildew and anthracnose", "dose": "0.15%"},
+      {"crop": "Chilli", "pest": "Leaf Spot, Fruit rot, and Powdery mildew", "dose_gm_ha": 750},
+      {"crop": "Maize", "pest": "Downy mildew and Leaf blight", "dose_gm_ha": 1000},
+      {"crop": "Apple", "pest": "Fruit scab & Powdery mildew", "dose": "0.25%"}
+    ]
+  },
+  {
+    "product_name": "CAPTEK",
+    "category": "fungicide",
+    "form": "WP",
+    "active_ingredient": "Captan 50% WP",
+    "key_feature": "Broad spectrum contact fungicide effective from seedling to maturity",
+    "benefits": [
+      "Effective at multiple stages of crop",
+      "Effective control of seed borne disease, soil borne disease & as foliar spray",
+      "Improve quality of produce",
+      "Long Application window"
+    ],
+    "crops_pests": [
+      {"crop": "Apple", "pest": "Scab", "dose_gm_ha": 2500},
+      {"crop": "Cherry", "pest": "Brown Rot", "dose_gm_ha": 2500},
+      {"crop": "Potato", "pest": "Early & Late Blight", "dose_gm_ha": 2500},
+      {"crop": "Tomato", "pest": "Early & Late Blight", "dose_gm_ha": 2500},
+      {"crop": "Grapes", "pest": "Downy Mildew", "dose_gm_ha": 2500}
+    ]
+  },
+  {
+    "product_name": "CYGNET",
+    "category": "fungicide",
+    "form": "WP",
+    "active_ingredient": "Myclobutanil 10% WP",
+    "key_feature": "Xylem mobile systemic fungicide for Powdery Mildew, Anthracnose and Scab",
+    "benefits": [
+      "Broad Spectrum disease control & Systemic action",
+      "Inhibit germination of spores - excellent preventive application",
+      "One hour rainfastness",
+      "Effective control of disease for longer duration at low cost"
+    ],
+    "crops_pests": [
+      {"crop": "Grapes", "pest": "Powdery Mildew", "dose": "40 gm/10 lit water"},
+      {"crop": "Apple", "pest": "Scab", "dose": "40 gm/10 lit water"},
+      {"crop": "Chilli", "pest": "Powdery mildew, leaf spot, Die back", "dose": "40 gm/10 lit water"}
+    ]
+  },
+  {
+    "product_name": "DECIMER",
+    "category": "fungicide",
+    "form": "SC",
+    "active_ingredient": "Azoxystrobin 18.2% + Difenconazole 11.4% SC",
+    "key_feature": "Broad-spectrum systemic fungicide with Phytotonic Effect",
+    "benefits": [
+      "Excellent suppression of biotic stress",
+      "Quality Yield",
+      "Delay in Maturity of Leaves"
+    ],
+    "crops_pests": [
+      {"crop": "Wheat", "pest": "Rust & Powdery Mildew", "dose": "1 ml/lit"},
+      {"crop": "Tomato", "pest": "Early Blight & Late Blight", "dose": "1 ml/lit"},
+      {"crop": "Paddy", "pest": "Blast & Sheath Blight", "dose": "1 ml/lit"},
+      {"crop": "Maize", "pest": "Blight & Downy Mildew", "dose": "1 ml/lit"},
+      {"crop": "Chilli", "pest": "Anthracnose & Powdery Mildew", "dose": "1 ml/lit"},
+      {"crop": "Cotton", "pest": "Leaf spot and Grey mildew", "dose_ml_ha": 500},
+      {"crop": "Turmeric", "pest": "Leaf blotch, leaf spot and Rhizome rot", "dose_ml_ha": 500},
+      {"crop": "Onion", "pest": "Purple blotch, Stemphylium blight and Downy mildew", "dose_ml_ha": 500},
+      {"crop": "Sugarcane", "pest": "Red rot, Smut and Rust", "dose_ml_ha": 400}
+    ]
+  },
+  {
+    "product_name": "DOLBY",
+    "category": "fungicide",
+    "form": "WP",
+    "active_ingredient": "Propineb 70% WP",
+    "key_feature": "Broad spectrum fungicide with multi site action and zinc nutrition",
+    "benefits": [
+      "Broad spectrum activity",
+      "Effective control on disease, with no resistance development",
+      "Zinc improve immunity of plant and quality of fruit"
+    ],
+    "crops_pests": [
+      {"crop": "Apple", "pest": "Scab", "dose": "300 gm/100 lit water"},
+      {"crop": "Chilli", "pest": "Dieback", "dose_gm": 500},
+      {"crop": "Grapes", "pest": "Downy Mildew", "dose": "300 gm/100 lit water"},
+      {"crop": "Potato", "pest": "Early & Late blight", "dose_gm": 300},
+      {"crop": "Rice", "pest": "Brown Leaf Spot", "dose_gm_ha": "1500-2000"},
+      {"crop": "Tomato", "pest": "Buck eye rot", "dose_gm": 300},
+      {"crop": "Cotton", "pest": "Alternaria leaf spot", "dose_gm_ha": "1250-1500"}
+    ]
+  },
+  {
+    "product_name": "DUOGUARD",
+    "category": "fungicide",
+    "form": "WP",
+    "active_ingredient": "Cymoxanil 8% + Mancozeb 64% WP",
+    "key_feature": "Rapid penetration into plant tissue (3 Hours or less)",
+    "benefits": [
+      "Rapid penetration into plant tissue for effective disease control caused by oomycetes",
+      "Locally systemic movement within the plant",
+      "Translaminar movement across leaves",
+      "Low acute toxicity"
+    ],
+    "crops_pests": [
+      {"crop": "Grapes", "pest": "Downy Mildew", "dose_gm_ha": "1500-2000"},
+      {"crop": "Potato", "pest": "Late Blight", "dose_gm_ha": 1500},
+      {"crop": "Cucumber", "pest": "Downy Mildew", "dose_gm_ha": 1500},
+      {"crop": "Tomato", "pest": "Late Blight", "dose_gm_ha": 1500},
+      {"crop": "Citrus", "pest": "Gummosis", "dose": "250/100 lit water"}
+    ]
+  },
+  {
+    "product_name": "REDEEM",
+    "category": "fungicide",
+    "form": "EC",
+    "active_ingredient": "Difenconazole 25% EC",
+    "key_feature": "Rapid spread, absorption & Excellent rain fastness",
+    "benefits": [
+      "Rapid spread, absorption & Excellent rain fastness",
+      "Effective control of disease at low cost",
+      "Fast uptake & high translaminar movement",
+      "Broad Spectrum disease control & Systemic action"
+    ],
+    "crops_pests": [
+      {"crop": "Apple", "pest": "Scab", "dose": "15 ml/100 lit water"},
+      {"crop": "Rice", "pest": "Sheath Blight", "dose": "50 ml/100 lit water"},
+      {"crop": "Chilli", "pest": "Die back, Fruit rot", "dose": "50 ml/100 lit water"},
+      {"crop": "Grape", "pest": "Anthracnose, Powdery mildew", "dose": "30 ml/100 lit water"},
+      {"crop": "Cumin", "pest": "Blight, Powdery mildew", "dose_ml_ha": 500},
+      {"crop": "Onion", "pest": "Purple blotch", "dose_ml_ha": 500},
+      {"crop": "Pomegranate", "pest": "Fruit rot", "dose_ml_ha": 500},
+      {"crop": "Groundnut", "pest": "Leaf spot, rust", "dose": "100 ml/100 lit water"}
+    ]
+  },
+  {
+    "product_name": "RINZEX",
+    "category": "fungicide",
+    "form": "SC",
+    "active_ingredient": "Tebuconazole 6.7% + Captan 26.9% SC",
+    "key_feature": "Novel fungicide with DUAL mode of action - Contact & Systemic",
+    "benefits": [
+      "Acts on multiple stages of the fungal growth (Spore Germination, Haustoria development, Hyphal Growth)",
+      "Inhibits respiration and energy production in the fungus",
+      "Hinders STEROL biosynthesis"
+    ],
+    "crops_pests": [
+      {"crop": "Chilli", "pest": "Powdery Mildew, Anthracnose", "dose_ml_ha": 1000},
+      {"crop": "Apple", "pest": "Powdery Mildew, Alternaria leaf spot/blight scab", "dose": "1550 ml/ha or 2.5 ml/lit water"}
+    ]
+  },
+  {
+    "product_name": "SANCHAR",
+    "category": "fungicide",
+    "form": "WP",
+    "active_ingredient": "Metalaxyl 8% + Mancozeb 64% WP",
+    "key_feature": "Systemic & Contact Fungicide with Preventive & Curative action",
+    "benefits": [
+      "Dual Mode of Action",
+      "Low Resistance Development",
+      "Excellent Tool for Integrated Disease Management"
+    ],
+    "crops_pests": [
+      {"crop": "Potato", "pest": "Late Blight", "dose_gm_ha": 2500},
+      {"crop": "Grapes", "pest": "Downy Mildew", "dose_gm_ha": 2500},
+      {"crop": "Cumin", "pest": "Powdery Mildew", "dose_gm_ha": 2500},
+      {"crop": "Mustard", "pest": "White rust and Alternaria blight", "dose_gm_ha": 2500},
+      {"crop": "Pearl millet", "pest": "Downy Mildew", "dose_gm_ha": 2500}
+    ]
+  },
+  {
+    "product_name": "SPARSH",
+    "category": "fungicide",
+    "form": "WP",
+    "active_ingredient": "Mancozeb 75% WP",
+    "key_feature": "Broad spectrum multisite contact fungicide (M-45)",
+    "benefits": [
+      "Cost effective",
+      "Provides nutrients like Zn & Mn",
+      "Prevents from frost",
+      "Environmentally safe",
+      "Fit for resistance management"
+    ],
+    "crops_pests": [
+      {"crop": "Apple", "pest": "Scab & sooty blotch", "dose": "30 gm (w/tree)"},
+      {"crop": "Wheat", "pest": "Brown & black rust, Blight", "dose_kg_ha": "1.5-2"},
+      {"crop": "Tomato", "pest": "Lateblight, Buckeye rot, Leafspot", "dose_kg_ha": "1.5-2"},
+      {"crop": "Paddy", "pest": "Blast", "dose_kg_ha": "1.5-2"},
+      {"crop": "Potato", "pest": "Early Blight", "dose_kg_ha": "1.5-2"},
+      {"crop": "Maize", "pest": "Leaf Blight", "dose_kg_ha": "1.5-2"},
+      {"crop": "Onion", "pest": "Leaf blight", "dose_kg_ha": "1.5-2"}
+    ]
+  },
+  {
+    "product_name": "SUPERMATE",
+    "category": "fungicide",
+    "form": "WP",
+    "active_ingredient": "Zineb 68% + Hexaconazole 4% WP",
+    "key_feature": "Broad spectrum contact fungicide with Zinc nutrition",
+    "benefits": [
+      "Disease free healthy crop",
+      "Long duration of control & broad window of application",
+      "Zinc nutrition - Greening effect in plants",
+      "Multisite activity - Prevent resistance development"
+    ],
+    "crops_pests": [
+      {"crop": "Paddy", "pest": "Sheath blight, Brown Spots, Blast, Grain Discoloration", "dose_gm_ha": "1000-1250"},
+      {"crop": "Tea", "pest": "Black Rot, Grey Blight, Blister Blight", "dose_gm_ha": 625},
+      {"crop": "Apple", "pest": "Scab, Premature leaf fall, Alternaria Leaf spot/blight, PowderyMildew, Core rot", "dose": "25 gm/10 lit water"}
+    ]
+  },
+  {
+    "product_name": "TAGMA",
+    "category": "fungicide",
+    "form": "EC",
+    "active_ingredient": "Tebuconazole 25.9% EC",
+    "key_feature": "Systemic fungicide with Prophylactic, Curative, Eradicative efficacy",
+    "benefits": [
+      "Excellent Plant Growth (PG) effect",
+      "Improves Quality of produce"
+    ],
+    "crops_pests": [
+      {"crop": "Rice", "pest": "Blast, Sheath Blight", "dose_ml_ha": 750},
+      {"crop": "Chilli", "pest": "Fruit Rot & Powdery Mildew", "dose_ml_ha": "500-750"},
+      {"crop": "Ground Nut", "pest": "Tikka & Rust", "dose_ml_ha": "500-750"},
+      {"crop": "Onion", "pest": "Purple blotch", "dose_ml_ha": "625-750"},
+      {"crop": "Soybean", "pest": "Anthracnose", "dose_ml_ha": 625}
+    ]
+  },
+  {
+    "product_name": "TRIGGER PRO",
+    "category": "fungicide",
+    "form": "SC",
+    "active_ingredient": "Hexaconazole 5% SC",
+    "key_feature": "Broad-spectrum systemic fungicide with protective, curative and antisporulant activity",
+    "benefits": [
+      "Rain fastness effect",
+      "Phytotonic effect with longer duration of disease control",
+      "Good leaf surface coverage"
+    ],
+    "crops_pests": [
+      {"crop": "Apple", "pest": "Scab", "dose": "50 ml/100 lit"},
+      {"crop": "Rice", "pest": "Blast, Sheath Blight", "dose_ml_ha": 1000},
+      {"crop": "Groundnut", "pest": "Tikka & Leaf Spot", "dose_ml_ha": 1000},
+      {"crop": "Mango", "pest": "Powdery Mildew", "dose_ml_ha": 1500},
+      {"crop": "Grapes", "pest": "Powdery Mildew", "dose_ml_ha": "500-1000"}
+    ]
+  },
+  {
+    "product_name": "WOKOVIT",
+    "category": "fungicide",
+    "form": "WG",
+    "active_ingredient": "Sulphur 80% WG",
+    "key_feature": "Triple action: fungicide, micronutrient (Sulphur) and miticide",
+    "benefits": [
+      "Dust free, flowable micronised sulphur granules",
+      "Instant dispersion and high suspensability in water",
+      "No scorching effect",
+      "No stains on fruits & leaves after spraying",
+      "Sustained action for longer effect"
+    ],
+    "crops_pests": [
+      {"crop": "Grapes", "pest": "Powdery Mildew", "dose_gm_ha": "1875-2500"},
+      {"crop": "Apple", "pest": "Scab", "dose_gm_ha": "1875-2500"},
+      {"crop": "Mango", "pest": "Powdery Mildew", "dose_gm_ha": "1875-2500"},
+      {"crop": "Wheat", "pest": "Powdery Mildew", "dose_gm_ha": 2500},
+      {"crop": "Cumin", "pest": "Powdery Mildew", "dose_gm_ha": "1875-2500"}
+    ]
+  },
+  {
+    "product_name": "MAIDEN",
+    "category": "insecticide",
+    "sub_type": "acaricide",
+    "form": "EC",
+    "active_ingredient": "Hexythiazox 5.45% EC",
+    "key_feature": "First IGR Acaricide introduced in India - Excellent ovicidal, larvicidal and nymphicidal activity",
+    "benefits": [
+      "No phytotoxicity on most of the crops",
+      "No adverse effect on beneficial insects and natural enemies",
+      "Excellent effect on eggs laid by female adults",
+      "Long persistence - ensures prolong protection",
+      "No cross resistance to mites tolerant to conventional acaricides"
+    ],
+    "crops_pests": [
+      {"crop": "Chilli", "pest": "Yellow mites (Polyphagotarsonemus latus)", "dose_ml_ha": "300-500"},
+      {"crop": "Tea", "pest": "Scarlet Mite, Red spider mite", "dose_ml_ha": "300-500"},
+      {"crop": "Apple", "pest": "European mites", "dose": "4 ml per lit"},
+      {"crop": "Roses", "pest": "Red spider mites", "dose_ml_ha": "400-500"},
+      {"crop": "Grapes", "pest": "Red spider mites", "dose_ml_ha": 500},
+      {"crop": "Brinjal", "pest": "Red spider mites", "dose_ml_ha": 500},
+      {"crop": "Okra", "pest": "Red spider mites", "dose_ml_ha": 500}
+    ]
+  },
+  {
+    "product_name": "AUZAR",
+    "category": "insecticide",
+    "form": "EC",
+    "active_ingredient": "Cypermethrin 25% EC",
+    "key_feature": "Broad spectrum - controls sucking, biting, chewing pests",
+    "benefits": [
+      "Stomach, contact activity",
+      "Greater effectiveness against all Lepidopterean pests",
+      "Higher persistence value - effective for longer durations",
+      "Less waiting period between last spray and harvest"
+    ],
+    "crops_pests": [
+      {"crop": "Cotton", "pest": "Bollworm", "dose_ml_ha": "160-280"},
+      {"crop": "Cotton", "pest": "Jassids", "dose_ml_ha": "80-120"},
+      {"crop": "Okra", "pest": "Shoot and Fruit borer, Jassids", "dose_ml_ha": "150-200"},
+      {"crop": "Brinjal", "pest": "Shoot and Fruit borer, Jassids", "dose_ml_ha": "150-200"}
+    ]
+  },
+  {
+    "product_name": "BIOCLAIM",
+    "category": "insecticide",
+    "form": "SG",
+    "active_ingredient": "Emamectin Benzoate 5% SG",
+    "key_feature": "Naturally occurring avermectin group - Non-systemic with trans-laminar movement",
+    "benefits": [
+      "Controls bollworm, fruit & shoot borer effectively",
+      "Greater effectiveness against all Lepidopterean pests"
+    ],
+    "crops_pests": [
+      {"crop": "Brinjal", "pest": "Fruit and Shoot borer", "dose_gm_ha": 200},
+      {"crop": "Cabbage", "pest": "Diamond back moth", "dose_gm_ha": "150-200"},
+      {"crop": "Chickpea", "pest": "Pod borer", "dose_gm_ha": 220},
+      {"crop": "Chilli", "pest": "Fruit borer, Thrips & Mites", "dose_gm_ha": 200},
+      {"crop": "Cotton", "pest": "Cotton Boll worm", "dose_gm_ha": "190-220"},
+      {"crop": "Okra", "pest": "Fruit & Shoot Borer", "dose_gm_ha": "135-170"},
+      {"crop": "Red Gram", "pest": "Pod Borer", "dose_gm_ha": 220},
+      {"crop": "Grapes", "pest": "Thrips", "dose_gm_ha": 220},
+      {"crop": "Tea", "pest": "Tea Looper", "dose_gm_ha": 200}
+    ]
+  },
+  {
+    "product_name": "BIOCLAIM PRO",
+    "category": "insecticide",
+    "form": "WDG",
+    "active_ingredient": "Emamectin Benzoate 1.5% + Profenophos 35% WDG",
+    "key_feature": "Stomach & Contact action with translaminar activity - Ovi-larvicidal Control",
+    "benefits": [
+      "Kills pest within 24-48 hrs of application",
+      "Good ovicidal & larvicidal effect",
+      "10 to 12 days of control over the pest - reducing number of spray",
+      "Complementary dual mode of action"
+    ],
+    "crops_pests": [
+      {"crop": "Maize", "pest": "Fall Army worms", "dose_gm_ha": 500},
+      {"crop": "Chilli", "pest": "Yellow mites, thrips and fruit borer", "dose_gm_ha": 500},
+      {"crop": "Cotton", "pest": "Whiteflies, Jassids, Thrips, Aphids and Pink Boll Worm", "dose_gm_ha": 700}
+    ]
+  },
+  {
+    "product_name": "DARTRIZ SP",
+    "category": "insecticide",
+    "form": "SP",
+    "active_ingredient": "Cartap Hydrochloride 50% SP",
+    "key_feature": "Contact, systemic and stomach action - controls all stages of insects",
+    "benefits": [
+      "Controls all stages of insects (egg, larva, adult)",
+      "Compatible with other commonly used insecticides and fungicides",
+      "Safe for beneficial insects - useful for IPM"
+    ],
+    "crops_pests": [
+      {"crop": "Rice", "pest": "Stem Borer, Leaf folder", "dose_kg_ha": 1}
+    ]
+  },
+  {
+    "product_name": "DERBY",
+    "category": "insecticide",
+    "form": "WP",
+    "active_ingredient": "Diafenthiuron 50% WP",
+    "key_feature": "Broad spectrum with vapor action - controls sucking complex and mites",
+    "benefits": [
+      "Controls nymphs and adults with longer lasting control",
+      "Trans laminar action - control of hidden pests",
+      "Vapor action - works well in dense crops and large fields",
+      "Degrades into a urea derivative resulting in a phytotonic effect"
+    ],
+    "crops_pests": [
+      {"crop": "Cotton", "pest": "White flies, Aphids, Thrips, Jassids", "dose_gm_ha": 600},
+      {"crop": "Cabbage", "pest": "Diamond back moth", "dose_gm_ha": 600},
+      {"crop": "Chilli", "pest": "Mites", "dose_gm_ha": 600},
+      {"crop": "Tomato", "pest": "Whitefly, Red spider mites", "dose_gm_ha": 600},
+      {"crop": "Brinjal", "pest": "Whitefly", "dose_gm_ha": 600}
+    ]
+  },
+  {
+    "product_name": "EDAN",
+    "category": "insecticide",
+    "form": "WG",
+    "active_ingredient": "Imidacloprid 70% WG",
+    "key_feature": "Systemic insecticide - excellent control on sucking pests with phytotonic effect",
+    "benefits": [
+      "Excellent control and longer protection against most sucking pests",
+      "Disturbs nervous system - quick knockdown",
+      "Phytotonic effect on treated crops - enhances vigorous plant growth"
+    ],
+    "crops_pests": [
+      {"crop": "Cotton", "pest": "Jassids, Aphids, Thrips", "dose_gm_ha": "30-35"},
+      {"crop": "Okra", "pest": "Jassids, Aphids, Thrips", "dose_gm_ha": "30-35"},
+      {"crop": "Rice", "pest": "Brown plant hopper, White backed plant hoppers", "dose_gm_ha": "30-35"},
+      {"crop": "Tomato", "pest": "Thrips, whitefly", "dose_gm_ha": 50},
+      {"crop": "Potato", "pest": "Aphids, Whitefly", "dose_gm_ha": 90}
+    ]
+  },
+  {
+    "product_name": "EVIDENT",
+    "category": "insecticide",
+    "form": "WG",
+    "active_ingredient": "Thiamethoxam 25% WG",
+    "key_feature": "Granular broad spectrum insecticide with quick stomach & contact activity",
+    "benefits": [
+      "Greater effectiveness against wide range of pests",
+      "Suitable for soil drench and paddy nursery"
+    ],
+    "crops_pests": [
+      {"crop": "Rice", "pest": "Stem borer, Gall midge, Leaf folder, Brown plant hopper, Green Leaf hopper and Thrips", "dose_gm_ha": 100},
+      {"crop": "Cotton", "pest": "Jassids, Aphids, thrips", "dose_gm_ha": 100},
+      {"crop": "Wheat", "pest": "Aphids", "dose_gm_ha": 50},
+      {"crop": "Tea", "pest": "Mosquito bug", "dose_gm_ha": 100},
+      {"crop": "Tomato", "pest": "Whiteflies", "dose_gm_ha": 200}
+    ]
+  },
+  {
+    "product_name": "EVIDENT FLO",
+    "category": "insecticide",
+    "form": "FS",
+    "active_ingredient": "Thiamethoxam 30% FS",
+    "key_feature": "Broad spectrum systemic seed treatment insecticide",
+    "benefits": [
+      "Controls early season sucking and chewing, leaf-feeding and soil-dwelling insect pests",
+      "Used for seed treatment of major field crops"
+    ],
+    "crops_pests": [
+      {"crop": "Rice", "pest": "Thrips, GLH, whorl maggot", "dose": "3 ml per kg"},
+      {"crop": "Wheat", "pest": "Termite", "dose": "3.3 ml per kg"},
+      {"crop": "Cotton", "pest": "Jassids, Aphids, Whiteflies", "dose": "10 ml per kg"},
+      {"crop": "Maize", "pest": "Stem fly", "dose": "8 ml per kg"},
+      {"crop": "Sorghum", "pest": "Shoot fly", "dose": "10 ml per kg"}
+    ]
+  },
+  {
+    "product_name": "FULSTOP-D",
+    "category": "insecticide",
+    "form": "WG",
+    "active_ingredient": "Flubendiamide 20% WG",
+    "key_feature": "New generation insecticide - activity against all stages of caterpillars",
+    "benefits": [
+      "Acts fast resulting in rapid cessation of feeding",
+      "Provides long duration control",
+      "No cross resistance",
+      "Safer to beneficial insects - good fit in IPM & IRM"
+    ],
+    "crops_pests": [
+      {"crop": "Rice", "pest": "Stem borer & Leaf folder", "dose_gm_ha": 125},
+      {"crop": "Cotton", "pest": "American bollworm", "dose_gm_ha": 250},
+      {"crop": "Tomato", "pest": "Fruit borer", "dose_gm_ha": 250},
+      {"crop": "Tea", "pest": "Semi Looper", "dose_gm_ha": 150},
+      {"crop": "Chilli", "pest": "Fruit borer", "dose_gm_ha": "250-300"},
+      {"crop": "Sugarcane", "pest": "Early shoot borer", "dose_gm_ha": 375},
+      {"crop": "Soybean", "pest": "Semi looper, Spodoptera litura, Helicoverpa armigera", "dose_gm_ha": "250-300"}
+    ]
+  },
+  {
+    "product_name": "JAANBAZ POWER",
+    "category": "insecticide",
+    "form": "WG",
+    "active_ingredient": "Thiamethoxam 0.9% + Fipronil 0.2% WG",
+    "key_feature": "Broad Spectrum soil & aerial insecticide acting on two different nervous systems",
+    "benefits": [
+      "Excellent control on Termite, White Grubs & Borers",
+      "Fast mobility within the plant system & long lasting residual control",
+      "Poor resistance development by pest",
+      "Ideal partner for IPM",
+      "Good Plant Vigor and canopy development"
+    ],
+    "crops_pests": [
+      {"crop": "Groundnut", "pest": "White Grub", "dose_kg_ha": "12-15"}
+    ]
+  },
+  {
+    "product_name": "JAANBAZ GR",
+    "category": "insecticide",
+    "form": "GR",
+    "active_ingredient": "Fipronil 0.3% GR",
+    "key_feature": "Phenyl pyrazole insecticide - contact, stomach and systemic action",
+    "benefits": [
+      "Disrupts insect's central nervous system via GABA receptor blockage",
+      "Effective against major lepidopterous and orthopterous pests",
+      "Controls termite pests"
+    ],
+    "crops_pests": [
+      {"crop": "Rice", "pest": "Stem borer, leaf folder, Green leaf hopper, Brown plan hopper, Rice gall midge", "dose_kg_ha": "16.67-25"},
+      {"crop": "Sugarcane", "pest": "Early shoot borer & root borer", "dose_kg_ha": "25-33.3"},
+      {"crop": "Wheat", "pest": "Termites", "dose_kg_ha": 20}
+    ]
+  },
+  {
+    "product_name": "JAANBAZ SC",
+    "category": "insecticide",
+    "form": "SC",
+    "active_ingredient": "Fipronil 5% SC",
+    "key_feature": "Highly active broad-spectrum insecticide from the phenylpyrazole family",
+    "benefits": [
+      "Contact, stomach and systemic action",
+      "Effectively controls insect pests of rice, chilli, cabbage/cauliflower and sugarcane"
+    ],
+    "crops_pests": [
+      {"crop": "Cabbage", "pest": "Diamond back moth", "dose_ml_ha": "800-1000"},
+      {"crop": "Rice", "pest": "Stem borer, Brown plant hopper, Green leaf hopper, White backed plant hopper", "dose_ml_ha": "1000-1500"},
+      {"crop": "Sugarcane", "pest": "Early shoot borer & root borer", "dose_ml_ha": "1500-2000"},
+      {"crop": "Cotton", "pest": "Aphids, Jassids, Thrips, Whitefly", "dose_ml_ha": "1500-2000"}
+    ]
+  },
+  {
+    "product_name": "KLINTOP",
+    "category": "insecticide",
+    "form": "EC",
+    "active_ingredient": "Bifenthrin 10% EC",
+    "key_feature": "Pyrethroid - contact and stomach action with phyto-tonic effect",
+    "benefits": [
+      "Controls bollworm complex, White flies, Stem borer and GLH",
+      "Phyto-tonic effect which improves the vigour and keeps the crop healthy"
+    ],
+    "crops_pests": [
+      {"crop": "Cotton", "pest": "Boll worm, White fly", "dose_ml_ha": 800},
+      {"crop": "Rice", "pest": "Stem borer, leaf folder, Green leaf hopper", "dose_ml_ha": 500},
+      {"crop": "Sugarcane", "pest": "Termites", "dose_ml_ha": 1000}
+    ]
+  },
+  {
+    "product_name": "KRUSH",
+    "category": "insecticide",
+    "form": "EC",
+    "active_ingredient": "Quinolphos 25% EC",
+    "key_feature": "Broad spectrum contact and stomach non-systemic poison",
+    "benefits": [
+      "Broad spectrum of activity with good initial and residual toxicity",
+      "Compatible with all existing plant protection chemicals"
+    ],
+    "crops_pests": [
+      {"crop": "Apple", "pest": "Wooly Aphids", "dose_gm_ha": "3000-4000"},
+      {"crop": "Wheat", "pest": "Aphids, Mites", "dose_gm_ha": "1000-1600"},
+      {"crop": "Rice", "pest": "Leaf roller, BPH, Stem borer", "dose_gm_ha": "1000-1500"},
+      {"crop": "Tea", "pest": "Thrips", "dose_gm_ha": 760},
+      {"crop": "Tomato", "pest": "Fruit borer", "dose_gm_ha": 1000}
+    ]
+  },
+  {
+    "product_name": "STRIKE",
+    "category": "insecticide",
+    "form": "WG",
+    "active_ingredient": "Dinotefuran 15% + Pymetrozine 45% WG",
+    "key_feature": "Effective solution for Brown Plant Hopper management - SPB technology",
+    "benefits": [
+      "Stylet Puncture & Blockage (SPB) technology",
+      "Translaminar action & local systemic give truly comprehensive coverage",
+      "Stops reproduction - no eggs, no generation",
+      "Fast action blocks FEEDING action of BPH",
+      "Makes BPH IMMOBILE"
+    ],
+    "crops_pests": [
+      {"crop": "Rice", "pest": "Brown Plant hopper, White backed plant hopper, green leaf hopper, Rice ear head bug", "dose_gm_ha": 33}
+    ]
+  },
+  {
+    "product_name": "TREMOR",
+    "category": "insecticide",
+    "form": "SC",
+    "active_ingredient": "Chlorantraniliprole 18.5% SC",
+    "key_feature": "Novel anthranilic diamide insecticide - very efficient for lepidopteran pests",
+    "benefits": [
+      "Acts fast resulting in rapid cessation of feeding",
+      "Provides long duration control",
+      "Safer to beneficial insects - good fit in IPM & IRM"
+    ],
+    "crops_pests": [
+      {"crop": "Rice", "pest": "Stem borer, Leaf folder", "dose_ml_ha": 150},
+      {"crop": "Cabbage", "pest": "Diamond Back Moth", "dose_ml_ha": 50},
+      {"crop": "Cotton", "pest": "American bollworm, Spotted bollworm, Tobacco caterpillar", "dose_ml_ha": 150},
+      {"crop": "Sugarcane", "pest": "Shoot & Top borer, Termites", "dose_ml_ha": "375-625"},
+      {"crop": "Tomato/Chilli", "pest": "Fruit borer", "dose_ml_ha": 150},
+      {"crop": "Okra", "pest": "Fruit borer", "dose_ml_ha": 125}
+    ]
+  },
+  {
+    "product_name": "ULTIMO",
+    "category": "insecticide",
+    "form": "SL",
+    "active_ingredient": "Imidacloprid 17.8% SL",
+    "key_feature": "Highly effective systemic insecticide - broad crop and pest spectrum",
+    "benefits": [
+      "High selectivity and Quick knockdown action",
+      "Long residual action",
+      "Can also be used for seed treatment",
+      "Useful tool in pest resistance management"
+    ],
+    "crops_pests": [
+      {"crop": "Rice", "pest": "BPH, WBPH, GLH", "dose_ml_ha": "100-125"},
+      {"crop": "Cotton", "pest": "Aphid, Whitefly, Jassid Thrips", "dose_ml_ha": "100-125"},
+      {"crop": "Chilli", "pest": "Jassid, Aphid, Thrips", "dose_ml_ha": "125-250"},
+      {"crop": "Tomato", "pest": "Whitefly", "dose_ml_ha": "15-175"},
+      {"crop": "Sugarcane", "pest": "Termite", "dose_ml_ha": 350}
+    ]
+  },
+  {
+    "product_name": "ULTIMO SUPER",
+    "category": "insecticide",
+    "form": "SC",
+    "active_ingredient": "Imidaclopride 30.5% SC",
+    "key_feature": "SC formulation for increased efficiency of wetting, spreading and absorption",
+    "benefits": [
+      "Economical due to longer persistence",
+      "Safer to natural enemies - ideal for IPM",
+      "Results in better and vigorous growth with stress shield effect"
+    ],
+    "crops_pests": [
+      {"crop": "Cotton", "pest": "Jassids, Aphids & Thrips", "dose_ml_ha": "60-75"},
+      {"crop": "Rice", "pest": "Brown Plant Hopper & White Backed Plant Hopper", "dose_ml_ha": "60-75"},
+      {"crop": "Chilli", "pest": "Aphids, Thrips", "dose_ml_ha": "125-150"}
+    ]
+  },
+  {
+    "product_name": "WAPKIL",
+    "category": "insecticide",
+    "form": "SP",
+    "active_ingredient": "Acetamiprid 20% SP",
+    "key_feature": "Systemic translaminar action - triple action: ovicidal, adulticidal and larvicidal",
+    "benefits": [
+      "Quick knockdown of wide range of foliar-feeding pests",
+      "Long term action/control",
+      "Unique translaminar activity - protection on both sides of leaf",
+      "Low toxicity on beneficial insects"
+    ],
+    "crops_pests": [
+      {"crop": "Cotton", "pest": "Aphids, Jassids", "dose_gm_ha": 50},
+      {"crop": "Cotton", "pest": "Whiteflies", "dose_gm_ha": 100},
+      {"crop": "Chilli", "pest": "Thrips", "dose_gm_ha": "50-100"},
+      {"crop": "Paddy", "pest": "Brown Plant Hoppers", "dose_gm_ha": "50-100"}
+    ]
+  },
+  {
+    "product_name": "BRAKE",
+    "category": "herbicide",
+    "form": "SL",
+    "active_ingredient": "Glyphosate 41% SL",
+    "key_feature": "Non-selective systemic herbicide - kills weeds from roots",
+    "benefits": [
+      "Complete and speedy control of hard to kill annual and perennial weeds",
+      "Absorbed rapidly - kills plant from root within 7-12 days",
+      "Does not affect germination of ensuing crops"
+    ],
+    "crops_pests": [
+      {"crop": "Tea", "pest": "Various grass and dicot weeds", "dose_ml_ha": "2000-3000"},
+      {"crop": "Non Crop area", "pest": "Sorghum helepense and other dicot & monocot weeds", "dose_ml_ha": "2000-3000"}
+    ]
+  },
+  {
+    "product_name": "BRAKE G",
+    "category": "herbicide",
+    "form": "SG",
+    "active_ingredient": "Glyphosate 71% SG",
+    "key_feature": "Non-selective systemic herbicide in solid granule form",
+    "benefits": [
+      "Complete and speedy control of hard to kill annual and perennial weeds",
+      "Does not affect germination of ensuing crops"
+    ],
+    "crops": "Tea & Non Crop area",
+    "dose_gm_ha": 3000
+  },
+  {
+    "product_name": "DESTAL XTRA",
+    "category": "herbicide",
+    "form": "SC",
+    "active_ingredient": "Mesotrione 2.27% w/w + Atrazine 22.7% w/w SC",
+    "key_feature": "Selective post emergent herbicide for Maize & Sugarcane",
+    "benefits": [
+      "Unique combination of HPPD & PS II chemistry",
+      "In-built adjuvant",
+      "Controls grasses and broad leaf weeds"
+    ],
+    "crops_pests": [
+      {"crop": "Maize", "pest": "Trianthema spp., Cyperus spp., Digitaria sanguinalis, Echinochloa spp.", "dose_ml_ha": 3500},
+      {"crop": "Sugarcane", "pest": "Trianthema spp., Amaranthus viridis, Echinochloa colona, Cyperus rotundus", "dose_ml_ha": 3500}
+    ]
+  },
+  {
+    "product_name": "HITBAC",
+    "category": "herbicide",
+    "form": "CS",
+    "active_ingredient": "Pendimethalin 38.7% CS",
+    "key_feature": "Pre-emergence selective herbicide - forms thin layer at soil surface preventing weed germination",
+    "benefits": [
+      "One shot solution of annual grasses, sedges and broad-leaved weeds",
+      "Economical with broad-spectrum activity and long duration control",
+      "No residual effect on the subsequent/follow crop"
+    ],
+    "crops": "Soybean, Cotton, Onion, Chilli, Groundnut, Mustard & Cumin",
+    "dose_ml_ha": "1500-1750"
+  },
+  {
+    "product_name": "MAACHIS",
+    "category": "herbicide",
+    "form": "WP",
+    "active_ingredient": "Clodinafop-propargyl 15% WP",
+    "key_feature": "Post emergent selective herbicide for Wheat - controls Phalaris minor",
+    "benefits": [
+      "Extremely broad application spectrum and superior crop tolerance",
+      "Gives control under unfavorable climatic conditions",
+      "Active growth of susceptible grasses ceases within 48 hours after application"
+    ],
+    "crops_pests": [
+      {"crop": "Wheat", "pest": "Phalaris minor (Canary grass)", "dose_gm_ha": 400}
+    ]
+  },
+  {
+    "product_name": "NANCHAKU",
+    "category": "herbicide",
+    "form": "EC",
+    "active_ingredient": "Pyrithiobac Sodium 10% EC",
+    "key_feature": "Post emergent selective herbicide for Cotton - fast systemic and residual action",
+    "benefits": [
+      "Effective in controlling wide range of weeds",
+      "Selective to cotton - does not harm cotton at any stage",
+      "Fast Systemic and residual action up to 25-30 days",
+      "Very safe to animals and human beings"
+    ],
+    "crops_pests": [
+      {"crop": "Cotton", "pest": "Trianthema Spp, Amaranthus Spp, Chenopodium Spp, Digera Spp, Celosia argentia", "dose_ml_ha": "625-750"}
+    ]
+  },
+  {
+    "product_name": "NANCHAKU POWER",
+    "category": "herbicide",
+    "form": "MEC",
+    "active_ingredient": "Pyrithiobac Sodium 6% + Quizalofop ethyl 4% MEC",
+    "key_feature": "Pre & early post emergent selective herbicide for Cotton - one shot application",
+    "benefits": [
+      "Effective in controlling wide range of broad & narrow leaf weeds",
+      "Selective to cotton",
+      "ME formulation is superior & thermodynamically stable",
+      "Safe to the environment with low mammalian toxicity"
+    ],
+    "crops_pests": [
+      {"crop": "Cotton", "pest": "Trianthema spp, Digera spp, Celosia argentia, Dinebra retroflexa, Digitaria marginata", "dose_ml_ha": "1000-1250"}
+    ]
+  },
+  {
+    "product_name": "PARQ",
+    "category": "herbicide",
+    "form": "SL",
+    "active_ingredient": "Paraquat Dichloride 24% SL",
+    "key_feature": "Non-selective contact herbicide with rapid action",
+    "benefits": [
+      "Broad-spectrum control of broad-leaved weeds and grasses",
+      "Rapid action",
+      "Safe to environment",
+      "Biologically inactive when comes in contact with soil"
+    ],
+    "crops": "Tea, Plantation crops, Non Crop area",
+    "dose_ml_ha": "2000-3000"
+  },
+  {
+    "product_name": "PATINA",
+    "category": "herbicide",
+    "form": "EC",
+    "active_ingredient": "Pinoxaden 5.1% EC",
+    "key_feature": "Post emergent selective herbicide for Wheat - excellent control of Phalaris minor & Avena sp",
+    "benefits": [
+      "Quickly translocates within plant acropetally & basipetally",
+      "Good rain fastness (60 min)",
+      "Weed growth stops immediately",
+      "Safe to Wheat crop and subsequent crops",
+      "Wide window of application"
+    ],
+    "crops_pests": [
+      {"crop": "Wheat", "pest": "Phalaris minor (Canary grass), Avena ludoviciana (Wild oat)", "dose_ml_ha": "800-900"}
+    ]
+  },
+  {
+    "product_name": "REMEDUO",
+    "category": "herbicide",
+    "form": "SL",
+    "active_ingredient": "Fomesafen 11.1% w/w + Fluazifop-P-Butyl 11.1% w/w SL",
+    "key_feature": "Post emergent selective herbicide for Soybean and Groundnut - controls grasses and broad leaf weeds",
+    "benefits": [
+      "Fast acting - stops crop losses immediately",
+      "Controls grasses as well as broad leaf weeds",
+      "No residual action"
+    ],
+    "crops": "Soybean, Groundnut",
+    "dose_ml_ha": 1000
+  },
+  {
+    "product_name": "RIMOVE PLUS",
+    "category": "herbicide",
+    "form": "EW",
+    "active_ingredient": "Pretilachlor 37% EW",
+    "key_feature": "Pre emergence selective herbicide for transplanted rice",
+    "benefits": [
+      "No phytotoxicity on paddy crop",
+      "Can be used on any rice variety",
+      "Broad application window",
+      "Protects rice during most critical stage"
+    ],
+    "crops_pests": [
+      {"crop": "Transplanted rice", "pest": "Echinochloa crusgalli, Echinochloa colonum, Cyperus iria, Digitaria sanguinalis, Fimbristylis miliacae", "dose_ml_ha": "1500-1875"}
+    ]
+  },
+  {
+    "product_name": "DORMEX",
+    "category": "plant_growth_regulator",
+    "form": "AS",
+    "active_ingredient": "Hydrogen Cyanamide 49% AS",
+    "source": "Alzchem, Germany - imported & exclusively marketed by Biostadt India Ltd",
+    "key_feature": "Dormancy breaking agent",
+    "benefits": [
+      "Offers uniform bud breaking",
+      "Provides higher percentage of shooting buds",
+      "Helps in synchronization of flowering periods",
+      "Improves cross pollination",
+      "Better efficacy in adverse climatic conditions"
+    ],
+    "crops": "Grapes & Sugarcane",
+    "dose": "30 to 40 ml per ltr"
+  },
+  {
+    "product_name": "SITOFEX",
+    "category": "plant_growth_regulator",
+    "form": "EC",
+    "active_ingredient": "Forchlorfenuron 0.12% EC",
+    "source": "Alzchem, Germany - imported & exclusively marketed by Biostadt India Ltd",
+    "key_feature": "Increases berry size & luster development in Grapes",
+    "benefits": [
+      "Increases berry size & weight",
+      "Reduces the berry drop",
+      "Attractive parrot green colour with a glossy lustre on the berry",
+      "Good brush & pedicel development for strong berry attachment",
+      "Improves longer shelf life"
+    ],
+    "crops": "Grapes",
+    "dose": "At 3-4 mm berry size stage: 2 ml/ltr; At 6-8 mm berry size stage: 1 to 2 ml/ltr"
+  },
+  {
+    "product_name": "HITONE",
+    "category": "plant_immunity_booster",
+    "form": "liquid",
+    "active_ingredient": "Botanically derived plant extract - Cinnamon Oil and other natural ingredients",
+    "key_feature": "Natural plant extract based plant immunity booster - Zero PHI",
+    "benefits": [
+      "Zero Crop Residue",
+      "Ecofriendly and no ill effect on health",
+      "Ideal product for IPM & Resistance Management",
+      "Safe Farm Produce",
+      "Can be used till harvesting",
+      "Less number of chemical sprays"
+    ],
+    "crops": "All crops",
+    "dose": "800 ml per Acre"
+  },
+  {
+    "product_name": "4 IN 1",
+    "category": "sticker_spreader",
+    "form": "liquid",
+    "active_ingredient": "Non Silicon sticker",
+    "key_feature": "Sticker cum Spreader to increase efficacy of agrochemicals",
+    "benefits": [
+      "Quickly sticks, uniformly spreads & activates effectiveness of Crop Protection Chemicals",
+      "Reduces Spray drift",
+      "Rain fastness property for use in high rainfall area"
+    ],
+    "crops": "All Crops",
+    "dose": "500 to 700 ml per ha",
+    "usage": "Mix with Insecticides/Fungicides/Herbicides & Foliar fertilizers"
+  }
+]

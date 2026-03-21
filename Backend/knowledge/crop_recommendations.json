@@ -1,0 +1,317 @@
+[
+  {
+    "crop": "wheat",
+    "topic": "weed_management_canary_grass",
+    "guidance": "For Phalaris minor (Canary grass) in wheat, use MAACHIS (Clodinafop-propargyl 15% WP) at 400 gm/ha or PATINA (Pinoxaden 5.1% EC) at 800-900 ml/ha as post emergent selective herbicide. Both have wide window of application. PATINA offers rain fastness of 60 min and is safe for subsequent crops."
+  },
+  {
+    "crop": "wheat",
+    "topic": "wild_oat_control",
+    "guidance": "For Wild oat (Avena sp.) in wheat, PATINA (Pinoxaden 5.1% EC) at 800-900 ml/ha is the recommended post emergent herbicide. It controls both Phalaris minor and Avena ludoviciana effectively."
+  },
+  {
+    "crop": "wheat",
+    "topic": "rust_disease_management",
+    "guidance": "For Brown rust and Yellow Rust in wheat, use ALLIANCE (Azoxystrobin 11% + Tebuconazole 18.3% SC) at 750 ml/ha or DECIMER (Azoxystrobin 18.2% + Difenconazole 11.4% SC) at 1 ml/lit. ROKO (Thiophanate Methyl 70% WP) at 715 gm/ha controls Brown rust & leaf Blight. SPARSH (Mancozeb 75% WP) at 1.5-2 kg/ha covers Brown & black rust, Blight."
+  },
+  {
+    "crop": "wheat",
+    "topic": "aphid_management",
+    "guidance": "For aphids in wheat, use EVIDENT (Thiamethoxam 25% WG) at 50 gm/ha or KRUSH (Quinolphos 25% EC) at 1000-1600 gm/ha. KRUSH also controls mites in wheat."
+  },
+  {
+    "crop": "wheat",
+    "topic": "termite_management",
+    "guidance": "For termites in wheat, use EVIDENT FLO (Thiamethoxam 30% FS) at 3.3 ml per kg seed as seed treatment, or JAANBAZ GR (Fipronil 0.3% GR) at 20 kg/ha."
+  },
+  {
+    "crop": "wheat",
+    "topic": "biostimulant_recommendation",
+    "guidance": "For wheat, use BIOZYME GRAIN+ GRANULES at 8-16 kg/acre as soil application to enhance number of productive tillers, improve photosynthesis, and develop tolerance to biotic & abiotic stress. AMAZE X at 4-8 kg/acre is also effective for all grain crops."
+  },
+  {
+    "crop": "wheat",
+    "topic": "powdery_mildew",
+    "guidance": "For Powdery Mildew in wheat, use WOKOVIT (Sulphur 80% WG) at 2500 gm/ha. It also provides Sulphur micronutrient and has additional miticide action."
+  },
+  {
+    "crop": "rice",
+    "topic": "blast_disease",
+    "guidance": "For Paddy Blast, BIOMYCIN (Kasugamycin 3% SL) at 1000-1500 ml/ha is the recommended antibiotic fungicide with no resistance development. ROKO (Thiophanate Methyl 70% WP) at 1000 gm/ha, TRIGGER PRO (Hexaconazole 5% SC) at 1000 ml/ha, SPARSH (Mancozeb 75% WP) at 1.5-2 kg/ha, and BENDACO (Carbendazim 12% + Mancozeb 63% WP) at 750 gm/ha are also effective."
+  },
+  {
+    "crop": "rice",
+    "topic": "sheath_blight",
+    "guidance": "For Sheath Blight in rice/paddy, use ALLIANCE (Azoxystrobin 11% + Tebuconazole 18.3% SC) at 750 ml/ha, DECIMER at 1 ml/lit, REDEEM (Difenconazole 25% EC) at 500 ml/ha, TAGMA (Tebuconazole 25.9% EC) at 750 ml/ha, or TRIGGER PRO at 1000 ml/ha."
+  },
+  {
+    "crop": "rice",
+    "topic": "stem_borer_leaf_folder",
+    "guidance": "For Stem Borer and Leaf folder in rice, use TREMOR (Chlorantraniliprole 18.5% SC) at 150 ml/ha (long duration control), FULSTOP-D (Flubendiamide 20% WG) at 125 gm/ha, JAANBAZ SC (Fipronil 5% SC) at 1000-1500 ml/ha, KLINTOP (Bifenthrin 10% EC) at 500 ml/ha, or DARTRIZ SP (Cartap Hydrochloride 50% SP) at 1 kg/ha."
+  },
+  {
+    "crop": "rice",
+    "topic": "brown_plant_hopper",
+    "guidance": "For Brown Plant Hopper (BPH), STRIKE (Dinotefuran 15% + Pymetrozine 45% WG) at 33 gm/ha is the most effective - it makes BPH IMMOBILE and stops reproduction. ULTIMO (Imidacloprid 17.8% SL) at 100-125 ml/ha, ULTIMO SUPER (Imidaclopride 30.5% SC) at 60-75 ml/ha, EVIDENT (Thiamethoxam 25% WG) at 100 gm/ha, and WAPKIL (Acetamiprid 20% SP) at 50-100 gm/ha are also effective."
+  },
+  {
+    "crop": "rice",
+    "topic": "biostimulant_recommendation",
+    "guidance": "For paddy, use BIOZYME POWER+ GRANULES at 6-12 kg/acre for enhancing productive tillers and uniform panicle emergence. As foliar spray, BIOZYME POWER+ liquid at 250-300 ml/acre improves panicle emergence and seed weight."
+  },
+  {
+    "crop": "rice",
+    "topic": "weed_management",
+    "guidance": "For weed management in transplanted rice, use RIMOVE PLUS (Pretilachlor 37% EW) at 1500-1875 ml/ha as pre-emergence herbicide. It controls major grass weeds including Echinochloa species and sedges like Cyperus iria."
+  },
+  {
+    "crop": "cotton",
+    "topic": "bollworm_management",
+    "guidance": "For Bollworm complex in cotton, use TREMOR (Chlorantraniliprole 18.5% SC) at 150 ml/ha, FULSTOP-D (Flubendiamide 20% WG) at 250 gm/ha, PRAHAR-C (Profenophos 40% EC + Cypermethrin 4% EC) at 1000-1500 gm/ha, AUZAR (Cypermethrin 25% EC) at 160-280 ml/ha, or BIOCLAIM (Emamectin Benzoate 5% SG) at 190-220 gm/ha."
+  },
+  {
+    "crop": "cotton",
+    "topic": "whitefly_jassid_thrips",
+    "guidance": "For sucking pests (Whitefly, Jassid, Thrips, Aphids) in cotton, use BIOCLAIM PRO (Emamectin Benzoate 1.5% + Profenophos 35% WDG) at 700 gm/ha, DERBY (Diafenthiuron 50% WP) at 600 gm/ha, EDAN (Imidacloprid 70% WG) at 30-35 gm/ha, ULTIMO (Imidacloprid 17.8% SL) at 100-125 ml/ha, or WAPKIL (Acetamiprid 20% SP) at 50-100 gm/ha."
+  },
+  {
+    "crop": "cotton",
+    "topic": "weed_management",
+    "guidance": "For weed management in cotton, use NANCHAKU (Pyrithiobac Sodium 10% EC) at 625-750 ml/ha for broad-leaf weeds only, or NANCHAKU POWER (Pyrithiobac Sodium 6% + Quizalofop ethyl 4% MEC) at 1000-1250 ml/ha for both broad-leaf and grass weeds. HITBAC (Pendimethalin 38.7% CS) at 1500-1700 ml/ha is used as pre-emergence herbicide."
+  },
+  {
+    "crop": "cotton",
+    "topic": "biostimulant_recommendation",
+    "guidance": "For BT Cotton, use BIOZYME BT+ at 250-300 ml/acre as foliar spray to improve boll development, boll size, and lint quality. Apply during flowering and boll development stages."
+  },
+  {
+    "crop": "cotton",
+    "topic": "white_grub_termite",
+    "guidance": "For soil pests (White Grub) in groundnut or cotton, use JAANBAZ POWER (Thiamethoxam 0.9% + Fipronil 0.2% WG) at 12-15 kg/ha as soil application. For termites, KLINTOP (Bifenthrin 10% EC) and JAANBAZ SC (Fipronil 5% SC) are effective."
+  },
+  {
+    "crop": "apple",
+    "topic": "scab_management",
+    "guidance": "For Apple Scab, use CYGNET (Myclobutanil 10% WP) at 40 gm/10 lit water, RINZEX (Tebuconazole 6.7% + Captan 26.9% SC) at 2.5 ml/lit water, TRIGGER PRO (Hexaconazole 5% SC) at 50 ml/100 lit, CAPTEK (Captan 50% WP) at 2500 gm/ha, ROKO (Thiophanate Methyl 70% WP) at 715 gm/ha, ALLIANCE at 1 ml/lit, or DOLBY at 300 gm/100 lit water."
+  },
+  {
+    "crop": "apple",
+    "topic": "powdery_mildew",
+    "guidance": "For Powdery Mildew in apple, use ALLIANCE (Azoxystrobin 11% + Tebuconazole 18.3% SC) at 1 ml/lit water, RINZEX at 2.5 ml/lit, or SUPERMATE (Zineb 68% + Hexaconazole 4% WP) at 25 gm/10 lit water."
+  },
+  {
+    "crop": "apple",
+    "topic": "mite_management",
+    "guidance": "For European mites in apple, use MAIDEN (Hexythiazox 5.45% EC) at 4 ml per lit water. This is the first IGR acaricide in India with excellent ovicidal, larvicidal, and nymphicidal activity."
+  },
+  {
+    "crop": "apple",
+    "topic": "wooly_aphid",
+    "guidance": "For Wooly Aphids in apple, use KRUSH (Quinolphos 25% EC) at 3000-4000 gm/ha."
+  },
+  {
+    "crop": "apple",
+    "topic": "biostimulant_recommendation",
+    "guidance": "For apple, use BIOZYME FRUIT+ GRANULES at 750 gm per plant for better root development and bud stimulation. Use BIOZYME FRUIT+ liquid at 1.5-2 ml/lit water as foliar spray during fruit development to improve fruit size, color, and quality."
+  },
+  {
+    "crop": "apple",
+    "topic": "micronutrient_management",
+    "guidance": "For apple, apply BIOGREEN ZINC PLUS at 0.5-1 ml/lit at 30-35 and 45-50 days after pruning/bahar treatment to prevent zinc deficiency. Apply BIOGREEN BORON at 1-1.5 ml/lit at pre-flowering and fruit setting stage for pollination and seed setting. Apply BIOGREEN CALCIUM at 2-3 ml/lit at 60, 40, and 20 days before harvest to prevent fruit disorders."
+  },
+  {
+    "crop": "grapes",
+    "topic": "downy_mildew",
+    "guidance": "For Downy Mildew in grapes, use DUOGUARD (Cymoxanil 8% + Mancozeb 64% WP) at 1500-2000 gm/ha, SANCHAR (Metalaxyl 8% + Mancozeb 64% WP) at 2500 gm/ha, BENDACO (Carbendazim 12% + Mancozeb 63% WP) at 0.15%, DOLBY (Propineb 70% WP) at 300 gm/100 lit, or ALLIANCE at 750 ml/ha."
+  },
+  {
+    "crop": "grapes",
+    "topic": "powdery_mildew",
+    "guidance": "For Powdery Mildew in grapes, use CYGNET (Myclobutanil 10% WP) at 40 gm/10 lit water, TRIGGER PRO (Hexaconazole 5% SC) at 500-1000 ml/ha, WOKOVIT (Sulphur 80% WG) at 1875-2500 gm/ha, ALLIANCE at 750 ml/ha, or REDEEM at 30 ml/100 lit water."
+  },
+  {
+    "crop": "grapes",
+    "topic": "berry_development",
+    "guidance": "For berry size improvement in grapes, use SITOFEX (Forchlorfenuron 0.12% EC) at 2 ml/ltr at 3-4 mm berry size stage and 1-2 ml/ltr at 6-8 mm berry size stage. For dormancy breaking, use DORMEX (Hydrogen Cyanamide 49% AS) at 30-40 ml/ltr."
+  },
+  {
+    "crop": "grapes",
+    "topic": "mite_management",
+    "guidance": "For Red spider mites in grapes, use MAIDEN (Hexythiazox 5.45% EC) at 500 ml/ha."
+  },
+  {
+    "crop": "sugarcane",
+    "topic": "borer_management",
+    "guidance": "For Early Shoot Borer and Top Borer in sugarcane, use TREMOR (Chlorantraniliprole 18.5% SC) at 375-625 ml/ha, FULSTOP-D (Flubendiamide 20% WG) at 375 gm/ha, or JAANBAZ GR (Fipronil 0.3% GR) at 25-33.3 kg/ha."
+  },
+  {
+    "crop": "sugarcane",
+    "topic": "termite_management",
+    "guidance": "For Termites in sugarcane, use KLINTOP (Bifenthrin 10% EC) at 1000 ml/ha or ULTIMO (Imidacloprid 17.8% SL) at 350 ml/ha."
+  },
+  {
+    "crop": "sugarcane",
+    "topic": "biostimulant_recommendation",
+    "guidance": "For sugarcane, use BIOZYME BIOCANE+ GRANULES at 8-16 kg/acre for soil application to enhance tillering, bud stimulation, cane girth, and inter nodal length. This leads to higher yield."
+  },
+  {
+    "crop": "sugarcane",
+    "topic": "weed_management",
+    "guidance": "For weed management in sugarcane, use DESTAL XTRA (Mesotrione 2.27% + Atrazine 22.7% SC) at 3500 ml/ha as post emergent selective herbicide to control grasses and broad leaf weeds."
+  },
+  {
+    "crop": "tomato",
+    "topic": "early_late_blight",
+    "guidance": "For Early Blight and Late Blight in tomato, use DECIMER (Azoxystrobin 18.2% + Difenconazole 11.4% SC) at 1 ml/lit, ALLIANCE (Azoxystrobin 11% + Tebuconazole 18.3% SC) at 750 ml/ha, CAPTEK (Captan 50% WP) at 2500 gm/ha, BENDACO at 0.25%, BIOMYCIN (Kasugamycin 3% SL) at 1000-1500 ml/ha, or SPARSH (Mancozeb 75% WP) at 1.5-2 kg/ha."
+  },
+  {
+    "crop": "tomato",
+    "topic": "fruit_borer",
+    "guidance": "For Fruit borer in tomato, use TREMOR (Chlorantraniliprole 18.5% SC) at 150 ml/ha, FULSTOP-D (Flubendiamide 20% WG) at 250 gm/ha, BIOCLAIM (Emamectin Benzoate 5% SG) at 200 gm/ha, or KRUSH (Quinolphos 25% EC) at 1000 gm/ha."
+  },
+  {
+    "crop": "tomato",
+    "topic": "whitefly_management",
+    "guidance": "For Whitefly in tomato, use ULTIMO (Imidacloprid 17.8% SL) at 15-175 ml/ha, DERBY (Diafenthiuron 50% WP) at 600 gm/ha, or EVIDENT (Thiamethoxam 25% WG) at 200 gm/ha."
+  },
+  {
+    "crop": "chilli",
+    "topic": "anthracnose_dieback",
+    "guidance": "For Anthracnose and Dieback in chilli, use ALLIANCE (Azoxystrobin 11% + Tebuconazole 18.3% SC) at 600 ml/ha, ROKO FLO (Thiophanate Methyl 41.7% SC) at 1000 ml/ha, BENDACO at 750 gm/ha, REDEEM (Difenconazole 25% EC) at 50 ml/100 lit, RINZEX at 1000 ml/ha, DECIMER at 1 ml/lit, CYGNET at 40 gm/10 lit, or DOLBY at 500 gm/ha."
+  },
+  {
+    "crop": "chilli",
+    "topic": "mite_management",
+    "guidance": "For Yellow mites and mites in chilli, use MAIDEN (Hexythiazox 5.45% EC) at 300-500 ml/ha, BIOCLAIM PRO at 500 gm/ha, or DERBY (Diafenthiuron 50% WP) at 600 gm/ha. KRUSH (Quinolphos 25% EC) at 1000-1500 gm/ha also controls mites."
+  },
+  {
+    "crop": "chilli",
+    "topic": "biostimulant_recommendation",
+    "guidance": "For chilli, use BIOZYME MIRCHI+ at 250-300 ml/acre as foliar spray to increase branching, improve flowering and fruit formation, enhance fruit size and shining, keep rhizosphere active, and improve food translocation from leaves to fruits."
+  },
+  {
+    "crop": "potato",
+    "topic": "late_blight_early_blight",
+    "guidance": "For Late Blight and Early Blight in potato, use SANCHAR (Metalaxyl 8% + Mancozeb 64% WP) at 2500 gm/ha, DUOGUARD (Cymoxanil 8% + Mancozeb 64% WP) at 1500 gm/ha, BENDACO (Carbendazim 12% + Mancozeb 63% WP) at 1750 gm/ha, CAPTEK (Captan 50% WP) at 2500 gm/ha, DOLBY at 300 gm/ha, ALLIANCE at 750 ml/ha, or SPARSH (Mancozeb 75% WP) at 1.5-2 kg/ha."
+  },
+  {
+    "crop": "paddy",
+    "topic": "grain_discoloration",
+    "guidance": "For Grain Discoloration in paddy, use ROKO (Thiophanate Methyl 70% WP) at 1000 gm/ha or SUPERMATE (Zineb 68% + Hexaconazole 4% WP) at 1000-1250 gm/ha."
+  },
+  {
+    "crop": "onion",
+    "topic": "purple_blotch",
+    "guidance": "For Purple blotch in onion, use ALLIANCE (Azoxystrobin 11% + Tebuconazole 18.3% SC) at 750 ml/ha, DECIMER at 500 ml/ha, TAGMA (Tebuconazole 25.9% EC) at 625-750 ml/ha, or REDEEM (Difenconazole 25% EC) at 500 ml/ha."
+  },
+  {
+    "crop": "soybean",
+    "topic": "weed_management",
+    "guidance": "For weed management in soybean, use REMEDUO (Fomesafen 11.1% + Fluazifop-P-Butyl 11.1% SL) at 1000 ml/ha as post emergent selective herbicide to control both grasses and broad-leaf weeds. HITBAC (Pendimethalin 38.7% CS) at 1500-1750 ml/ha is used as pre-emergence herbicide."
+  },
+  {
+    "crop": "soybean",
+    "topic": "biostimulant_recommendation",
+    "guidance": "For soybean and other pulse/oilseed crops, use BIOZYME PULSE+ at 250-300 ml/acre as foliar spray to improve flowering, pod formation, pod size, grain shining, and yield."
+  },
+  {
+    "crop": "maize",
+    "topic": "fall_armyworm",
+    "guidance": "For Fall Army worms in maize, use BIOCLAIM PRO (Emamectin Benzoate 1.5% + Profenophos 35% WDG) at 500 gm/ha. This provides dual mode of action with ovi-larvicidal control."
+  },
+  {
+    "crop": "maize",
+    "topic": "weed_management",
+    "guidance": "For weed management in maize, use DESTAL XTRA (Mesotrione 2.27% + Atrazine 22.7% SC) at 3500 ml/ha as post emergent selective herbicide."
+  },
+  {
+    "crop": "tea",
+    "topic": "mite_management",
+    "guidance": "For Scarlet Mite and Red Spider Mite in tea, use MAIDEN (Hexythiazox 5.45% EC) at 300-500 ml/ha."
+  },
+  {
+    "crop": "tea",
+    "topic": "disease_management",
+    "guidance": "For Tea diseases (Blister blight, grey blight, black rot), use BENDACO (Carbendazim 12% + Mancozeb 63% WP) at 1250 gm/ha or SUPERMATE (Zineb 68% + Hexaconazole 4% WP) at 625 gm/ha."
+  },
+  {
+    "crop": "tea",
+    "topic": "biostimulant_recommendation",
+    "guidance": "For tea, use BIOZYME TEA+ at 500 ml/hectare as foliar spray. It reduces plucking interval, increases chlorophyll formation, helps bud stimulation, and improves leaf quality & yield."
+  },
+  {
+    "crop": "tea",
+    "topic": "weed_management",
+    "guidance": "For weed management in tea, use BRAKE (Glyphosate 41% SL) at 2000-3000 ml/ha as non-selective systemic herbicide for perennial grasses and broad-leaf weeds. PARQ (Paraquat Dichloride 24% SL) at 2000-3000 ml/ha is used as non-selective contact herbicide."
+  },
+  {
+    "crop": "groundnut",
+    "topic": "leaf_spot_rust",
+    "guidance": "For Tikka leaf spot and Rust in groundnut, use BENDACO (Carbendazim 12% + Mancozeb 63% WP) at 500 gm/ha, TRIGGER PRO (Hexaconazole 5% SC) at 1000 ml/ha, TAGMA (Tebuconazole 25.9% EC) at 500-750 ml/ha, REDEEM at 100 ml/100 lit, or SPARSH (Mancozeb 75% WP) at 1.5-2 kg/ha."
+  },
+  {
+    "crop": "groundnut",
+    "topic": "white_grub_management",
+    "guidance": "For White Grub in groundnut, use JAANBAZ POWER (Thiamethoxam 0.9% + Fipronil 0.2% WG) at 12-15 kg/ha as soil application."
+  },
+  {
+    "crop": "all_crops",
+    "topic": "zinc_deficiency",
+    "guidance": "For Zinc deficiency in crops, use BIOGREEN ZINC PLUS (Zinc Oxide 39.5%) at 0.5-1 ml/lit as foliar spray or BIOGREEN ZINC (Zinc EDTA 12%) at 1-2 gm/liter as foliar spray or 2.5-5 kg/ha as soil application. Zinc is essential as catalyst for enzymes in photosynthesis and improves immunity."
+  },
+  {
+    "crop": "all_crops",
+    "topic": "boron_deficiency",
+    "guidance": "For Boron deficiency affecting pollination and seed setting, use BIOGREEN BORON (Boron Ethanolamine 10%) at 1-1.5 ml/lit water at pre-flowering and fruit setting stages. For combined Calcium & Boron deficiency, use BIOGREEN CALCIUM B PLUS (Ca 14% + B 6.9% + N 4%) at 1 ml/lit."
+  },
+  {
+    "crop": "all_crops",
+    "topic": "calcium_deficiency",
+    "guidance": "For Calcium deficiency causing poor fruit quality and fruit disorders, use BIOGREEN CALCIUM (Concentrated Liquid Calcium 11%) at 2-3 ml/lit water applied at 60, 40, and 20 days before harvest for fruit crops. It strengthens cell walls and manages stress."
+  },
+  {
+    "crop": "all_crops",
+    "topic": "potassium_for_quality",
+    "guidance": "For improving fruit quality, uniform size, color and to speed up ripening, apply BIOGREEN POTASH (Concentrated Liquid Potassium 46.5%) at 2-2.5 ml/lit water. Apply to fruit crops 30 and 15 days before harvesting. It minimizes fruit disorders and maximizes crop productivity."
+  },
+  {
+    "crop": "all_crops",
+    "topic": "seed_treatment_biostimulant",
+    "guidance": "For improving seed germination and early plant establishment in all crops, use BIOZYME SEED+ (Seaweed + L-Amino acid 6%) at 3-5 ml per kg seed. For seedling treatment, use 150-200 ml per acre seedling. It provides quick & uniform germination and reduces transplanting shock."
+  },
+  {
+    "crop": "all_crops",
+    "topic": "drip_irrigation_biostimulant",
+    "guidance": "For crops under drip irrigation, use BIOZYME DRIP+ (Seaweed + Humic Acid 4% + Amino acids 4%) at 2.5 Lit/Hectare. It promotes white root feeder development, improves CN ratio of soil, and enhances nutrient availability by soil pH balance."
+  },
+  {
+    "crop": "all_crops",
+    "topic": "mycorrhiza_biofertilizer",
+    "guidance": "MOBILIZER (Arbuscular mycorrhiza fungus) extends root absorption area by more than 700 times, allowing roots to access water and nutrients beyond the root zone. It improves soil health, increases stress tolerance, and improves water utilization. Apply to soil at time of planting."
+  },
+  {
+    "crop": "all_crops",
+    "topic": "ipm_friendly_products",
+    "guidance": "For Integrated Pest Management (IPM), preferred products are: HITONE (Cinnamon Oil based immunity booster) - zero PHI, safe till harvesting; BIOCLAIM (Emamectin Benzoate) - safer to beneficial insects; TREMOR (Chlorantraniliprole) - safer to beneficial insects; EVIDENT/ULTIMO (Imidacloprid, Thiamethoxam) - selective on sucking pests; MAIDEN (Hexythiazox) - no adverse effect on beneficial insects. Always combine chemical control with biostimulants for sustainable farming."
+  },
+  {
+    "crop": "all_crops",
+    "topic": "spray_adjuvant",
+    "guidance": "Add 4 IN 1 (Non Silicon Sticker) at 500-700 ml/ha to any spray mixture of insecticides, fungicides, herbicides, or foliar fertilizers to improve efficacy. It sticks, spreads uniformly, activates effectiveness, reduces spray drift, and has rain fastness property for use in high rainfall areas."
+  },
+  {
+    "crop": "all_crops",
+    "topic": "iron_deficiency_chlorosis",
+    "guidance": "For Iron deficiency causing chlorosis and poor photosynthesis, use BIOGREEN IRON (Ferrous EDTA 12%) at 1-1.5 gm/liter for foliar spray or 2.5-5 kg/ha as soil/drip application. Iron is essential for chlorophyll production, nitrogen fixation, and protein synthesis."
+  },
+  {
+    "crop": "vegetables",
+    "topic": "biostimulant_recommendation",
+    "guidance": "For vegetable crops, use BIOZYME VEGETABLES+ GRANULES at 8-16 kg/acre as soil application for root development and stress tolerance. Use BIOZYME VEGETABLE+ liquid at 250-300 ml/acre as foliar spray for better fruit setting, fruit size, and quality. AMAZE XL at 1-2 ml/lit is ideal during flower/fruit development stage."
+  },
+  {
+    "crop": "fruits",
+    "topic": "fruit_quality_program",
+    "guidance": "For premium fruit quality, follow this nutrition program: 1) Apply BIOGREEN ZINC PLUS at 0.5-1 ml/lit after pruning for enzyme activity; 2) Apply BIOGREEN BORON at 1-1.5 ml/lit at pre-flowering for pollination; 3) Apply BIOGREEN CALCIUM B PLUS at 1 ml/lit at fruit setting stage for cell strengthening; 4) Apply BIOGREEN CALCIUM at 2-3 ml/lit at 60, 40, 20 days before harvest for fruit quality; 5) Apply BIOGREEN POTASH at 2-2.5 ml/lit at 30 and 15 days before harvest for uniform color, size and faster ripening."
+  }
+]
