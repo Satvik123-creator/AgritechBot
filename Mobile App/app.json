@@ -24,6 +24,11 @@
       }
     },
     "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCSzqN-yejmKk-nsYqX_rgpCG-NwHyeOTk"
+        }
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#10241b"
@@ -31,6 +36,8 @@
       "package": "com.anaajai.mobile",
       "versionCode": 1,
       "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE",
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
         "RECORD_AUDIO",
