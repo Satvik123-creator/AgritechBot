@@ -14,7 +14,7 @@ export default function Features() {
         <h2 className="text-center text-5xl font-headline font-bold mb-32 text-primary">Precision tools for every acre.</h2>
         
         {/* Feature 1 */}
-        <div className="flex flex-col lg:flex-row items-center gap-16 mb-48">
+        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16 mb-24 lg:mb-48">
           <div className="lg:w-1/2">
             <div className="relative rounded-[2rem] overflow-hidden shadow-2xl">
               <img 
@@ -48,7 +48,7 @@ export default function Features() {
         </div>
 
         {/* Feature 2 */}
-        <div className="flex flex-col lg:flex-row-reverse items-center gap-16">
+        <div className="flex flex-col lg:flex-row-reverse items-center gap-8 lg:gap-16">
           <div className="lg:w-1/2">
             <div className="relative p-12 bg-surface-container rounded-[2rem] border border-outline-variant/20 overflow-hidden">
               <div className="grid grid-cols-2 gap-4">

@@ -21,7 +21,7 @@ export default function Marketplace() {
       
       <div className="flex gap-8 px-8 overflow-x-auto pb-12 no-scrollbar pl-[max(2rem,calc((100vw-80rem)/2+2rem))]">
         {/* Product 1 */}
-        <div className="min-w-[350px] bg-surface-container-lowest rounded-[2rem] p-6 shadow-sm border border-outline-variant/10 group cursor-pointer">
+        <div className="min-w-[85vw] md:min-w-[350px] bg-surface-container-lowest rounded-[2rem] p-6 shadow-sm border border-outline-variant/10 group cursor-pointer">
           <div className="aspect-square rounded-2xl overflow-hidden mb-6">
             <img 
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
@@ -45,7 +45,7 @@ export default function Marketplace() {
         </div>
         
         {/* Product 2 */}
-        <div className="min-w-[350px] bg-surface-container-lowest rounded-[2rem] p-6 shadow-sm border border-outline-variant/10 group cursor-pointer">
+        <div className="min-w-[85vw] md:min-w-[350px] bg-surface-container-lowest rounded-[2rem] p-6 shadow-sm border border-outline-variant/10 group cursor-pointer">
           <div className="aspect-square rounded-2xl overflow-hidden mb-6">
             <img 
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
@@ -68,7 +68,7 @@ export default function Marketplace() {
         </div>
         
         {/* Product 3 */}
-        <div className="min-w-[350px] bg-surface-container-lowest rounded-[2rem] p-6 shadow-sm border border-outline-variant/10 group cursor-pointer">
+        <div className="min-w-[85vw] md:min-w-[350px] bg-surface-container-lowest rounded-[2rem] p-6 shadow-sm border border-outline-variant/10 group cursor-pointer">
           <div className="aspect-square rounded-2xl overflow-hidden mb-6">
             <img 
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 

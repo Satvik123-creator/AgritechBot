@@ -33,7 +33,7 @@ export default function AppShowcase() {
           </div>
           
           <div className="md:w-1/2 relative flex justify-center z-10">
-            <div className="w-64 h-[500px] bg-primary rounded-[2.5rem] p-3 shadow-xl transform rotate-3 relative z-10">
+            <div className="w-[65vw] h-auto md:w-64 md:h-[500px] bg-primary rounded-[2.5rem] p-3 shadow-xl transform rotate-3 relative z-10 aspect-[9/19.5]">
               <img 
                 className="w-full h-full object-cover rounded-[2rem]" 
                 alt="a smartphone screen displaying a vibrant farm management app interface with green charts and crop icons" 

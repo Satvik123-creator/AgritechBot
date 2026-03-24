@@ -116,7 +116,7 @@ export default function Hero() {
         {/* Text Area 1 */}
         <motion.div 
           style={{ opacity: opacity1, y: y1 }}
-          className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none px-8 text-center"
+          className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none px-4 md:px-8 text-center"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-tertiary-container text-tertiary-fixed w-fit mb-8 shadow-2xl">
             <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>colors_spark</span>
@@ -136,7 +136,7 @@ export default function Hero() {
         {/* Text Area 2 */}
         <motion.div 
           style={{ opacity: opacity2, y: y2 }}
-          className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none px-8 text-center"
+          className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none px-4 md:px-8 text-center"
         >
           <h2 className="text-5xl md:text-8xl font-headline font-bold text-tertiary-fixed tracking-tight drop-shadow-2xl">
             Intelligent Data.
@@ -149,7 +149,7 @@ export default function Hero() {
         {/* Text Area 3 */}
         <motion.div 
           style={{ opacity: opacity3, y: y3 }}
-          className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none px-8 text-center"
+          className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none px-4 md:px-8 text-center"
         >
           <h2 className="text-5xl md:text-8xl font-headline font-bold text-white tracking-tight drop-shadow-2xl">
             Harvest with <span className="text-tertiary-fixed">Confidence.</span>

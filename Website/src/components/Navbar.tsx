@@ -26,7 +26,7 @@ export default function Navbar() {
       animate={{ x: "-50%", y: 0 }}
       className={`fixed z-[100] transition-all duration-500 left-1/2 w-full
         ${isScrolled 
-          ? 'top-4 md:w-[90%] max-w-6xl rounded-[2rem] bg-emerald-950/80 backdrop-blur-xl shadow-2xl border border-white/10' 
+          ? 'top-4 w-[calc(100%-2rem)] md:w-[90%] max-w-6xl rounded-[2rem] bg-emerald-950/80 backdrop-blur-xl shadow-2xl border border-white/10' 
           : `top-0 max-w-full ${isDarkCanvas ? 'bg-transparent' : 'bg-emerald-950/90 backdrop-blur-lg border-b border-white/5 shadow-md'}`
         }
       `}

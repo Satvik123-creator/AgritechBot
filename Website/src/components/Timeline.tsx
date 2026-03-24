@@ -1,62 +1,107 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Timeline as AceternityTimeline } from './ui/timeline';
+import { Mic, BrainCircuit, Lightbulb, Sprout } from 'lucide-react';
 
 export default function Timeline() {
+  const data = [
+    {
+      title: "Ask",
+      content: (
+        <div>
+          <p className="text-on-surface-variant text-lg md:text-xl font-body mb-8">
+            Speak or type your problem in your local language. No need to look up confusing scientific jargon.
+          </p>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="relative rounded-2xl overflow-hidden aspect-video bg-surface-container shadow-sm border border-outline-variant/20 flex flex-col items-center justify-center text-primary group">
+              <Mic size={48} strokeWidth={1.5} className="group-hover:scale-110 transition-transform text-tertiary-fixed" />
+              <p className="mt-4 font-bold uppercase tracking-widest text-sm">Voice Input</p>
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1592982537447-6f296b0f0b4a?q=80&w=800&auto=format&fit=crop"
+              alt="Farmer using a smartphone"
+              className="rounded-2xl object-cover h-full w-full shadow-sm border border-outline-variant/20"
+            />
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "Understand",
+      content: (
+        <div>
+          <p className="text-on-surface-variant text-lg md:text-xl font-body mb-8">
+            The AI instantly processes the context. It analyzes your historical crop history, local weather forecasts, and satellite data to pinpoint the exact issue.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <img
+              src="https://images.unsplash.com/photo-1586771107445-d3af9e1501bc?q=80&w=800&auto=format&fit=crop"
+              alt="AI analyzing crops in the field"
+              className="rounded-2xl object-cover aspect-video md:aspect-[4/3] w-full shadow-sm border border-outline-variant/20"
+            />
+             <div className="relative rounded-2xl overflow-hidden aspect-video md:aspect-[4/3] bg-primary shadow-sm border border-white/10 flex flex-col items-center justify-center text-on-primary group">
+              <BrainCircuit size={48} strokeWidth={1.5} className="group-hover:scale-110 transition-transform text-tertiary-fixed" />
+              <p className="mt-4 font-bold uppercase tracking-widest text-sm">Deep Processing</p>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "Advice",
+      content: (
+        <div>
+          <p className="text-on-surface-variant text-lg md:text-xl font-body mb-8">
+            Receive actionable, clear steps to fix the problem. You will get exact chemical or organic dosages, timing suggestions based on the rain forecast, and immediate fixes.
+          </p>
+          <div className="grid grid-cols-2 gap-4">
+            <img
+              src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=800&auto=format&fit=crop"
+              alt="Farmer receiving an advisory report"
+              className="rounded-2xl object-cover aspect-video w-full shadow-sm border border-outline-variant/20"
+            />
+            <div className="relative rounded-2xl overflow-hidden aspect-video bg-surface-container shadow-sm border border-outline-variant/20 flex flex-col items-center justify-center text-primary group">
+              <Lightbulb size={48} strokeWidth={1.5} className="group-hover:scale-110 transition-transform text-tertiary-fixed" />
+              <p className="mt-4 font-bold uppercase tracking-widest text-sm">Actionable Fixes</p>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "Thrive",
+      content: (
+        <div>
+          <p className="text-on-surface-variant text-lg md:text-xl font-body mb-8">
+            Watch your yield increase safely. By avoiding broad-spectrum spraying and applying targeted fertilizer only when necessary, your costs decrease while plant health soars.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="relative rounded-2xl overflow-hidden aspect-video md:aspect-square bg-surface-container shadow-sm border border-outline-variant/20 flex flex-col items-center justify-center text-primary group">
+              <Sprout size={64} strokeWidth={1.5} className="group-hover:scale-110 transition-transform text-tertiary-fixed mb-4" />
+              <p className="text-3xl font-bold font-headline">40%</p>
+              <p className="mt-1 font-bold uppercase tracking-widest text-sm text-on-surface-variant">Cost Reduction</p>
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1628522071665-27663e8a4d2e?q=80&w=800&auto=format&fit=crop"
+              alt="Healthy high-yield harvest basket"
+              className="rounded-2xl object-cover aspect-video md:aspect-square w-full shadow-sm border border-outline-variant/20"
+            />
+          </div>
+        </div>
+      ),
+    },
+  ];
+
   return (
     <motion.section 
       initial={{ opacity: 0, y: 50 }} 
       whileInView={{ opacity: 1, y: 0 }} 
       viewport={{ once: true, margin: "-100px" }} 
       transition={{ duration: 0.6 }} 
-      className="py-32 bg-surface relative overflow-hidden"
+      className="bg-surface relative overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-8 relative z-10">
-        <h2 className="text-5xl font-headline font-bold text-center mb-24 text-primary">Simple as a conversation.</h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 relative">
-          {/* Connective line */}
-          <div className="hidden md:block absolute top-12 left-0 w-full h-px bg-outline-variant/30 -z-10"></div>
-          
-          <div className="flex flex-col items-center text-center space-y-6 group text-on-surface">
-            <div className="w-24 h-24 rounded-full bg-surface-container-lowest flex items-center justify-center border border-outline-variant/20 shadow-xl group-hover:scale-110 transition-transform">
-              <span className="material-symbols-outlined text-primary text-4xl">voice_selection</span>
-            </div>
-            <div>
-              <h4 className="text-xl font-bold mb-2">Ask</h4>
-              <p className="text-sm text-on-surface-variant">Speak or type your problem in your local language.</p>
-            </div>
-          </div>
-          
-          <div className="flex flex-col items-center text-center space-y-6 group text-on-surface">
-            <div className="w-24 h-24 rounded-full bg-tertiary-container flex items-center justify-center border border-tertiary-fixed shadow-xl group-hover:scale-110 transition-transform">
-              <span className="material-symbols-outlined text-tertiary-fixed text-4xl">neurology</span>
-            </div>
-            <div>
-              <h4 className="text-xl font-bold mb-2">Understand</h4>
-              <p className="text-sm text-on-surface-variant">AI analyzes crop history, weather, and satellite data.</p>
-            </div>
-          </div>
-          
-          <div className="flex flex-col items-center text-center space-y-6 group text-on-surface">
-            <div className="w-24 h-24 rounded-full bg-surface-container-lowest flex items-center justify-center border border-outline-variant/20 shadow-xl group-hover:scale-110 transition-transform">
-              <span className="material-symbols-outlined text-primary text-4xl">lightbulb</span>
-            </div>
-            <div>
-              <h4 className="text-xl font-bold mb-2">Advice</h4>
-              <p className="text-sm text-on-surface-variant">Get instant, actionable steps with dosage and timing.</p>
-            </div>
-          </div>
-          
-          <div className="flex flex-col items-center text-center space-y-6 group text-on-surface">
-            <div className="w-24 h-24 rounded-full bg-primary flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
-              <span className="material-symbols-outlined text-on-primary text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>potted_plant</span>
-            </div>
-            <div>
-              <h4 className="text-xl font-bold mb-2">Thrive</h4>
-              <p className="text-sm text-on-surface-variant">Watch your yield increase and costs decrease.</p>
-            </div>
-          </div>
-        </div>
+      <div className="w-full">
+        <AceternityTimeline data={data} />
       </div>
     </motion.section>
   );

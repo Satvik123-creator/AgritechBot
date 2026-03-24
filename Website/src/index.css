@@ -15,8 +15,14 @@
   }
   .editorial-grid { 
     display: grid; 
-    grid-template-columns: repeat(12, 1fr); 
-    gap: 1rem; 
+    grid-template-columns: 1fr; 
+    gap: 1.5rem; 
+  }
+  @media (min-width: 1024px) {
+    .editorial-grid {
+      grid-template-columns: repeat(12, 1fr); 
+      gap: 1rem;
+    }
   }
   .bento-card { 
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
