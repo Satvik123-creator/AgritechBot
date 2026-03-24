@@ -37,8 +37,7 @@ services:
           cpus: "0.5"
     environment:
       - NODE_ENV=production
-      - CLUSTER_WORKERS=2
-      - CORS_ORIGINS=https://anaaj.ai,https://www.anaaj.ai
+      - CLUSTER_WORKERS=${CLUSTER_WORKERS:-2}
     logging:
       driver: "json-file"
       options:

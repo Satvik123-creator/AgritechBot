@@ -13,8 +13,8 @@ function App() {
         </div>
         <div className="nav-links">
           <a href="#features">Features</a>
-          <a href="#marketplace">Marketplace</a>
-          <button className="btn-primary">Download App</button>
+          <a href="#download">Download</a>
+          <a className="btn-primary" href="#download">Download App</a>
         </div>
       </nav>
 
@@ -84,6 +84,20 @@ function App() {
               <p>{f.text}</p>
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      <section id="download" className="download-section">
+        <div className="section-header">
+          <h2 className="gradient-text">Get Anaaj AI App</h2>
+          <p>Android build is available for direct client installation.</p>
+        </div>
+        <div className="premium-card download-card">
+          <h3>Need the latest APK?</h3>
+          <p>
+            Contact the Anaaj AI team to receive the latest signed Android APK and onboarding support.
+          </p>
+          <a className="btn-primary" href="mailto:hello@anaaj.ai">Request APK</a>
         </div>
       </section>
 

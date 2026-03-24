@@ -13,6 +13,7 @@ import { userRoutes } from './routes/userRoutes';
 import { marketplaceRoutes } from './routes/marketplaceRoutes';
 import { subscriptionRoutes } from './routes/subscriptionRoutes';
 import { adminRoutes } from './routes/adminRoutes';
+import { notificationRoutes } from './routes/notificationRoutes';
 import { logger } from './utils/logger';
 import { env } from './config/env';
 import { redis } from './config/redis';
@@ -176,6 +177,7 @@ export async function buildApp(): Promise<FastifyInstance> {
   await app.register(marketplaceRoutes);
   await app.register(subscriptionRoutes);
   await app.register(adminRoutes);
+  await app.register(notificationRoutes);
 
   logger.info(`All routes registered [env=${env.NODE_ENV}]`);
 

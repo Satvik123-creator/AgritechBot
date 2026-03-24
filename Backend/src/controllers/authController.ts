@@ -2,123 +2,106 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
 import { User } from '../models/User';
 import { Subscription, TIER_FEATURES } from '../models/Subscription';
-import { generateToken } from '../middlewares/authMiddleware';
-import { env } from '../config/env';
+import { authAdmin } from '../config/firebaseAdmin';
 import { logger } from '../utils/logger';
-
-const sendOtpSchema = z.object({
-  phone: z.string().regex(/^\+?[1-9]\d{9,14}$/, 'Invalid phone number'),
-});
-
-const verifyOtpSchema = z.object({
-  phone: z.string().regex(/^\+?[1-9]\d{9,14}$/, 'Invalid phone number'),
-  otp: z.string().length(6, 'OTP must be 6 digits'),
-});
+import jwt from 'jsonwebtoken';
+import { env } from '../config/env';
 
 /**
- * POST /api/auth/send-otp
+ * We still use our own JWT for internal API sessions 
+ * to avoid hitting Firebase Admin for every single request
+ * and to maintain our payload structure.
  */
-export async function sendOtp(request: FastifyRequest, reply: FastifyReply) {
-  const parsed = sendOtpSchema.safeParse(request.body);
-  if (!parsed.success) {
-    return reply.status(400).send({ error: parsed.error.flatten().fieldErrors });
-  }
-
-  const { phone } = parsed.data;
-
-  let user = await User.findOne({ phone });
-  if (!user) {
-    user = new User({ phone });
-  }
-
-  // Generate 6-digit OTP
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
-  user.otp = otp;
-  user.otpExpiresAt = new Date(Date.now() + env.OTP_EXPIRY_MINUTES * 60 * 1000);
-  await user.save();
-
-  // TODO: Integrate SMS gateway (Twilio, MSG91, etc.) here for production.
-  // For now, we return the OTP in the response to allow testing without an SMS provider.
-  logger.info({ phone, otp }, 'OTP generated (bypassing SMS for testing)');
-
-  return reply.send({
-    message: 'OTP sent successfully',
-    otp, // Always returned for functional testing
+function generateInternalToken(userId: string, role: string): string {
+  return jwt.sign({ userId, role }, env.JWT_SECRET, {
+    expiresIn: env.JWT_EXPIRES_IN as any,
   });
 }
 
+const firebaseVerifySchema = z.object({
+  phone: z.string().regex(/^\+?[1-9]\d{9,14}$/, 'Invalid phone number'),
+  token: z.string().min(10, 'Invalid Firebase ID Token'),
+});
+
 /**
  * POST /api/auth/verify-otp
+ * Verifies the Firebase ID Token and returns a local session token.
  */
 export async function verifyOtp(request: FastifyRequest, reply: FastifyReply) {
-  const parsed = verifyOtpSchema.safeParse(request.body);
+  const parsed = firebaseVerifySchema.safeParse(request.body);
   if (!parsed.success) {
     return reply.status(400).send({ error: parsed.error.flatten().fieldErrors });
   }
 
-  const { phone, otp } = parsed.data;
+  const { phone, token } = parsed.data;
 
-  const user = await User.findOne({ phone }).select('+otp +otpExpiresAt');
-  if (!user) {
-    return reply.status(404).send({ error: 'User not found' });
-  }
+  try {
+    // 1. Verify with Firebase Admin
+    const decodedToken = await authAdmin.verifyIdToken(token);
+    const firebaseUid = decodedToken.uid;
+    const firebasePhone = decodedToken.phone_number;
 
-  if (!user.otpExpiresAt || user.otpExpiresAt < new Date()) {
-    return reply.status(400).send({ error: 'OTP expired' });
-  }
+    // Security: Check if the token phone matches requested phone
+    if (firebasePhone !== phone && env.NODE_ENV === 'production') {
+       return reply.status(401).send({ error: 'Identity mismatch' });
+    }
 
-  const isValid = await user.compareOtp(otp);
-  if (!isValid) {
-    return reply.status(400).send({ error: 'Invalid OTP' });
-  }
+    // 2. Sync with MongoDB
+    let user = await User.findOne({ phone });
 
-  // Mark as verified, clear OTP
-  user.isVerified = true;
-  user.otp = undefined;
-  user.otpExpiresAt = undefined;
-  await user.save();
+    if (!user) {
+      user = new User({
+        phone,
+        firebaseUid,
+        isVerified: true,
+        subscriptionTier: 'free',
+      });
+      await user.save();
 
-  // Create free subscription if none exists
-  const existingSub = await Subscription.findOne({ userId: user._id });
-  if (!existingSub) {
-    try {
+      // Create free subscription
       await Subscription.create({
         userId: user._id,
         tier: 'free',
-        endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1 year
+        endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
         features: TIER_FEATURES.free,
       });
-    } catch (err: unknown) {
-      const isDuplicateKey =
-        typeof err === 'object' &&
-        err !== null &&
-        'code' in err &&
-        (err as { code?: number }).code === 11000;
-
-      if (isDuplicateKey) {
-        logger.warn({ err, userId: user._id }, 'Skipping subscription create due to duplicate index state');
-      } else {
-        throw err;
-      }
+    } else if (!user.firebaseUid) {
+      user.firebaseUid = firebaseUid;
+      if (!user.isVerified) user.isVerified = true;
+      await user.save();
     }
+
+    // 3. Generate Local JWT for subsequent requests
+    const internalToken = generateInternalToken(String(user._id), user.role);
+
+    return reply.send({
+      message: 'Login successful',
+      token: internalToken,
+      user: {
+        id: user._id,
+        phone: user.phone,
+        name: user.name,
+        role: user.role,
+        language: user.language,
+        location: user.location,
+        crops: user.crops,
+        landSize: user.landSize,
+        landUnit: user.landUnit,
+        subscriptionTier: user.subscriptionTier,
+      },
+    });
+
+  } catch (error: any) {
+    logger.error({ error: error.message }, 'Firebase token verification failed in controller');
+    return reply.status(401).send({ error: 'Unauthorized: Invalid Firebase token' });
   }
+}
 
-  const token = generateToken({ userId: String(user._id), role: user.role });
-
-  return reply.send({
-    message: 'Login successful',
-    token,
-    user: {
-      id: user._id,
-      phone: user.phone,
-      name: user.name,
-      role: user.role,
-      language: user.language,
-      location: user.location,
-      crops: user.crops,
-      landSize: user.landSize,
-      landUnit: user.landUnit,
-      subscriptionTier: user.subscriptionTier,
-    },
-  });
+/**
+ * Deprecated: Handled by Firebase on Frontend
+ */
+export async function sendOtp(request: FastifyRequest, reply: FastifyReply) {
+    return reply.status(410).send({ 
+        error: 'Deprecated. Please use Firebase Phone Auth on the client side.' 
+    });
 }

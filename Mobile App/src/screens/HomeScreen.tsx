@@ -32,6 +32,22 @@ export function HomeScreen() {
     queryFn: () => apiService.getProducts(),
   });
 
+  const setUnreadCount = useAppStore((state) => state.setUnreadNotificationCount);
+  const unreadCount = useAppStore((state) => state.unreadNotificationCount);
+
+  const { data: unreadData } = useQuery({
+    queryKey: ['unread-count'],
+    queryFn: () => apiService.getUnreadCount(),
+    staleTime: 1000 * 30,
+    refetchInterval: 1000 * 60,
+  });
+
+  useEffect(() => {
+    if (unreadData?.unreadCount != null) {
+      setUnreadCount(unreadData.unreadCount);
+    }
+  }, [unreadData?.unreadCount, setUnreadCount]);
+
   const featured = data?.products?.[0] ?? marketplaceFallback[0];
 
   const weatherCoordinates = useMemo(
@@ -152,9 +168,10 @@ export function HomeScreen() {
           />
         </View>
         <Pill
-          label="Alerts"
+          label={unreadCount > 0 ? `Alerts (${unreadCount})` : 'Alerts'}
           icon={<Ionicons name="notifications-outline" size={16} color={isDark ? theme.colors.textOnDark : theme.colors.text} />}
           onPress={() => navigation.navigate('Notifications')}
+          active={unreadCount > 0}
         />
       </View>
 

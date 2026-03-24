@@ -56,4 +56,16 @@ if (!parsed.success) {
   process.exit(1);
 }
 
+if (parsed.data.NODE_ENV === 'production') {
+  if (!parsed.data.CORS_ORIGINS.trim()) {
+    console.error('❌ CORS_ORIGINS is required in production');
+    process.exit(1);
+  }
+
+  if (parsed.data.JWT_SECRET.length < 32) {
+    console.error('❌ JWT_SECRET must be at least 32 characters in production');
+    process.exit(1);
+  }
+}
+
 export const env = parsed.data;

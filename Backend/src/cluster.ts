@@ -58,7 +58,7 @@ if (cluster.isPrimary) {
     const timeout = setTimeout(() => {
       logger.warn('Forcing primary exit after shutdown timeout');
       process.exit(0);
-    }, 5000);
+    }, 30000);
 
     timeout.unref();
 

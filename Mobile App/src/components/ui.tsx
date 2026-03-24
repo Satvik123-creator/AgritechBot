@@ -38,11 +38,13 @@ export function Screen({
   padded = true,
   dark,
   style,
+  refreshControl,
 }: PropsWithChildren<{
   scrollable?: boolean;
   padded?: boolean;
   dark?: boolean;
   style?: StyleProp<ViewStyle>;
+  refreshControl?: React.ReactElement;
 }>) {
   const isDark = dark ?? (useColorScheme() === 'dark');
 
@@ -62,7 +64,7 @@ export function Screen({
   if (scrollable) {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: isDark ? theme.colors.backgroundDark : theme.colors.background }} edges={[ 'top', 'left', 'right' ]}>
-        <ScrollView showsVerticalScrollIndicator={false}>{content}</ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false} refreshControl={refreshControl}>{content}</ScrollView>
       </SafeAreaView>
     );
   }

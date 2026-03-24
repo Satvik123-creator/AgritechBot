@@ -27,7 +27,7 @@ export interface AuthResponse {
 
 export interface SendOtpResponse {
   message: string;
-  otp?: string;
+  token?: string; // Optional: for any server-side refs
 }
 
 export interface Product {
@@ -170,3 +170,24 @@ export interface VoiceAskResponse {
   audioBase64?: string;
   chatId: string;
 }
+
+export type NotificationType = 'crop_alert' | 'weather' | 'ai_suggestion' | 'order' | 'system';
+
+export interface AppNotification {
+  _id: string;
+  userId: string;
+  type: NotificationType;
+  title: string;
+  body: string;
+  read: boolean;
+  actionLabel?: string;
+  metadata?: Record<string, any>;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface NotificationListResponse {
+  notifications: AppNotification[];
+  unreadCount: number;
+}
+

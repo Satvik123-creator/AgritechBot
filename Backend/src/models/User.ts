@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 export interface IUser extends Document {
+  firebaseUid?: string;
   phone: string;
   name?: string;
   role: 'user' | 'admin';
@@ -24,6 +25,12 @@ export interface IUser extends Document {
 
 const userSchema = new Schema<IUser>(
   {
+    firebaseUid: {
+      type: String,
+      unique: true,
+      sparse: true,
+      index: true,
+    },
     phone: {
       type: String,
       required: true,

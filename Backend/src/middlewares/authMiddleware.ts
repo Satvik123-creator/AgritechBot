@@ -1,18 +1,13 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import jwt from 'jsonwebtoken';
-import { env } from '../config/env';
+import { authAdmin } from '../config/firebaseAdmin';
 import { User, IUser } from '../models/User';
+import { Subscription, TIER_FEATURES } from '../models/Subscription';
 import { logger } from '../utils/logger';
-
-export interface JwtPayload {
-  userId: string;
-  role: 'user' | 'admin';
-}
 
 declare module 'fastify' {
   interface FastifyRequest {
     user?: IUser;
-    jwtPayload?: JwtPayload;
+    firebaseUser?: any; // Decoded ID Token payload
   }
 }
 
@@ -20,6 +15,10 @@ function getRoute(request: FastifyRequest): string {
   return request.routeOptions.url || request.url;
 }
 
+/**
+ * Middleware to verify Firebase ID Token sent from Frontend.
+ * It replaces the previous custom JWT logic.
+ */
 export async function authMiddleware(
   request: FastifyRequest,
   reply: FastifyReply
@@ -35,97 +34,76 @@ export async function authMiddleware(
     return reply.status(401).send({ error: 'Authentication required' });
   }
 
-  const token = authHeader.substring(7);
+  const idToken = authHeader.substring(7);
 
   try {
-    const decoded = jwt.verify(token, env.JWT_SECRET);
+    // 1. Verify the token with Firebase Admin
+    const decodedToken = await authAdmin.verifyIdToken(idToken);
+    request.firebaseUser = decodedToken;
 
-    if (
-      typeof decoded !== 'object' ||
-      decoded === null ||
-      typeof (decoded as { userId?: unknown }).userId !== 'string' ||
-      (((decoded as { role?: unknown }).role !== 'user') &&
-        ((decoded as { role?: unknown }).role !== 'admin'))
-    ) {
-      logger.warn(
-        { reqId: request.id, route, ip: request.ip },
-        'Authentication failed: invalid JWT payload shape'
-      );
-      return reply.status(401).send({ error: 'Invalid or expired token' });
+    // 2. Find or create the user in MongoDB using Firebase UID
+    // We trust Firebase to have verified the phone number.
+    const firebaseUid = decodedToken.uid;
+    const phone = decodedToken.phone_number; // Firebase provides this for Phone Auth
+
+    if (!phone) {
+       logger.error({ firebaseUid }, 'Firebase token missing phone_number');
+       return reply.status(401).send({ error: 'Invalid authentication provider' });
     }
 
-    const jwtPayload = decoded as JwtPayload;
-    request.jwtPayload = jwtPayload;
+    let user = await User.findOne({ 
+      $or: [{ firebaseUid }, { phone }] 
+    });
 
-    const user = await User.findById(jwtPayload.userId);
     if (!user) {
-      logger.warn(
-        { reqId: request.id, route, ip: request.ip, userId: jwtPayload.userId },
-        'Authentication failed: user from token not found'
-      );
-      return reply.status(401).send({ error: 'User not found' });
-    }
+      // Create new user (First time login)
+      user = new User({
+        firebaseUid,
+        phone,
+        isVerified: true,
+        subscriptionTier: 'free',
+      });
+      await user.save();
+      
+      // Auto-create free subscription
+      await Subscription.create({
+        userId: user._id,
+        tier: 'free',
+        endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), 
+        features: TIER_FEATURES.free,
+      });
 
-    if (user.role !== jwtPayload.role) {
-      logger.warn(
-        {
-          reqId: request.id,
-          route,
-          ip: request.ip,
-          userId: jwtPayload.userId,
-          tokenRole: jwtPayload.role,
-          dbRole: user.role,
-        },
-        'Authentication failed: role mismatch between token and database'
-      );
-      return reply.status(401).send({ error: 'Invalid or expired token' });
+      logger.info({ userId: user._id, phone }, 'Newly registered user via Firebase Phone Auth');
+    } else if (!user.firebaseUid) {
+      // Link existing phone-only account to Firebase UID
+      user.firebaseUid = firebaseUid;
+      if (!user.isVerified) user.isVerified = true;
+      await user.save();
     }
 
     request.user = user;
   } catch (err) {
     logger.warn(
       { reqId: request.id, route, ip: request.ip, err },
-      'Authentication failed: token verification error'
+      'Authentication failed: Firebase token verification error'
     );
     return reply.status(401).send({ error: 'Invalid or expired token' });
   }
 }
 
+/**
+ * Legacy support for admin check (optional)
+ */
 export async function adminMiddleware(
   request: FastifyRequest,
   reply: FastifyReply
 ): Promise<void> {
-  const route = getRoute(request);
-
-  if (!request.user || !request.jwtPayload) {
+  if (!request.user) {
     await authMiddleware(request, reply);
     if (reply.sent) return;
   }
 
-  if (!request.user || !request.jwtPayload) {
-    logger.error(
-      { reqId: request.id, route, ip: request.ip },
-      'Admin guard failed: auth middleware did not attach user context'
-    );
-    return reply.status(401).send({ error: 'Authentication required' });
-  }
-
-  if (request.user.role !== 'admin') {
-    logger.warn(
-      { reqId: request.id, route, ip: request.ip, userId: String(request.user._id), role: request.user.role },
-      'Forbidden admin route access attempt'
-    );
+  if (request.user?.role !== 'admin') {
     return reply.status(403).send({ error: 'Admin access required' });
   }
-
-  logger.info(
-    { reqId: request.id, route, ip: request.ip, userId: String(request.user._id) },
-    'Admin access granted'
-  );
-}
-
-export function generateToken(payload: JwtPayload): string {
-  return jwt.sign(payload as object, env.JWT_SECRET, {
-    expiresIn: env.JWT_EXPIRES_IN as any,
-  });
 }

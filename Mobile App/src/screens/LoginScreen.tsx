@@ -10,6 +10,7 @@ import { t } from '../constants/localization';
 import { theme } from '../constants/theme';
 import { RootStackParamList } from '../navigation/types';
 import { useAppStore } from '../store/useAppStore';
+import { signInWithPhoneNumber } from '../utils/firebaseAuth';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -31,21 +32,26 @@ function normalizePhone(input: string): string | null {
 export function LoginScreen({ navigation }: Props) {
   const phoneDraft = useAppStore((state) => state.phoneDraft);
   const setPhoneDraft = useAppStore((state) => state.setPhoneDraft);
-  const setPendingOtp = useAppStore((state) => state.setPendingOtp);
+  const setFirebaseConfirm = useAppStore((state) => state.setFirebaseConfirm);
   const language = useAppStore((state) => state.language);
   const [phone, setPhone] = useState(phoneDraft);
   const [error, setError] = useState<string | null>(null);
 
   const sendOtpMutation = useMutation({
-    mutationFn: (normalizedPhone: string) => apiService.sendOtp(normalizedPhone),
-    onSuccess: (data, normalizedPhone) => {
+    mutationFn: async (normalizedPhone: string) => {
+      // Firebase Phone Auth
+      const confirmation = await signInWithPhoneNumber(normalizedPhone);
+      return confirmation;
+    },
+    onSuccess: (confirmation, normalizedPhone) => {
       setError(null);
       setPhoneDraft(normalizedPhone);
-      setPendingOtp(data.otp ?? null);
+      setFirebaseConfirm(confirmation);
       navigation.navigate('Otp', { phone: normalizedPhone });
     },
-    onError: (error: any) => {
-      const message = error?.response?.data?.error || t(language, 'sendOtpFailed');
+    onError: (err: any) => {
+      console.error('Firebase SignIn error', err);
+      const message = err.message || t(language, 'sendOtpFailed');
       setError(message);
     },
   });

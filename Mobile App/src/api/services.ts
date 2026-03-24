@@ -4,6 +4,7 @@ import {
   AskChatResponse,
   AuthResponse,
   ChatHistoryResponse,
+  NotificationListResponse,
   OrderRequest,
   Product,
   ProductDetailResponse,
@@ -45,8 +46,8 @@ export const apiService = {
     const { data } = await api.post<SendOtpResponse>('/api/auth/send-otp', { phone });
     return data;
   },
-  async verifyOtp(phone: string, otp: string) {
-    const { data } = await api.post<AuthResponse>('/api/auth/verify-otp', { phone, otp });
+  async verifyOtp(phone: string, firebaseToken: string) {
+    const { data } = await api.post<AuthResponse>('/api/auth/verify-otp', { phone, token: firebaseToken });
     return data;
   },
   async getProfile() {
@@ -159,5 +160,25 @@ export const apiService = {
       transcript: data.transcript ?? data.text,
       audioBase64: data.audioBase64 ?? data.audio,
     } satisfies VoiceAskResponse;
+  },
+
+  // ── Notifications ──
+  async getNotifications(type?: string) {
+    const { data } = await api.get<NotificationListResponse>('/api/notifications', {
+      params: type ? { type } : undefined,
+    });
+    return data;
+  },
+  async getUnreadCount() {
+    const { data } = await api.get<{ unreadCount: number }>('/api/notifications/unread-count');
+    return data;
+  },
+  async markNotificationRead(id: string) {
+    const { data } = await api.put(`/api/notifications/${id}/read`);
+    return data;
+  },
+  async markAllNotificationsRead() {
+    const { data } = await api.put('/api/notifications/read-all');
+    return data;
   },
 };

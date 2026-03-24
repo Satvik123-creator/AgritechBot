@@ -21,6 +21,8 @@ export function ProfileScreen() {
   const setUser = useAppStore((state) => state.setUser);
   const setLanguage = useAppStore((state) => state.setLanguage);
   const signOut = useAppStore((state) => state.signOut);
+  const notificationsEnabled = useAppStore((state) => state.notificationsEnabled);
+  const setNotificationsEnabled = useAppStore((state) => state.setNotificationsEnabled);
 
   const [darkMode, setDarkMode] = useState(true);
   const [editModalVisible, setEditModalVisible] = useState(false);
@@ -169,7 +171,20 @@ export function ProfileScreen() {
           <IconRow icon="translate" title="App Language" subtitle={language} />
         </Pressable>
         <IconRow icon="theme-light-dark" title="Dark Appearance" right={<Switch value={darkMode} onValueChange={setDarkMode} trackColor={{ true: theme.colors.primary }} />} />
-        <IconRow icon="bell-ring-outline" title="Notifications" subtitle="On" />
+        <Pressable onPress={() => navigation.navigate('Notifications')}>
+          <IconRow
+            icon="bell-ring-outline"
+            title="Notifications"
+            subtitle={notificationsEnabled ? 'On' : 'Off'}
+            right={
+              <Switch
+                value={notificationsEnabled}
+                onValueChange={setNotificationsEnabled}
+                trackColor={{ true: theme.colors.primary }}
+              />
+            }
+          />
+        </Pressable>
       </ScreenCard>
       <AppText variant="caption" color={theme.colors.textMuted} style={styles.sectionLabel}>
         Security & Data
