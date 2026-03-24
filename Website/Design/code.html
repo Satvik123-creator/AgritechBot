@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AgriAI | Your AI Farming Assistant</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-container": "#819986",
+              "on-error-container": "#93000a",
+              "surface": "#fafaf5",
+              "on-primary-fixed": "#0b2013",
+              "inverse-on-surface": "#f1f1ec",
+              "surface-bright": "#fafaf5",
+              "on-tertiary-container": "#7b9f00",
+              "on-tertiary-fixed": "#151f00",
+              "on-background": "#1a1c19",
+              "surface-variant": "#e3e3de",
+              "on-tertiary-fixed-variant": "#3a4d00",
+              "primary-fixed": "#d0e9d4",
+              "on-surface": "#1a1c19",
+              "surface-dim": "#dadad5",
+              "surface-container-highest": "#e3e3de",
+              "on-primary-fixed-variant": "#364c3c",
+              "inverse-primary": "#b4cdb8",
+              "tertiary-fixed-dim": "#a6d700",
+              "primary-container": "#1b3022",
+              "on-secondary": "#ffffff",
+              "on-secondary-container": "#5d6555",
+              "on-secondary-fixed-variant": "#41493b",
+              "tertiary-container": "#233000",
+              "error-container": "#ffdad6",
+              "on-secondary-fixed": "#161e11",
+              "outline-variant": "#c3c8c1",
+              "surface-tint": "#4d6453",
+              "surface-container": "#eeeee9",
+              "primary": "#061b0e",
+              "secondary-fixed-dim": "#c1cab6",
+              "on-surface-variant": "#434843",
+              "on-tertiary": "#ffffff",
+              "secondary-container": "#dae3cf",
+              "tertiary": "#121a00",
+              "surface-container-lowest": "#ffffff",
+              "secondary": "#586151",
+              "primary-fixed-dim": "#b4cdb8",
+              "surface-container-low": "#f4f4ef",
+              "secondary-fixed": "#dde6d2",
+              "inverse-surface": "#2f312e",
+              "background": "#fafaf5",
+              "on-error": "#ffffff",
+              "surface-container-high": "#e8e8e3",
+              "error": "#ba1a1a",
+              "tertiary-fixed": "#bef500",
+              "on-primary": "#ffffff",
+              "outline": "#737973"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+      .glass-nav { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+      .editorial-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1rem; }
+      .bento-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+      .bento-card:hover { transform: translateY(-4px); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-tertiary-fixed selection:text-on-tertiary-fixed">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-stone-50/70 dark:bg-emerald-950/70 backdrop-blur-xl shadow-[0_40px_60px_-5px_rgba(26,28,25,0.06)]">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-bold text-emerald-950 dark:text-emerald-50 font-['Manrope'] tracking-tight">AgriAI</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-emerald-900 dark:text-lime-400 border-b-2 border-lime-400 pb-1 font-['Manrope'] font-bold tracking-tight" href="#">Solutions</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-900 dark:hover:text-emerald-100 transition-colors font-['Manrope'] font-bold tracking-tight" href="#">Technology</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-900 dark:hover:text-emerald-100 transition-colors font-['Manrope'] font-bold tracking-tight" href="#">Insights</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-900 dark:hover:text-emerald-100 transition-colors font-['Manrope'] font-bold tracking-tight" href="#">About</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-emerald-950 dark:text-emerald-50 hover:scale-105 transition-transform duration-200">language</button>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-bold hover:scale-105 active:opacity-80 transition-all">Get Started</button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative min-h-screen flex items-center pt-24 overflow-hidden bg-gradient-to-br from-surface to-surface-container-low">
+<div class="max-w-7xl mx-auto px-8 w-full editorial-grid">
+<div class="col-span-12 lg:col-span-6 flex flex-col justify-center space-y-8 z-10">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-tertiary-container text-tertiary-fixed w-fit">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">colors_spark</span>
+<span class="text-xs font-bold uppercase tracking-widest font-label">The Future of Farming</span>
+</div>
+<h1 class="text-6xl md:text-8xl font-headline font-bold text-primary tracking-tight leading-[0.9]">
+                    Your AI <br/><span class="text-on-primary-container italic">Farming</span> <br/>Assistant.
+                </h1>
+<p class="text-xl text-on-surface-variant max-w-md font-body leading-relaxed">
+                    Bridging the expert gap with multilingual voice AI that understands your soil, your weather, and your crops.
+                </p>
+<div class="flex items-center gap-4">
+<button class="bg-primary-container text-on-primary px-8 py-4 rounded-xl font-bold text-lg shadow-xl hover:scale-105 transition-all">Start Your Free Trial</button>
+<button class="flex items-center gap-2 font-bold px-6 py-4 rounded-xl border border-outline-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">play_circle</span>
+                        Watch Demo
+                    </button>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-6 relative flex items-center justify-center pt-12 lg:pt-0">
+<div class="relative w-full max-w-[320px] aspect-[9/19.5] bg-primary rounded-[3rem] p-4 shadow-2xl border-[8px] border-surface-variant overflow-hidden">
+<div class="h-full w-full bg-surface-container-lowest rounded-[2.2rem] flex flex-col overflow-hidden relative">
+<div class="p-6 bg-primary-container text-on-primary h-32 flex flex-col justify-end">
+<p class="text-xs opacity-70">Voice Mode</p>
+<h3 class="text-xl font-bold">Listening...</h3>
+</div>
+<div class="flex-1 p-4 space-y-4">
+<div class="bg-surface-container-low p-3 rounded-2xl text-sm self-start max-w-[80%]">
+                                Namaste! How is the wheat crop today?
+                            </div>
+<div class="bg-primary text-on-primary p-3 rounded-2xl text-sm self-end max-w-[80%] ml-auto">
+                                My leaves are turning yellow. What should I do?
+                            </div>
+<div class="space-y-2 pt-4">
+<div class="h-1 bg-tertiary-fixed w-full rounded-full animate-pulse"></div>
+<div class="h-1 bg-tertiary-fixed w-2/3 rounded-full animate-pulse"></div>
+</div>
+</div>
+<div class="p-4 border-t border-surface-variant flex justify-center">
+<div class="w-12 h-12 bg-tertiary-fixed rounded-full flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">mic</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Decorative Elements -->
+<div class="absolute -z-10 w-[500px] h-[500px] bg-primary-fixed/30 rounded-full blur-3xl -top-20 -right-20"></div>
+<div class="absolute -z-10 w-[300px] h-[300px] bg-tertiary-fixed/10 rounded-full blur-3xl -bottom-10 -left-10"></div>
+</div>
+</div>
+</section>
+<!-- Story Section -->
+<section class="py-32 bg-primary text-on-primary overflow-hidden">
+<div class="max-w-7xl mx-auto px-8">
+<div class="max-w-3xl mb-24">
+<h2 class="text-5xl font-headline font-bold mb-8 leading-tight">Expert knowledge used to be expensive and miles away.</h2>
+<p class="text-2xl text-on-primary-container font-body leading-relaxed">
+                    Most farmers lack access to real-time agronomists. We built AgriAI to ensure no crop fails due to lack of information.
+                </p>
+</div>
+<div class="relative rounded-[2.5rem] overflow-hidden aspect-[21/9] group">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="cinematic shot of an Indian farmer standing in a golden wheat field at sunset, looking thoughtfully at the horizon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzP3x8YAAOsR27j6pQFF7TcYivGcWU5kSNRPqOF7ktHKa2THDzmLU20JCYVNhW6vMAlW5FikIyreKOryqAjdPh8RZ9KeBCHjwdxoXSIM6hPd5MM7_tAmmrIlddg3Hkyf8pWcgSfkVWrAbMvekyhQYoWI14LY4NkzniywneLO0Y0jTke4Bgq3LConJ5c5601ZJCCFDNHBpc7RUqYSlS5oe66Pk1dbhLhLZi7LbLILiokTaBLK4RNZqFOng5ipB-14vZwdJaxsJ4JtLg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent opacity-80"></div>
+<div class="absolute bottom-12 left-12 max-w-lg">
+<p class="text-3xl font-headline font-bold">"I finally have an expert in my pocket who speaks my language."</p>
+<p class="mt-4 text-on-primary-container font-label uppercase tracking-widest">— RAMESH K., PUNJAB</p>
+</div>
+</div>
+</div>
+</section>
+<!-- AI Experience: Live Chat -->
+<section class="py-32 bg-surface">
+<div class="max-w-7xl mx-auto px-8 editorial-grid">
+<div class="col-span-12 lg:col-span-5 flex flex-col justify-center space-y-6">
+<h2 class="text-4xl font-headline font-bold text-primary">Speaks Your Language</h2>
+<p class="text-lg text-on-surface-variant leading-relaxed">
+                    Whether it's Hindi, Gujarati, or Punjabi, AgriAI understands local dialects and context. Just speak naturally, and get instant answers.
+                </p>
+<div class="flex flex-wrap gap-3">
+<span class="px-4 py-2 rounded-full border border-outline-variant text-sm font-semibold">हिंदी (Hindi)</span>
+<span class="px-4 py-2 rounded-full border border-outline-variant text-sm font-semibold">ગુજરાતી (Gujarati)</span>
+<span class="px-4 py-2 rounded-full border border-outline-variant text-sm font-semibold">ਪੰਜਾਬੀ (Punjabi)</span>
+<span class="px-4 py-2 rounded-full border border-outline-variant text-sm font-semibold">+ 12 more</span>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-7 bg-surface-container-low rounded-[2.5rem] p-12 relative overflow-hidden">
+<div class="space-y-8 relative z-10">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant">person</span>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-3xl rounded-tl-none shadow-sm max-w-md">
+<p class="text-on-surface font-medium italic">"મારી મગફળીના પાંદડા કેમ પીળા પડે છે?" (Why are my groundnut leaves turning yellow?)</p>
+</div>
+</div>
+<div class="flex items-start gap-4 flex-row-reverse">
+<div class="w-10 h-10 rounded-full bg-tertiary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tertiary-fixed" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div class="bg-primary-container text-on-primary p-6 rounded-3xl rounded-tr-none shadow-xl max-w-md">
+<p class="leading-relaxed">This could be Nitrogen deficiency or waterlogging. I see you had heavy rain yesterday. Try draining the excess water first.</p>
+<div class="mt-4 flex gap-2">
+<div class="w-2 h-2 rounded-full bg-tertiary-fixed"></div>
+<div class="w-2 h-2 rounded-full bg-tertiary-fixed opacity-60"></div>
+<div class="w-2 h-2 rounded-full bg-tertiary-fixed opacity-30"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute -bottom-20 -right-20 opacity-10">
+<span class="material-symbols-outlined text-[300px]" style="font-variation-settings: 'wght' 100;">graphic_eq</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Features Section: Non-grid Flow -->
+<section class="py-32 bg-surface-container-lowest">
+<div class="max-w-7xl mx-auto px-8">
+<h2 class="text-center text-5xl font-headline font-bold mb-32">Precision tools for every acre.</h2>
+<!-- Feature 1 -->
+<div class="flex flex-col lg:flex-row items-center gap-16 mb-48">
+<div class="lg:w-1/2">
+<div class="relative rounded-[2rem] overflow-hidden shadow-2xl">
+<img class="w-full aspect-square object-cover" data-alt="smartphone camera scanning a corn leaf with digital interface overlays showing disease detection polygons" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4AHeVkFi4xeFcJx9lyU-Af99_IwRuemXgL7SAuWNeqY6KuaD5vFjJ6mTm0Kr1fyPBMbhI3ccnLL5p0kuAEOzHOj-hgF3tdgNiDYVJ9MlTdURNbvmCwHvfcgKwkb4bRhLEiVa5ykP4yseB0Mdh385AV64lqhSEpe7_BMGjBL41adL1UUGYIFdO7lt1AIc8cFQ_kaSddfbPUOl8_FeBqSdhW_3hvErWx6vrPMyaXVK-zZBCdzf4YD6_CMnMgnutAVXQ8_FuzP6MsIVp"/>
+<div class="absolute top-6 right-6 bg-tertiary-fixed text-on-tertiary-fixed px-4 py-2 rounded-lg font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">scan</span>
+                            98% Accuracy
+                        </div>
+</div>
+</div>
+<div class="lg:w-1/2 space-y-6">
+<span class="text-on-primary-container font-label uppercase tracking-widest font-bold">Image Scanning</span>
+<h3 class="text-4xl font-headline font-bold leading-tight">Identify pests and diseases in seconds.</h3>
+<p class="text-lg text-on-surface-variant leading-relaxed">
+                        Take a photo of your leaf or crop. Our AI analyzes thousands of data points to identify issues instantly and suggest the exact cure.
+                    </p>
+<ul class="space-y-4 pt-4">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>Fungal &amp; Bacterial detection</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>Nutrient deficiency analysis</span>
+</li>
+</ul>
+</div>
+</div>
+<!-- Feature 2 -->
+<div class="flex flex-col lg:flex-row-reverse items-center gap-16">
+<div class="lg:w-1/2">
+<div class="relative p-12 bg-surface-container rounded-[2rem] border border-outline-variant/20 overflow-hidden">
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10">
+<span class="label-md text-on-surface-variant">SOIL PH</span>
+<div class="text-3xl font-bold text-primary mt-2">6.8</div>
+<div class="text-xs text-lime-600 mt-1 font-semibold">Perfect Range</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/10">
+<span class="label-md text-on-surface-variant">MOISTURE</span>
+<div class="text-3xl font-bold text-primary mt-2">42%</div>
+<div class="text-xs text-secondary mt-1 font-semibold">Optimal</div>
+</div>
+<div class="col-span-2 bg-primary-container text-on-primary p-6 rounded-2xl shadow-xl mt-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-tertiary-fixed">smart_toy</span>
+<span class="text-xs font-bold tracking-widest uppercase">Smart Recommendation</span>
+</div>
+<p class="text-sm font-medium">Add organic compost next week to maintain nitrogen levels before the sowing cycle.</p>
+</div>
+</div>
+<!-- Blurred foliage behind -->
+<div class="absolute -top-10 -left-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl"></div>
+</div>
+</div>
+<div class="lg:w-1/2 space-y-6">
+<span class="text-on-primary-container font-label uppercase tracking-widest font-bold">Smart Insights</span>
+<h3 class="text-4xl font-headline font-bold leading-tight">Data-driven decisions, simplified.</h3>
+<p class="text-lg text-on-surface-variant leading-relaxed">
+                        AgriAI connects with your local climate data and soil history to provide recommendations that actually work for your specific land.
+                    </p>
+<button class="bg-surface-container-high px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-surface-container-highest transition-colors">
+                        Learn how we use data
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works: Timeline -->
+<section class="py-32 bg-surface relative overflow-hidden">
+<div class="max-w-7xl mx-auto px-8 relative z-10">
+<h2 class="text-5xl font-headline font-bold text-center mb-24">Simple as a conversation.</h2>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 relative">
+<!-- Connective line -->
+<div class="hidden md:block absolute top-12 left-0 w-full h-px bg-outline-variant/30 -z-10"></div>
+<div class="flex flex-col items-center text-center space-y-6 group">
+<div class="w-24 h-24 rounded-full bg-surface-container-lowest flex items-center justify-center border border-outline-variant/20 shadow-xl group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-4xl">voice_selection</span>
+</div>
+<div>
+<h4 class="text-xl font-bold mb-2">Ask</h4>
+<p class="text-sm text-on-surface-variant">Speak or type your problem in your local language.</p>
+</div>
+</div>
+<div class="flex flex-col items-center text-center space-y-6 group">
+<div class="w-24 h-24 rounded-full bg-tertiary-container flex items-center justify-center border border-tertiary-fixed shadow-xl group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-tertiary-fixed text-4xl">neurology</span>
+</div>
+<div>
+<h4 class="text-xl font-bold mb-2">Understand</h4>
+<p class="text-sm text-on-surface-variant">AI analyzes crop history, weather, and satellite data.</p>
+</div>
+</div>
+<div class="flex flex-col items-center text-center space-y-6 group">
+<div class="w-24 h-24 rounded-full bg-surface-container-lowest flex items-center justify-center border border-outline-variant/20 shadow-xl group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-4xl">lightbulb</span>
+</div>
+<div>
+<h4 class="text-xl font-bold mb-2">Advice</h4>
+<p class="text-sm text-on-surface-variant">Get instant, actionable steps with dosage and timing.</p>
+</div>
+</div>
+<div class="flex flex-col items-center text-center space-y-6 group">
+<div class="w-24 h-24 rounded-full bg-primary flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-on-primary text-4xl" style="font-variation-settings: 'FILL' 1;">potted_plant</span>
+</div>
+<div>
+<h4 class="text-xl font-bold mb-2">Thrive</h4>
+<p class="text-sm text-on-surface-variant">Watch your yield increase and costs decrease.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Weather & Insights Widget -->
+<section class="py-32 bg-primary-container text-on-primary">
+<div class="max-w-7xl mx-auto px-8">
+<div class="editorial-grid gap-8">
+<div class="col-span-12 lg:col-span-4 bg-primary p-8 rounded-[2rem] border border-white/5 shadow-2xl">
+<div class="flex justify-between items-start mb-12">
+<div>
+<h3 class="text-2xl font-bold">Ludhiana, PB</h3>
+<p class="opacity-70">Monday, 14 Oct</p>
+</div>
+<span class="material-symbols-outlined text-5xl text-tertiary-fixed">cloud_sync</span>
+</div>
+<div class="text-6xl font-headline font-bold mb-8">32°C</div>
+<div class="flex justify-between border-t border-white/10 pt-6">
+<div class="text-center">
+<p class="text-xs opacity-60 mb-1">Humidity</p>
+<p class="font-bold">64%</p>
+</div>
+<div class="text-center">
+<p class="text-xs opacity-60 mb-1">Rain</p>
+<p class="font-bold">85%</p>
+</div>
+<div class="text-center">
+<p class="text-xs opacity-60 mb-1">Wind</p>
+<p class="font-bold">12km/h</p>
+</div>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-8 bg-surface-container-low text-on-surface p-12 rounded-[2rem] flex flex-col justify-center relative overflow-hidden">
+<div class="relative z-10 space-y-8">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-tertiary-container text-tertiary-fixed w-fit">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="text-xs font-bold uppercase tracking-widest">AI ALERT</span>
+</div>
+<h3 class="text-4xl font-headline font-bold text-primary max-w-xl">Heavy rain expected in 4 hours. Avoid spraying fertilizer today.</h3>
+<p class="text-lg text-on-surface-variant max-w-lg">We’ve detected a high-probability storm cell. Save your inputs and wait for Wednesday morning for the best absorption window.</p>
+<div class="flex gap-4">
+<button class="bg-primary text-on-primary px-6 py-3 rounded-xl font-bold">Set Alert</button>
+<button class="border border-outline-variant px-6 py-3 rounded-xl font-bold">View Detail</button>
+</div>
+</div>
+<div class="absolute right-0 top-0 h-full w-1/3 opacity-5 pointer-events-none">
+<span class="material-symbols-outlined text-[400px]" style="font-variation-settings: 'wght' 100;">rainy</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Marketplace: Horizontal Flow -->
+<section class="py-32 bg-surface overflow-hidden">
+<div class="max-w-7xl mx-auto px-8 mb-16">
+<div class="flex justify-between items-end">
+<h2 class="text-5xl font-headline font-bold">Recommended for your soil.</h2>
+<a class="text-primary font-bold flex items-center gap-2 underline decoration-tertiary-fixed decoration-4 underline-offset-4" href="#">Browse Marketplace</a>
+</div>
+</div>
+<div class="flex gap-8 px-8 overflow-x-auto pb-12 no-scrollbar">
+<!-- Product 1 -->
+<div class="min-w-[350px] bg-surface-container-lowest rounded-[2rem] p-6 shadow-sm border border-outline-variant/10 group">
+<div class="aspect-square rounded-2xl overflow-hidden mb-6">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="high quality organic vegetable seeds in minimalist eco-friendly packaging on a wooden surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcNmJmqMVOw0SJLuDU7wQpVHyJHbnhpbMX5SBBi6RSF8yDfN8Q0tZu7eVtrSyvtPaENmnysdR7gheFtdXNRxvaeF8a6TMhwAmdMgZLvMpAZcLeFLWviTksidXDMFreCZUge-Hq3AgGchLvl8N2e3rbRjRR_i8bwHRNNMH1NiENTcdzwycsQFnYJ5TzaMtkA2jgjEKX11dU1vPFJP-SmOi3vpsc4I6mJyKpd2rX7AUxO9SgC7AjP5zF0toVrXiaPXYDnjY5NdHPM0m-"/>
+</div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="text-xl font-bold">Bio-Potash 500g</h4>
+<p class="text-sm text-on-surface-variant">Recommended for: Potato</p>
+</div>
+<div class="bg-tertiary-container text-on-tertiary-fixed px-2 py-1 rounded text-xs font-bold">AI BEST CHOICE</div>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-2xl font-bold">₹499</span>
+<button class="w-12 h-12 rounded-full bg-primary-container text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+</div>
+</div>
+<!-- Product 2 -->
+<div class="min-w-[350px] bg-surface-container-lowest rounded-[2rem] p-6 shadow-sm border border-outline-variant/10 group">
+<div class="aspect-square rounded-2xl overflow-hidden mb-6">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="high quality agricultural sprayer tool showing precision nozzle and high grade plastics" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcgogzVjSlUroMk7DV8vaD5hE1KYbUbJ14KMPzrOeb9tGq2UjYHkM58o2nlZgic3hIiRvXaVAruxSF8Z5SKL3rSA0CKCq0P0WReE2wN1-ziENbv4JnJ56uqV5uA47mc1P5BDnQRrGpQ_2LrmQz_AtyCb9rQi9BktptowBb8cVVBrtdYgvmVeE0ILI59I_Jx_WlEBvNfXEoVkgR5oH5IxVdAil2ZwMj7dKGtQBrq584UHlj0fNjnGZTkjuqUy8THiwksXeKOHx6tEv2"/>
+</div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="text-xl font-bold">Precision Sprayer V2</h4>
+<p class="text-sm text-on-surface-variant">Durable &amp; Lightweight</p>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-2xl font-bold">₹2,299</span>
+<button class="w-12 h-12 rounded-full bg-primary-container text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+</div>
+</div>
+<!-- Product 3 -->
+<div class="min-w-[350px] bg-surface-container-lowest rounded-[2rem] p-6 shadow-sm border border-outline-variant/10 group">
+<div class="aspect-square rounded-2xl overflow-hidden mb-6">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="handful of rich dark soil with small green sapling sprout showing health and vitality" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEmXCBKz-89C_8YcJISWNWhtPJPjtUpINa5AWXqlDAz7vGROjWSy2R6syAghaVz0NjzNxBx_G-hpKX1MwKZYZ85P0OagkcsPmaluuDY8fFkn2NbQyhKbJNgadNoSiw4fIDldY4U21hcdEva3xSLhXcUmaneq567XWt2L1or9-YGWln9BJNb_LxFGCHRDylYAoN7xAGKV2agZV8CuDI79VR3gKqJhR45dTUQafdv5rRQlMJO2l7jFOTO6-4jWtEKXXnOruHsz9qx2nT"/>
+</div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="text-xl font-bold">Premium Urea Plus</h4>
+<p class="text-sm text-on-surface-variant">Recommended for: Rice</p>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-2xl font-bold">₹850</span>
+<button class="w-12 h-12 rounded-full bg-primary-container text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- App Showcase -->
+<section class="py-32 bg-surface-container-low relative overflow-hidden">
+<div class="max-w-7xl mx-auto px-8 flex flex-col items-center">
+<h2 class="text-5xl font-headline font-bold text-center mb-16">The entire farm in your pocket.</h2>
+<div class="relative w-full max-w-4xl bg-surface-container-lowest rounded-[3rem] p-12 shadow-2xl overflow-hidden flex flex-col md:flex-row gap-12 items-center">
+<div class="md:w-1/2 space-y-6">
+<h3 class="text-3xl font-bold text-primary">Voice-first design.</h3>
+<p class="text-on-surface-variant leading-relaxed">We know you have your hands dirty. That's why every feature of AgriAI is accessible via voice commands. Just double-tap anywhere to talk.</p>
+<div class="flex gap-4">
+<div class="p-4 bg-surface rounded-2xl border border-outline-variant/10">
+<span class="material-symbols-outlined text-tertiary-fixed text-3xl mb-2">offline_pin</span>
+<p class="text-sm font-bold">Offline Support</p>
+</div>
+<div class="p-4 bg-surface rounded-2xl border border-outline-variant/10">
+<span class="material-symbols-outlined text-tertiary-fixed text-3xl mb-2">security</span>
+<p class="text-sm font-bold">Data Privacy</p>
+</div>
+</div>
+</div>
+<div class="md:w-1/2 relative flex justify-center">
+<div class="w-64 h-[500px] bg-primary rounded-[2.5rem] p-3 shadow-xl transform rotate-3 relative z-10">
+<img class="w-full h-full object-cover rounded-[2rem]" data-alt="a smartphone screen displaying a vibrant farm management app interface with green charts and crop icons" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVHDJb6H3s3NMg43E50dYRBpXGyg1otbaWRAQUVg4f56FDjqn6aoaI7lD5pHX9e4iC6M1GZyZfX8H-LijPiP9dIfZD6Qq9O_SU5qM_bREsMNG6eaHvmVER6Ozj8MaNdt3ohWvTm9bSF_0FcBjVVztA26AjOY8p90G9XXE8IZMQMLaoEmxTA2MFDfvGwOQBiXAmE0c3oc_MSEYphiUuKn9P618Y0sd5RNZqFPNU0DacVLcZ4lFlfZI1vHLqkISKz2AYlxjRJVucdcds"/>
+</div>
+<div class="absolute -z-10 w-full h-full bg-tertiary-fixed/20 blur-3xl rounded-full"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Pricing & FAQ -->
+<section class="py-32 bg-surface">
+<div class="max-w-7xl mx-auto px-8 editorial-grid">
+<div class="col-span-12 lg:col-span-4 mb-12">
+<h2 class="text-4xl font-headline font-bold mb-6">Simple Pricing.</h2>
+<p class="text-on-surface-variant mb-8">Choose a plan that fits your farm's scale. No hidden fees.</p>
+<div class="p-8 bg-primary text-on-primary rounded-3xl shadow-2xl relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold uppercase tracking-tighter">Popular</div>
+<h3 class="text-xl font-bold mb-2">Pro Farmer</h3>
+<div class="text-4xl font-headline font-bold mb-6">₹149<span class="text-sm opacity-60 font-body">/month</span></div>
+<ul class="space-y-4 mb-8">
+<li class="flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-tertiary-fixed text-sm">check</span>
+                            Unlimited Voice Queries
+                        </li>
+<li class="flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-tertiary-fixed text-sm">check</span>
+                            Advanced Pest Diagnosis
+                        </li>
+<li class="flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-tertiary-fixed text-sm">check</span>
+                            Personalized Market Price Alerts
+                        </li>
+</ul>
+<button class="w-full bg-tertiary-fixed text-on-tertiary-fixed py-3 rounded-xl font-bold hover:scale-105 transition-transform">Get Started</button>
+</div>
+</div>
+<div class="col-span-12 lg:col-span-7 lg:col-start-6">
+<h2 class="text-3xl font-headline font-bold mb-12">Common Questions</h2>
+<div class="space-y-4">
+<div class="group border-b border-outline-variant py-6 cursor-pointer">
+<div class="flex justify-between items-center">
+<h4 class="text-lg font-bold">Does it work without internet?</h4>
+<span class="material-symbols-outlined">add</span>
+</div>
+<p class="hidden group-hover:block mt-4 text-on-surface-variant leading-relaxed">Yes, AgriAI supports offline caching for weather and basic advisory tips. Voice interactions require a basic 2G connection for cloud processing.</p>
+</div>
+<div class="group border-b border-outline-variant py-6 cursor-pointer">
+<div class="flex justify-between items-center">
+<h4 class="text-lg font-bold">Is my data safe?</h4>
+<span class="material-symbols-outlined">add</span>
+</div>
+<p class="hidden group-hover:block mt-4 text-on-surface-variant leading-relaxed">Absolutely. We never sell farmer data to third parties. Your soil history is encrypted and used only to provide better advice to you.</p>
+</div>
+<div class="group border-b border-outline-variant py-6 cursor-pointer">
+<div class="flex justify-between items-center">
+<h4 class="text-lg font-bold">Which languages are supported?</h4>
+<span class="material-symbols-outlined">add</span>
+</div>
+<p class="hidden group-hover:block mt-4 text-on-surface-variant leading-relaxed">We currently support Hindi, Gujarati, Punjabi, Marathi, Telugu, Tamil, and English. We are adding new languages every month.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="py-32 px-8">
+<div class="max-w-7xl mx-auto rounded-[3rem] bg-gradient-to-br from-primary to-primary-container p-16 md:p-24 text-center text-on-primary relative overflow-hidden">
+<div class="relative z-10 max-w-3xl mx-auto space-y-8">
+<h2 class="text-5xl md:text-7xl font-headline font-bold tracking-tight">Your harvest, <br/>our intelligence.</h2>
+<p class="text-xl opacity-80 leading-relaxed">Join over 500,000 farmers who are making smarter decisions and earning more with AgriAI. Download now and transform your farm.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center pt-8">
+<button class="bg-tertiary-fixed text-on-tertiary-fixed px-10 py-5 rounded-2xl text-xl font-bold flex items-center justify-center gap-3 hover:scale-105 transition-all">
+<span class="material-symbols-outlined">download</span>
+                        Get for Android
+                    </button>
+<button class="bg-white/10 backdrop-blur-md text-white border border-white/20 px-10 py-5 rounded-2xl text-xl font-bold hover:bg-white/20 transition-all">
+                        Talk to an Agent
+                    </button>
+</div>
+</div>
+<!-- Background detail -->
+<div class="absolute -top-1/2 -left-1/4 w-[150%] h-[200%] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-from)_0%,_transparent_70%)] from-tertiary-fixed/10 pointer-events-none"></div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-stone-50 dark:bg-emerald-950 border-t border-stone-200 dark:border-emerald-900/30">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-8 py-16 max-w-7xl mx-auto">
+<div class="space-y-6">
+<div class="text-xl font-bold text-emerald-950 dark:text-stone-50 font-['Manrope']">AgriAI</div>
+<p class="text-stone-500 dark:text-stone-400 font-['Inter'] text-sm leading-relaxed">Rooted in intelligence. Growing the future of sustainable and profitable agriculture for everyone.</p>
+</div>
+<div>
+<h5 class="text-emerald-900 dark:text-emerald-100 font-bold mb-6">Company</h5>
+<ul class="space-y-4">
+<li><a class="text-stone-500 dark:text-stone-400 hover:text-emerald-700 hover:translate-x-1 transition-all inline-block font-['Inter'] text-sm" href="#">About Us</a></li>
+<li><a class="text-stone-500 dark:text-stone-400 hover:text-emerald-700 hover:translate-x-1 transition-all inline-block font-['Inter'] text-sm" href="#">Sustainability Report</a></li>
+<li><a class="text-stone-500 dark:text-stone-400 hover:text-emerald-700 hover:translate-x-1 transition-all inline-block font-['Inter'] text-sm" href="#">Global Sitemap</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-emerald-900 dark:text-emerald-100 font-bold mb-6">Support</h5>
+<ul class="space-y-4">
+<li><a class="text-stone-500 dark:text-stone-400 hover:text-emerald-700 hover:translate-x-1 transition-all inline-block font-['Inter'] text-sm" href="#">Contact Support</a></li>
+<li><a class="text-stone-500 dark:text-stone-400 hover:text-emerald-700 hover:translate-x-1 transition-all inline-block font-['Inter'] text-sm" href="#">Privacy Policy</a></li>
+<li><a class="text-stone-500 dark:text-stone-400 hover:text-emerald-700 hover:translate-x-1 transition-all inline-block font-['Inter'] text-sm" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-emerald-900 dark:text-emerald-100 font-bold mb-6">Connect</h5>
+<div class="flex gap-4">
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-tertiary-fixed transition-colors">
+<span class="material-symbols-outlined text-sm">public</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-tertiary-fixed transition-colors">
+<span class="material-symbols-outlined text-sm">share</span>
+</button>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-8 py-8 border-t border-stone-100 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-stone-500 dark:text-stone-400 font-['Inter'] text-sm tracking-wide">© 2024 AgriAI Precision. Rooted in Intelligence.</p>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-lime-500 animate-pulse"></span>
+<span class="text-xs font-bold text-stone-500 uppercase tracking-tighter">Systems Operational</span>
+</div>
+</div>
+</footer>
+</body></html>
