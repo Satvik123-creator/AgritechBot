@@ -13,6 +13,7 @@ const envSchema = z.object({
   MONGODB_MAX_POOL_SIZE: z.coerce.number().default(50),
 
   // Redis
+  REDIS_ENABLED: z.coerce.boolean().default(true),
   REDIS_HOST: z.string().default('localhost'),
   REDIS_PORT: z.coerce.number().default(6379),
   REDIS_PASSWORD: z.string().optional().default(''),
@@ -31,6 +32,7 @@ const envSchema = z.object({
   SARVAM_TTS_URL: z.string().url(),
 
   // Vector DB
+  RAG_ENABLED: z.coerce.boolean().default(true),
   CHROMA_URL: z.string().url().default('http://localhost:8000'),
   CHROMA_COLLECTION: z.string().default('agri_knowledge'),
 
@@ -65,6 +67,10 @@ if (parsed.data.NODE_ENV === 'production') {
   if (parsed.data.JWT_SECRET.length < 32) {
     console.error('❌ JWT_SECRET must be at least 32 characters in production');
     process.exit(1);
+  }
+
+  if (parsed.data.REDIS_ENABLED && ['localhost', '127.0.0.1', '::1'].includes(parsed.data.REDIS_HOST)) {
+    console.warn('⚠️ REDIS_HOST points to localhost in production. Set REDIS_ENABLED=false or provide managed Redis host.');
   }
 }
 

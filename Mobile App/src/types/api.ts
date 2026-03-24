@@ -27,7 +27,8 @@ export interface AuthResponse {
 
 export interface SendOtpResponse {
   message: string;
-  token?: string; // Optional: for any server-side refs
+  otp: string;
+  expiresInSeconds: number;
 }
 
 export interface Product {
@@ -141,6 +142,11 @@ export interface ChatHistoryResponse {
     limit: number;
     total: number;
   };
+}
+
+export interface ChatMessagesResponse {
+  messages: ChatMessage[];
+  chatId: string;
 }
 
 export interface ProductDetailResponse {

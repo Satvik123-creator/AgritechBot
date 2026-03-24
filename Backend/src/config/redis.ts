@@ -87,6 +87,11 @@ export const redis = createRedisClient();
 export const redisSub = createSubscriberClient();
 
 export async function connectRedis(): Promise<void> {
+  if (!env.REDIS_ENABLED) {
+    logger.warn('Redis disabled via REDIS_ENABLED=false. Queue/cache features are disabled.');
+    return;
+  }
+
   try {
     await Promise.race([
       Promise.all([redis.connect(), redisSub.connect()]),
@@ -97,11 +102,20 @@ export async function connectRedis(): Promise<void> {
     logger.info('Redis main + subscriber connected');
   } catch (err) {
     logger.warn({ err }, 'Redis connection failed');
+
+    // Stop reconnect loops when startup already decided to continue without Redis.
+    redis.disconnect(false);
+    redisSub.disconnect(false);
+
     throw err;
   }
 }
 
 export async function disconnectRedis(): Promise<void> {
+  if (!env.REDIS_ENABLED) {
+    return;
+  }
+
   await Promise.all([redis.quit(), redisSub.quit()]);
   logger.info('Redis disconnected');
 }

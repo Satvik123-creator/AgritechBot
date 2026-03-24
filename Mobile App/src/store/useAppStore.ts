@@ -9,7 +9,6 @@ interface AppState {
   user: UserProfile | null;
   language: AppLanguage;
   phoneDraft: string;
-  firebaseConfirm: any | null; // confirmationResult from signInWithPhoneNumber
   hasCompletedOnboarding: boolean;
   selectedCrops: string[];
   featuredProduct: Product | null;
@@ -19,7 +18,6 @@ interface AppState {
   setUser: (user: UserProfile | null) => void;
   setLanguage: (language: AppLanguage) => void;
   setPhoneDraft: (phone: string) => void;
-  setFirebaseConfirm: (confirm: any | null) => void;
   completeOnboarding: () => void;
   setHasCompletedOnboarding: (completed: boolean) => void;
   setSelectedCrops: (crops: string[]) => void;
@@ -36,7 +34,6 @@ export const useAppStore = create<AppState>()(
       user: null,
       language: 'English',
       phoneDraft: '+91',
-      firebaseConfirm: null,
       hasCompletedOnboarding: false,
       selectedCrops: ['गेहूं'],
       featuredProduct: null,
@@ -46,7 +43,6 @@ export const useAppStore = create<AppState>()(
       setUser: (user) => set({ user }),
       setLanguage: (language) => set({ language }),
       setPhoneDraft: (phoneDraft) => set({ phoneDraft }),
-      setFirebaseConfirm: (firebaseConfirm) => set({ firebaseConfirm }),
       completeOnboarding: () => set({ hasCompletedOnboarding: true }),
       setHasCompletedOnboarding: (hasCompletedOnboarding) => set({ hasCompletedOnboarding }),
       setSelectedCrops: (selectedCrops) => set({ selectedCrops }),
@@ -57,7 +53,6 @@ export const useAppStore = create<AppState>()(
         set({
           token: null,
           user: null,
-          firebaseConfirm: null,
           hasCompletedOnboarding: false,
           phoneDraft: '+91',
           featuredProduct: null,

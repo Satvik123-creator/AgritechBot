@@ -10,20 +10,19 @@
   import { RootStackParamList } from '../navigation/types';
   import { useAppStore } from '../store/useAppStore';
   import { isProfileComplete } from '../utils/profile';
-  import { signInWithPhoneNumber, getCurrentUserIdToken } from '../utils/firebaseAuth';
 
   type Props = NativeStackScreenProps<RootStackParamList, 'Otp'>;
 
   export function OtpScreen({ navigation, route }: Props) {
-    const { phone } = route.params;
+    const { phone, otpPreview } = route.params;
     const hiddenInputRef = useRef<TextInput>(null);
     const [otp, setOtp] = useState('');
+    const [otpOnScreen, setOtpOnScreen] = useState(otpPreview ?? '');
     const [error, setError] = useState<string | null>(null);
     const [resendCooldown, setResendCooldown] = useState(0);
     const [attemptedCount, setAttemptedCount] = useState(0);
 
     const language = useAppStore((state) => state.language);
-    const firebaseConfirm = useAppStore((state) => state.firebaseConfirm);
     const setToken = useAppStore((state) => state.setToken);
     const setUser = useAppStore((state) => state.setUser);
     const setHasCompletedOnboarding = useAppStore((state) => state.setHasCompletedOnboarding);
@@ -37,18 +36,7 @@
     }, [resendCooldown]);
 
     const verifyMutation = useMutation({
-      mutationFn: async () => {
-        if (!firebaseConfirm) throw new Error('Session expired');
-        // 1. Confirm OTP with Firebase
-        await firebaseConfirm.confirm(otp);
-        
-        // 2. Get ID Token for backend auth
-        const idToken = await getCurrentUserIdToken();
-        if (!idToken) throw new Error('Token generation failed');
-
-        // 3. Exchange for session in our backend
-        return apiService.verifyOtp(phone, idToken);
-      },
+      mutationFn: async () => apiService.verifyOtp(phone, otp),
       onSuccess: (data) => {
         setError(null);
         setToken(data.token);
@@ -67,16 +55,13 @@
     });
 
     const resendMutation = useMutation({
-      mutationFn: async () => {
-        const confirmation = await signInWithPhoneNumber(phone);
-        return confirmation;
-      },
-      onSuccess: (confirmation) => {
+      mutationFn: async () => apiService.sendOtp(phone),
+      onSuccess: (data) => {
         setError(null);
         setOtp('');
+        setOtpOnScreen(data.otp);
         setResendCooldown(60);
         setAttemptedCount(0);
-        useAppStore.getState().setFirebaseConfirm(confirmation);
       },
       onError: (error: any) => {
         const message = error.message || t(language, 'failedToResendOtp');
@@ -112,8 +97,12 @@
             {t(language, 'sentCodeTo')} {phone}
           </AppText>
 
-
-          {/* Removed legacy OTP display for Firebase Auth */}
+          <ScreenCard style={styles.otpPreviewCard}>
+            <AppText variant="label">OTP (temporary direct display)</AppText>
+            <AppText variant="heading" style={{ marginTop: 8 }}>
+              {otpOnScreen || 'Tap resend to generate OTP'}
+            </AppText>
+          </ScreenCard>
 
           <ScreenCard style={styles.card}>
             <Pressable onPress={() => hiddenInputRef.current?.focus()} style={styles.otpRow} disabled={verifyMutation.isPending}>
@@ -185,8 +174,12 @@
       justifyContent: 'center',
     },
     card: {
-      marginTop: 24,
+      marginTop: 14,
       gap: 18,
+    },
+    otpPreviewCard: {
+      marginTop: 20,
+      alignItems: 'center',
     },
     otpRow: {
       flexDirection: 'row',

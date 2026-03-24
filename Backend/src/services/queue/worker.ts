@@ -9,6 +9,7 @@ import { cache, RedisCache } from '../cache/redisCache';
 import { Chat } from '../../models/Chat';
 import { Message } from '../../models/Message';
 import { User } from '../../models/User';
+import { QueueError } from '../../models/QueueError';
 import { detectLanguage } from '../../utils/languageDetector';
 import type { ChatJobData, VoiceJobData } from './queue';
 
@@ -224,6 +225,14 @@ export function startWorkers(): void {
   chatWorker.on('failed', (job, err) => {
     workerMetrics.chatFailed++;
     logger.error({ jobId: job?.id, err }, 'Chat job failed');
+    if (job) {
+      QueueError.create({
+        jobId: job.id,
+        queueName: 'chat-processing',
+        data: job.data,
+        errorReason: err.message,
+      }).catch(e => logger.error({ e }, 'Failed to save to DLQ'));
+    }
   });
 
   chatWorker.on('stalled', (jobId) => {
@@ -237,6 +246,14 @@ export function startWorkers(): void {
   voiceWorker.on('failed', (job, err) => {
     workerMetrics.voiceFailed++;
     logger.error({ jobId: job?.id, err }, 'Voice job failed');
+    if (job) {
+      QueueError.create({
+        jobId: job.id,
+        queueName: 'voice-processing',
+        data: job.data,
+        errorReason: err.message,
+      }).catch(e => logger.error({ e }, 'Failed to save to DLQ'));
+    }
   });
 
   voiceWorker.on('stalled', (jobId) => {

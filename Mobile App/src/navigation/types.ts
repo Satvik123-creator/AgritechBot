@@ -4,7 +4,7 @@ export type RootStackParamList = {
   VoiceIntro: undefined;
   CropIntro: undefined;
   Login: undefined;
-  Otp: { phone: string };
+  Otp: { phone: string; otpPreview?: string };
   ProfileSetup: undefined;
   ProfileCompletion: undefined;
   ProfileComplete: undefined;
@@ -23,7 +23,7 @@ export type RootStackParamList = {
 
 export type MainTabParamList = {
   HomeTab: undefined;
-  ChatTab: undefined;
+  ChatTab: { chatId?: string } | undefined;
   MarketplaceTab: undefined;
   HistoryTab: undefined;
   ProfileTab: undefined;

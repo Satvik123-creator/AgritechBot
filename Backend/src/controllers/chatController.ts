@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { Chat } from '../models/Chat';
 import { Message } from '../models/Message';
 import { Product } from '../models/Product';
+import { Subscription } from '../models/Subscription';
 import {
   addChatJob,
   getChatQueue,
@@ -125,6 +126,24 @@ async function getRecommendedProducts(message: string) {
   }));
 }
 
+async function checkDailyLimit(userId: string): Promise<{ allowed: boolean; limit: number; used: number }> {
+  const sub = await Subscription.findOne({ userId });
+  const limit = sub ? sub.features.dailyQueryLimit : 10;
+  
+  if (limit === -1) return { allowed: true, limit, used: 0 };
+
+  const startOfDay = new Date();
+  startOfDay.setHours(0, 0, 0, 0);
+
+  const used = await Message.countDocuments({
+    userId,
+    role: 'user',
+    createdAt: { $gte: startOfDay },
+  });
+
+  return { allowed: used < limit, limit, used };
+}
+
 /**
  * POST /api/chat/ask
  * Submit a question to the AI assistant.
@@ -137,6 +156,11 @@ export async function askQuestion(request: FastifyRequest, reply: FastifyReply) 
 
   const { message, language: langInput, chatId: existingChatId } = parsed.data;
   const userId = String(request.user!._id);
+
+  const limitCheck = await checkDailyLimit(userId);
+  if (!limitCheck.allowed) {
+    return reply.status(403).send({ error: `Daily limit of ${limitCheck.limit} questions reached. Please upgrade to premium.` });
+  }
 
   // Detect language if "auto"
   const language = normalizeLanguage(
@@ -284,6 +308,12 @@ export async function streamChat(request: FastifyRequest, reply: FastifyReply) {
 
   const { message, language: langInput, chatId: existingChatId } = parsed.data;
   const userId = String(request.user!._id);
+
+  const limitCheck = await checkDailyLimit(userId);
+  if (!limitCheck.allowed) {
+    return reply.status(403).send({ error: `Daily limit of ${limitCheck.limit} questions reached. Please upgrade to premium.` });
+  }
+
   const language = normalizeLanguage(
     langInput === 'auto' ? detectLanguage(message).language : langInput
   );

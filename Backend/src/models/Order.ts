@@ -9,6 +9,7 @@ export interface IOrder extends Document {
     price: number;
   }>;
   totalAmount: number;
+  paymentId?: string;
   status: 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
   deliveryAddress: {
     line1: string;
@@ -38,6 +39,7 @@ const orderSchema = new Schema<IOrder>(
       },
     ],
     totalAmount: { type: Number, required: true, min: 0 },
+    paymentId: { type: String, index: true },
     status: {
       type: String,
       enum: ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'],

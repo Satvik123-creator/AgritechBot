@@ -2,7 +2,6 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
 import { User } from '../models/User';
 import { Subscription, TIER_FEATURES } from '../models/Subscription';
-import { authAdmin } from '../config/firebaseAdmin';
 import { logger } from '../utils/logger';
 import jwt from 'jsonwebtoken';
 import { env } from '../config/env';
@@ -18,90 +17,122 @@ function generateInternalToken(userId: string, role: string): string {
   });
 }
 
-const firebaseVerifySchema = z.object({
+const sendOtpSchema = z.object({
   phone: z.string().regex(/^\+?[1-9]\d{9,14}$/, 'Invalid phone number'),
-  token: z.string().min(10, 'Invalid Firebase ID Token'),
 });
 
+const verifyOtpSchema = z.object({
+  phone: z.string().regex(/^\+?[1-9]\d{9,14}$/, 'Invalid phone number'),
+  otp: z.string().regex(/^\d{6}$/, 'Invalid OTP'),
+});
+
+function generateOtp(): string {
+  return String(Math.floor(100000 + Math.random() * 900000));
+}
+
+function buildUserPayload(user: any) {
+  return {
+    id: user._id,
+    phone: user.phone,
+    name: user.name,
+    role: user.role,
+    language: user.language,
+    location: user.location,
+    crops: user.crops,
+    landSize: user.landSize,
+    landUnit: user.landUnit,
+    subscriptionTier: user.subscriptionTier,
+  };
+}
+
 /**
- * POST /api/auth/verify-otp
- * Verifies the Firebase ID Token and returns a local session token.
+ * POST /api/auth/send-otp
+ * Generates OTP and stores hashed OTP in DB. Returns OTP in response
+ * (requested temporary behavior for both development and production).
  */
-export async function verifyOtp(request: FastifyRequest, reply: FastifyReply) {
-  const parsed = firebaseVerifySchema.safeParse(request.body);
+export async function sendOtp(request: FastifyRequest, reply: FastifyReply) {
+  const parsed = sendOtpSchema.safeParse(request.body);
   if (!parsed.success) {
     return reply.status(400).send({ error: parsed.error.flatten().fieldErrors });
   }
 
-  const { phone, token } = parsed.data;
+  const { phone } = parsed.data;
+  const otp = generateOtp();
+  const expiresAt = new Date(Date.now() + env.OTP_EXPIRY_MINUTES * 60 * 1000);
 
-  try {
-    // 1. Verify with Firebase Admin
-    const decodedToken = await authAdmin.verifyIdToken(token);
-    const firebaseUid = decodedToken.uid;
-    const firebasePhone = decodedToken.phone_number;
+  let user = await User.findOne({ phone });
 
-    // Security: Check if the token phone matches requested phone
-    if (firebasePhone !== phone && env.NODE_ENV === 'production') {
-       return reply.status(401).send({ error: 'Identity mismatch' });
-    }
-
-    // 2. Sync with MongoDB
-    let user = await User.findOne({ phone });
-
-    if (!user) {
-      user = new User({
-        phone,
-        firebaseUid,
-        isVerified: true,
-        subscriptionTier: 'free',
-      });
-      await user.save();
-
-      // Create free subscription
-      await Subscription.create({
-        userId: user._id,
-        tier: 'free',
-        endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
-        features: TIER_FEATURES.free,
-      });
-    } else if (!user.firebaseUid) {
-      user.firebaseUid = firebaseUid;
-      if (!user.isVerified) user.isVerified = true;
-      await user.save();
-    }
-
-    // 3. Generate Local JWT for subsequent requests
-    const internalToken = generateInternalToken(String(user._id), user.role);
-
-    return reply.send({
-      message: 'Login successful',
-      token: internalToken,
-      user: {
-        id: user._id,
-        phone: user.phone,
-        name: user.name,
-        role: user.role,
-        language: user.language,
-        location: user.location,
-        crops: user.crops,
-        landSize: user.landSize,
-        landUnit: user.landUnit,
-        subscriptionTier: user.subscriptionTier,
-      },
+  if (!user) {
+    user = new User({
+      phone,
+      isVerified: false,
+      subscriptionTier: 'free',
+      otp,
+      otpExpiresAt: expiresAt,
     });
-
-  } catch (error: any) {
-    logger.error({ error: error.message }, 'Firebase token verification failed in controller');
-    return reply.status(401).send({ error: 'Unauthorized: Invalid Firebase token' });
+  } else {
+    user.otp = otp;
+    user.otpExpiresAt = expiresAt;
   }
+
+  await user.save();
+
+  logger.info({ phone }, 'OTP generated successfully');
+
+  return reply.send({
+    message: 'OTP sent successfully',
+    otp,
+    expiresInSeconds: env.OTP_EXPIRY_MINUTES * 60,
+  });
 }
 
 /**
- * Deprecated: Handled by Firebase on Frontend
+ * POST /api/auth/verify-otp
+ * Verifies the provided OTP and returns local session token.
  */
-export async function sendOtp(request: FastifyRequest, reply: FastifyReply) {
-    return reply.status(410).send({ 
-        error: 'Deprecated. Please use Firebase Phone Auth on the client side.' 
+export async function verifyOtp(request: FastifyRequest, reply: FastifyReply) {
+  const parsed = verifyOtpSchema.safeParse(request.body);
+  if (!parsed.success) {
+    return reply.status(400).send({ error: parsed.error.flatten().fieldErrors });
+  }
+
+  const { phone, otp } = parsed.data;
+
+  const user = await User.findOne({ phone }).select('+otp +otpExpiresAt');
+
+  if (!user || !user.otp || !user.otpExpiresAt) {
+    return reply.status(401).send({ error: 'OTP not requested or expired' });
+  }
+
+  if (user.otpExpiresAt.getTime() < Date.now()) {
+    return reply.status(401).send({ error: 'OTP expired' });
+  }
+
+  const isValid = await user.compareOtp(otp);
+  if (!isValid) {
+    return reply.status(401).send({ error: 'Invalid OTP' });
+  }
+
+  user.isVerified = true;
+  user.otp = undefined;
+  user.otpExpiresAt = undefined;
+  await user.save();
+
+  const existingSub = await Subscription.findOne({ userId: user._id });
+  if (!existingSub) {
+    await Subscription.create({
+      userId: user._id,
+      tier: 'free',
+      endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+      features: TIER_FEATURES.free,
     });
+  }
+
+  const internalToken = generateInternalToken(String(user._id), user.role);
+
+  return reply.send({
+    message: 'Login successful',
+    token: internalToken,
+    user: buildUserPayload(user),
+  });
 }

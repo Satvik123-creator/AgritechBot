@@ -18,7 +18,7 @@ export interface ISubscription extends Document {
 }
 
 const TIER_FEATURES = {
-  free: { dailyQueryLimit: 20, voiceEnabled: false, prioritySupport: false, marketplaceAccess: true },
+  free: { dailyQueryLimit: 10, voiceEnabled: false, prioritySupport: false, marketplaceAccess: true },
   basic: { dailyQueryLimit: 100, voiceEnabled: true, prioritySupport: false, marketplaceAccess: true },
   premium: { dailyQueryLimit: -1, voiceEnabled: true, prioritySupport: true, marketplaceAccess: true },
 };

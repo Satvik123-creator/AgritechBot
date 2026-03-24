@@ -1,24 +1,29 @@
 import { useQuery } from '@tanstack/react-query';
+import { useNavigation } from '@react-navigation/native';
 import { Image, ScrollView, StyleSheet, View, useColorScheme } from 'react-native';
 import { useState } from 'react';
+import { Pressable } from 'react-native';
 
 import { apiService } from '../api/services';
 import { AppText, Pill, Screen, SearchInput } from '../components/ui';
 import { designImages, fallbackHistory } from '../constants/designData';
 import { theme } from '../constants/theme';
+import { MainTabParamList } from '../navigation/types';
 
 const filterChips = ['All Crops', 'Wheat', 'Tomato', 'Rice'];
 const imageMap = [designImages.historyWheat, designImages.historyTomato, designImages.historyWheat, designImages.historyTomato];
 
 export function HistoryScreen() {
   const isDark = useColorScheme() === 'dark';
+  const navigation = useNavigation<any>();
   const [search, setSearch] = useState('');
   const { data } = useQuery({
     queryKey: ['chat-history'],
     queryFn: () => apiService.getChatHistory(),
   });
 
-  const chats = data?.chats?.length ? data.chats : fallbackHistory;
+  const hasRealHistory = Boolean(data?.chats?.length);
+  const chats = hasRealHistory ? data!.chats : fallbackHistory;
 
   return (
     <Screen scrollable>
@@ -37,8 +42,12 @@ export function HistoryScreen() {
       </AppText>
       <View style={{ gap: 14, paddingBottom: 108 }}>
         {chats.map((chat, index) => (
-          <View
+          <Pressable
             key={chat.id}
+            onPress={() => {
+              if (!hasRealHistory) return;
+              navigation.navigate('ChatTab' as keyof MainTabParamList, { chatId: chat.id });
+            }}
             style={[
               styles.rowCard,
               {
@@ -56,7 +65,7 @@ export function HistoryScreen() {
               </AppText>
             </View>
             <Pill label={index % 2 === 0 ? 'Good' : 'Warning'} active={index % 2 === 0} />
-          </View>
+          </Pressable>
         ))}
       </View>
     </Screen>

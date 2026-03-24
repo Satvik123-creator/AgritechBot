@@ -2,6 +2,7 @@ import { api } from './client';
 import {
   AskChatRequest,
   AskChatResponse,
+  ChatMessagesResponse,
   AuthResponse,
   ChatHistoryResponse,
   NotificationListResponse,
@@ -46,8 +47,8 @@ export const apiService = {
     const { data } = await api.post<SendOtpResponse>('/api/auth/send-otp', { phone });
     return data;
   },
-  async verifyOtp(phone: string, firebaseToken: string) {
-    const { data } = await api.post<AuthResponse>('/api/auth/verify-otp', { phone, token: firebaseToken });
+  async verifyOtp(phone: string, otp: string) {
+    const { data } = await api.post<AuthResponse>('/api/auth/verify-otp', { phone, otp });
     return data;
   },
   async getProfile() {
@@ -119,6 +120,17 @@ export const apiService = {
         updatedAt: chat.updatedAt,
       })),
     } satisfies ChatHistoryResponse;
+  },
+  async getChatMessages(chatId: string) {
+    const { data } = await api.get<ChatMessagesResponse>(`/api/chat/${chatId}/messages`);
+    return {
+      ...data,
+      messages: data.messages.map((msg: any) => ({
+        ...msg,
+        id: String(msg._id ?? msg.id),
+        chatId: String(msg.chatId),
+      })),
+    } satisfies ChatMessagesResponse;
   },
   async getProducts(search?: string, category?: string) {
     const { data } = await api.get<ProductListResponse>('/api/products', {

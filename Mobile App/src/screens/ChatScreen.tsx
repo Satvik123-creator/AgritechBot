@@ -1,6 +1,6 @@
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { useMutation } from '@tanstack/react-query';
-import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
@@ -24,7 +24,7 @@ import { AppText, GradientButton, Pill, Screen, TypingDots } from '../components
 import { designImages } from '../constants/designData';
 import { t } from '../constants/localization';
 import { theme } from '../constants/theme';
-import { RootStackParamList } from '../navigation/types';
+import { MainTabParamList, RootStackParamList } from '../navigation/types';
 import { useAppStore } from '../store/useAppStore';
 import { ChatMessage } from '../types/api';
 
@@ -37,6 +37,7 @@ const starterMessage: ChatMessage = {
 
 export function ChatScreen() {
   const isDark = useColorScheme() === 'dark';
+  const route = useRoute<RouteProp<MainTabParamList, 'ChatTab'>>();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const language = useAppStore((state) => state.language);
   const [messages, setMessages] = useState<ChatMessage[]>([{ ...starterMessage, content: t(language, 'greeting') }]);
@@ -44,8 +45,54 @@ export function ChatScreen() {
   const [isStreaming, setIsStreaming] = useState(false);
   const [input, setInput] = useState('');
   const [chatId, setChatId] = useState<string | undefined>(undefined);
+  const [isHydratingHistory, setIsHydratingHistory] = useState(false);
   const [pickedImage, setPickedImage] = useState<string | null>(null);
   const scrollRef = useRef<ScrollView>(null);
+
+  useEffect(() => {
+    const incomingChatId = route.params?.chatId;
+    if (incomingChatId) {
+      setChatId(incomingChatId);
+    }
+  }, [route.params?.chatId]);
+
+  useEffect(() => {
+    if (!chatId) {
+      return;
+    }
+
+    let cancelled = false;
+    setIsHydratingHistory(true);
+
+    apiService
+      .getChatMessages(chatId)
+      .then((data) => {
+        if (cancelled) return;
+
+        if (!data.messages.length) {
+          setMessages([{ ...starterMessage, content: t(language, 'greeting') }]);
+          return;
+        }
+
+        setMessages(
+          data.messages.map((msg) => ({
+            ...msg,
+            chatId: String(msg.chatId),
+          }))
+        );
+      })
+      .catch(() => {
+        if (cancelled) return;
+      })
+      .finally(() => {
+        if (cancelled) return;
+        setIsHydratingHistory(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [chatId, language]);
 
   useEffect(() => {
     scrollRef.current?.scrollToEnd({ animated: true });
@@ -209,7 +256,7 @@ export function ChatScreen() {
               </View>
             </View>
           ))}
-          {askMutation.isPending || isStreaming ? (
+          {askMutation.isPending || isStreaming || isHydratingHistory ? (
             <View style={styles.messageRow}>
               <View style={[styles.aiBubble, { backgroundColor: isDark ? '#203028' : '#ffffff' }]}>
                 <TypingDots isDark={isDark} />

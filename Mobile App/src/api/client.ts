@@ -7,8 +7,14 @@ function unique(values: string[]): string[] {
   return [...new Set(values.filter(Boolean))];
 }
 
+function isLoopbackUrl(url: string): boolean {
+  return /localhost|127\.0\.0\.1|::1|10\.0\.2\.2/.test(url);
+}
+
 function resolveBaseUrls(): string[] {
-  const explicit = Constants.expoConfig?.extra?.apiBaseUrl as string | undefined;
+  const explicitFromConfig = Constants.expoConfig?.extra?.apiBaseUrl as string | undefined;
+  const explicitFromEnv = process.env.EXPO_PUBLIC_API_BASE_URL;
+  const explicit = explicitFromEnv || explicitFromConfig;
 
   const expoHostUri = (Constants.expoConfig as { hostUri?: string } | undefined)?.hostUri;
   const expoGoHost = (
@@ -24,12 +30,19 @@ function resolveBaseUrls(): string[] {
   }
 
   const runtimeUrls = hostCandidates.map((host) => `http://${host}:4000`);
-  return unique([
-    explicit || '',
-    ...runtimeUrls,
-    'http://10.0.2.2:4000',
-    'http://localhost:4000',
-  ]);
+
+  if (__DEV__) {
+    // In development on physical devices, host-derived LAN IP must be tried first.
+    return unique([
+      ...runtimeUrls,
+      explicit || '',
+      'http://10.0.2.2:4000',
+      'http://localhost:4000',
+    ]);
+  }
+
+  // In production builds, avoid loopback defaults that always fail on user devices.
+  return unique([explicit || '']).filter((url) => !isLoopbackUrl(url));
 }
 
 const baseUrls = resolveBaseUrls();

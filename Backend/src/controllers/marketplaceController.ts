@@ -3,6 +3,7 @@ import { z } from 'zod';
 import mongoose from 'mongoose';
 import { Product } from '../models/Product';
 import { Order } from '../models/Order';
+import { env } from '../config/env';
 
 const createOrderSchema = z.object({
   items: z.array(
@@ -18,6 +19,7 @@ const createOrderSchema = z.object({
     state: z.string().min(1),
     pincode: z.string().regex(/^\d{6}$/, 'Invalid pincode'),
   }),
+  paymentId: z.string().min(1).optional(),
 });
 
 /**
@@ -99,38 +101,108 @@ export async function createOrder(request: FastifyRequest, reply: FastifyReply) 
   }
 
   const userId = request.user!._id;
-  const { items: orderItems, deliveryAddress } = parsed.data;
+  const { items: orderItems, deliveryAddress, paymentId } = parsed.data;
 
-  // Fetch product details and calculate total
-  const productIds = orderItems.map((i) => i.productId);
-  const products = await Product.find({ _id: { $in: productIds }, inStock: true });
+  if (env.NODE_ENV === 'production') {
+    if (!paymentId) {
+      return reply.status(400).send({ error: 'paymentId is required in production' });
+    }
 
-  if (products.length !== orderItems.length) {
-    return reply.status(400).send({ error: 'One or more products not found or out of stock' });
+    if (/^mock[_-]/i.test(paymentId)) {
+      return reply.status(400).send({ error: 'Mock paymentId is not allowed in production' });
+    }
   }
 
-  const items = orderItems.map((item) => {
-    const product = products.find((p: { _id: unknown }) => String(p._id) === item.productId)!;
-    const effectivePrice =
-      product.pricing?.discountPrice ?? product.pricing?.price ?? product.price;
-    return {
-      productId: product._id,
-      name: product.name,
-      quantity: item.quantity,
-      price: effectivePrice,
-    };
-  });
+  const session = await mongoose.startSession();
 
-  const totalAmount = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  try {
+    let createdOrder: unknown;
 
-  const order = await Order.create({
-    userId,
-    items,
-    totalAmount,
-    deliveryAddress,
-  });
+    await session.withTransaction(async () => {
+      // Fetch product details in transaction
+      const productIds = orderItems.map((i) => i.productId);
+      const products = await Product.find({ _id: { $in: productIds }, inStock: true }).session(session);
 
-  return reply.status(201).send({ order });
+      if (products.length !== orderItems.length) {
+        throw new Error('One or more products not found or out of stock');
+      }
+
+      const items = orderItems.map((item) => {
+        const product = products.find((p: { _id: unknown }) => String(p._id) === item.productId)!;
+        const effectivePrice =
+          product.pricing?.discountPrice ?? product.pricing?.price ?? product.price;
+        return {
+          productId: product._id,
+          name: product.name,
+          quantity: item.quantity,
+          price: effectivePrice,
+        };
+      });
+
+      // Reserve inventory atomically per item
+      for (const item of orderItems) {
+        const product = products.find((p: { _id: unknown }) => String(p._id) === item.productId)!;
+        const quantityStock = typeof product.quantity === 'number' ? product.quantity : 0;
+        const pricingStock = typeof product.pricing?.stock === 'number' ? product.pricing.stock : undefined;
+
+        const source: 'quantity' | 'pricing.stock' | null =
+          quantityStock > 0 ? 'quantity' : typeof pricingStock === 'number' ? 'pricing.stock' : null;
+
+        if (!source) {
+          throw new Error(`Product ${product.name} is out of stock`);
+        }
+
+        const query =
+          source === 'quantity'
+            ? { _id: product._id, quantity: { $gte: item.quantity } }
+            : { _id: product._id, 'pricing.stock': { $gte: item.quantity } };
+
+        const update =
+          source === 'quantity'
+            ? { $inc: { quantity: -item.quantity } }
+            : { $inc: { 'pricing.stock': -item.quantity } };
+
+        const updated = await Product.findOneAndUpdate(query, update, {
+          new: true,
+          session,
+        });
+
+        if (!updated) {
+          throw new Error(`Insufficient stock for product ${product.name}`);
+        }
+
+        const remainingQty = source === 'quantity' ? updated.quantity : (updated.pricing?.stock ?? 0);
+        if (remainingQty <= 0) {
+          await Product.updateOne(
+            { _id: product._id },
+            { $set: { inStock: false, 'inventory.available': false } },
+            { session }
+          );
+        }
+      }
+
+      const totalAmount = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+      const [order] = await Order.create(
+        [{
+          userId,
+          items,
+          totalAmount,
+          deliveryAddress,
+          paymentId: paymentId ?? `mock_${Date.now()}`,
+        }],
+        { session }
+      );
+
+      createdOrder = order;
+    });
+
+    return reply.status(201).send({ order: createdOrder });
+  } catch (err) {
+    return reply.status(400).send({ error: (err as Error).message || 'Order creation failed' });
+  } finally {
+    await session.endSession();
+  }
 }
 
 /**
