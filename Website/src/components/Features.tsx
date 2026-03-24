@@ -20,7 +20,7 @@ export default function Features() {
               <img 
                 className="w-full aspect-square object-cover" 
                 alt="smartphone camera scanning a corn leaf with digital interface overlays showing disease detection polygons" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4AHeVkFi4xeFcJx9lyU-Af99_IwRuemXgL7SAuWNeqY6KuaD5vFjJ6mTm0Kr1fyPBMbhI3ccnLL5p0kuAEOzHOj-hgF3tdgNiDYVJ9MlTdURNbvmCwHvfcgKwkb4bRhLEiVa5ykP4yseB0Mdh385AV64lqhSEpe7_BMGjBL41adL1UUGYIFdO7lt1AIc8cFQ_kaSddfbPUOl8_FeBqSdhW_3hvErWx6vrPMyaXVK-zZBCdzf4YD6_CMnMgnutAVXQ8_FuzP6MsIVp"
+                src="https://images.unsplash.com/photo-1592997571659-0b21ff64313b?q=80&w=800&auto=format&fit=crop"
               />
               <div className="absolute top-6 right-6 bg-tertiary-fixed text-on-tertiary-fixed px-4 py-2 rounded-lg font-bold flex items-center gap-2">
                 <span className="material-symbols-outlined text-sm">scan</span>

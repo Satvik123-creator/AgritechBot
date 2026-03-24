@@ -7,13 +7,13 @@ export default function Story() {
       <ScrollExpandMedia
         mediaType="video"
         mediaSrc="/Section2Video.mp4"
-        bgImageSrc="https://lh3.googleusercontent.com/aida-public/AB6AXuDzP3x8YAAOsR27j6pQFF7TcYivGcWU5kSNRPqOF7ktHKa2THDzmLU20JCYVNhW6vMAlW5FikIyreKOryqAjdPh8RZ9KeBCHjwdxoXSIM6hPd5MM7_tAmmrIlddg3Hkyf8pWcgSfkVWrAbMvekyhQYoWI14LY4NkzniywneLO0Y0jTke4Bgq3LConJ5c5601ZJCCFDNHBpc7RUqYSlS5oe66Pk1dbhLhLZi7LbLILiokTaBLK4RNZqFOng5ipB-14vZwdJaxsJ4JtLg"
-        title="Expert Knowledge"
+        bgImageSrc="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600&auto=format&fit=crop"
+        title="We Believe in the Farmer."
         date="Story of Ramesh"
         scrollToExpand="Keep scrolling to expand"
         textBlend={true}
       >
-        <div className="max-w-4xl mx-auto space-y-12 pb-32">
+        {/* <div className="max-w-4xl mx-auto space-y-12 pb-32">
           <h2 className="text-4xl md:text-5xl font-headline font-bold text-primary leading-tight">
              Most farmers lack access to real-time agronomists. We built Anaaj.ai to ensure no crop fails due to lack of information.
           </h2>
@@ -26,7 +26,7 @@ export default function Story() {
               — RAMESH K., PUNJAB
             </p>
           </div>
-        </div>
+        </div> */}
       </ScrollExpandMedia>
     </div>
   );

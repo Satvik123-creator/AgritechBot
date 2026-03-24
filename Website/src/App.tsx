@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Chatbot from './pages/Chatbot';
 import Contact from './pages/Contact';
+import VendorProfile from './pages/VendorProfile';
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/chat" element={<Chatbot />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/vendor/:id" element={<VendorProfile />} />
           </Routes>
         </main>
 
