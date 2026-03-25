@@ -1,3 +1,4 @@
+import { ArrowLeft, Share2, ShoppingCart, ShoppingBag, ChevronLeft, ChevronRight } from 'lucide-react-native';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -117,15 +118,15 @@ export function ProductDetailScreen({ route }: Props) {
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 120 }}>
         <View style={styles.header}>
           <Pressable onPress={() => navigation.goBack()} style={styles.headerIconButton}>
-            <MaterialCommunityIcons name="arrow-left" size={20} color={isDark ? theme.colors.textOnDark : theme.colors.text} />
+            <ArrowLeft size={20} color={isDark ? theme.colors.textOnDark : theme.colors.text} />
           </Pressable>
           <AppText variant="label" style={styles.headerTitle}>{t(language, 'productDetails')}</AppText>
           <View style={styles.headerActions}>
             <Pressable onPress={handleShareProduct} style={styles.headerIconButton}>
-              <MaterialCommunityIcons name="share-variant" size={19} color={isDark ? theme.colors.textOnDark : theme.colors.text} />
+              <Share2 size={19} color={isDark ? theme.colors.textOnDark : theme.colors.text} />
             </Pressable>
             <Pressable onPress={() => navigation.navigate('Cart')} style={styles.headerIconButton}>
-              <MaterialCommunityIcons name="cart-outline" size={20} color={isDark ? theme.colors.textOnDark : theme.colors.text} />
+              <ShoppingCart size={20} color={isDark ? theme.colors.textOnDark : theme.colors.text} />
               {cartCount > 0 ? (
                 <View style={styles.cartBadge}>
                   <AppText variant="caption" color={theme.colors.textOnDark} style={styles.cartBadgeText}>
@@ -142,10 +143,10 @@ export function ProductDetailScreen({ route }: Props) {
             {galleryImages.length > 1 ? (
               <>
                 <Pressable onPress={handlePrevImage} style={[styles.imageNavButton, styles.imageNavButtonLeft]}>
-                  <MaterialCommunityIcons name="chevron-left" size={20} color={theme.colors.text} />
+                  <ChevronLeft size={20} color={theme.colors.text} />
                 </Pressable>
                 <Pressable onPress={handleNextImage} style={[styles.imageNavButton, styles.imageNavButtonRight]}>
-                  <MaterialCommunityIcons name="chevron-right" size={20} color={theme.colors.text} />
+                  <ChevronRight size={20} color={theme.colors.text} />
                 </Pressable>
               </>
             ) : null}
@@ -286,7 +287,7 @@ export function ProductDetailScreen({ route }: Props) {
               addToCart(product, 1);
               Alert.alert(t(language, 'added'), t(language, 'productAddedToCart'));
             }}
-            leftIcon={<MaterialCommunityIcons name="cart-plus" size={18} color={theme.colors.primaryDark} style={{ marginRight: 6 }} />}
+            leftIcon={<ShoppingBag size={18} color={theme.colors.primaryDark} style={{ marginRight: 6 }} />}
             style={{ flex: 1 }}
           />
           <GradientButton label={t(language, 'buyNow')} onPress={handleBuyNow} style={{ flex: 1 }} />

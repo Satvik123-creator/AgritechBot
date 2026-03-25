@@ -1,6 +1,6 @@
+import { X, LocateFixed, Locate, MapPinOff, MapPin } from 'lucide-react-native';
 import React, { useEffect } from 'react';
 import { View, StyleSheet, ActivityIndicator, Pressable, Platform } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
 
 import { AppText, GradientButton, ScreenCard } from './ui';
 import { theme } from '../constants/theme';
@@ -67,13 +67,13 @@ export function LocationPicker({
           </AppText>
         </View>
         <Pressable onPress={onCancel} style={styles.closeButton}>
-          <MaterialIcons name="close" size={24} color={theme.colors.text} />
+          <X size={24} color={theme.colors.text} />
         </Pressable>
       </View>
 
       {/* Map Fallback View */}
       <View style={[styles.mapContainer, { justifyContent: 'center', alignItems: 'center', backgroundColor: theme.colors.surfaceMuted }]}>
-        <MaterialIcons name="gps-fixed" size={64} color={theme.colors.primary} />
+        <LocateFixed size={64} color={theme.colors.primary} />
         <AppText variant="heading" style={{ marginTop: 24 }}>
           {loading ? 'Finding you...' : 'Location Ready'}
         </AppText>
@@ -89,7 +89,7 @@ export function LocationPicker({
             label="Refresh Current Location"
             onPress={handleUseCurrentLocation}
             style={{ marginTop: 24, paddingHorizontal: 24 }}
-            leftIcon={<MaterialIcons name="my-location" size={20} color={theme.colors.textOnDark} />}
+            leftIcon={<Locate size={20} color={theme.colors.textOnDark} />}
           />
         )}
 
@@ -97,7 +97,7 @@ export function LocationPicker({
         {permissionDenied && (
           <View style={{ marginTop: 24, width: '90%' }}>
             <ScreenCard>
-              <MaterialIcons name="location-off" size={32} color={theme.colors.danger} />
+              <MapPinOff size={32} color={theme.colors.danger} />
               <AppText color={theme.colors.danger} style={{ marginTop: 8 }}>
                 Location permission denied
               </AppText>
@@ -113,7 +113,7 @@ export function LocationPicker({
       <View style={styles.addressContainer}>
         <ScreenCard style={styles.addressCard}>
           <View style={styles.addressHeader}>
-            <MaterialIcons name="place" size={20} color={theme.colors.primary} />
+            <MapPin size={20} color={theme.colors.primary} />
             <AppText variant="label" style={{ marginLeft: 8 }}>
               Selected Location
             </AppText>

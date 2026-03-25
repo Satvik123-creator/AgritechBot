@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import * as LucideIcons from 'lucide-react-native';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { ActivityIndicator, Pressable, RefreshControl, StyleSheet, View, useColorScheme } from 'react-native';
 import { useState, useCallback, useEffect } from 'react';
@@ -24,7 +24,7 @@ const TYPE_COLORS: Record<NotificationType, string> = {
   system: 'rgba(139,92,246,0.12)',
 };
 
-const TYPE_ICONS: Record<NotificationType, keyof typeof Ionicons.glyphMap> = {
+const TYPE_ICONS: Record<NotificationType, any> = {
   crop_alert: 'leaf-outline',
   weather: 'cloud-outline',
   ai_suggestion: 'sparkles-outline',
@@ -132,7 +132,7 @@ export function NotificationScreen() {
 
       {isError && !isLoading && (
         <View style={styles.centered}>
-          <Ionicons name="alert-circle-outline" size={48} color={theme.colors.danger} />
+          <LucideIcons.AlertCircle size={48} color={theme.colors.danger} />
           <AppText color={theme.colors.textMuted} style={{ marginTop: 12 }}>
             Failed to load notifications.
           </AppText>
@@ -142,7 +142,7 @@ export function NotificationScreen() {
 
       {!isLoading && !isError && notifications.length === 0 && (
         <View style={styles.centered}>
-          <Ionicons name="notifications-off-outline" size={48} color={theme.colors.textMuted} />
+          <LucideIcons.BellOff size={48} color={theme.colors.textMuted} />
           <AppText color={theme.colors.textMuted} style={{ marginTop: 12 }}>
             No notifications yet
           </AppText>
@@ -168,7 +168,7 @@ export function NotificationScreen() {
                 ]}
               >
                 <View style={[styles.alertIcon, { backgroundColor: TYPE_COLORS[item.type] }]}>
-                  <Ionicons name={TYPE_ICONS[item.type]} size={22} color={theme.colors.primary} />
+                  {(() => { const IconComp = (LucideIcons as any)[TYPE_ICONS[item.type]]; return IconComp ? <IconComp size={22} color={theme.colors.primary} /> : null; })()}
                 </View>
                 <View style={{ flex: 1 }}>
                   <View style={styles.alertHeader}>

@@ -1,7 +1,8 @@
+import * as LucideIcons from 'lucide-react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+
 import { PropsWithChildren, ReactNode, useEffect } from 'react';
 import {
   Image,
@@ -183,7 +184,7 @@ export function SearchInput({ value, onChangeText, placeholder }: { value: strin
         },
       ]}
     >
-      <Ionicons name="search" size={18} color={theme.colors.textMuted} />
+      <LucideIcons.Search size={18} color={theme.colors.textMuted} />
       <TextInput
         placeholder={placeholder}
         placeholderTextColor={theme.colors.textMuted}
@@ -256,7 +257,7 @@ export function PulseMic({ size = 108 }: { size?: number }) {
       <Animated.View style={[styles.pulseRing, { width: size + 56, height: size + 56, borderRadius: (size + 56) / 2 }, ringStyle]} />
       <Animated.View style={[styles.pulseRing, { width: size + 26, height: size + 26, borderRadius: (size + 26) / 2 }, ringStyle]} />
       <LinearGradient colors={[theme.colors.primary, '#8ce0af']} style={[styles.micCore, { width: size, height: size, borderRadius: size / 2 }]}>
-        <Ionicons name="mic" size={size * 0.38} color={theme.colors.textOnDark} />
+        <LucideIcons.Mic size={size * 0.38} color={theme.colors.textOnDark} />
       </LinearGradient>
     </View>
   );
@@ -311,12 +312,12 @@ export function ProgressDots({ total, active }: { total: number; active: number 
 export function AnaajTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
   const isDark = useColorScheme() === 'dark';
-  const tabIcons: Record<string, keyof typeof Ionicons.glyphMap> = {
-    HomeTab: 'home',
-    ChatTab: 'chatbubble-ellipses',
-    MarketplaceTab: 'leaf',
-    HistoryTab: 'time',
-    ProfileTab: 'person',
+  const tabIcons: Record<string, keyof typeof LucideIcons> = {
+    HomeTab: 'Home',
+    ChatTab: 'MessageSquare',
+    MarketplaceTab: 'ShoppingBag',
+    HistoryTab: 'Clock',
+    ProfileTab: 'User',
   };
 
   return (
@@ -344,17 +345,10 @@ export function AnaajTabBar({ state, descriptors, navigation }: BottomTabBarProp
               style={styles.tabItem}
             >
               <View style={[styles.tabIconWrap, isFocused && styles.tabIconActive]}>
-                <Ionicons
-                  name={tabIcons[route.name] ?? 'ellipse'}
-                  size={20}
-                  color={
-                    isFocused
-                      ? theme.colors.textOnDark
-                      : isDark
-                        ? 'rgba(247,250,248,0.72)'
-                        : theme.colors.textMuted
-                  }
-                />
+                {(() => {
+                  const IconComp = (LucideIcons as any)[tabIcons[route.name] ?? 'Circle'];
+                  return IconComp ? <IconComp size={20} color={isFocused ? theme.colors.textOnDark : isDark ? 'rgba(247,250,248,0.72)' : theme.colors.textMuted} /> : null;
+                })()}
               </View>
               <AppText
                 variant="caption"
@@ -375,11 +369,11 @@ export function AnaajTabBar({ state, descriptors, navigation }: BottomTabBarProp
   );
 }
 
-export function IconRow({ icon, title, subtitle, right }: { icon: keyof typeof MaterialCommunityIcons.glyphMap; title: string; subtitle?: string; right?: React.ReactNode }) {
+export function IconRow({ icon, title, subtitle, right }: { icon: string; title: string; subtitle?: string; right?: React.ReactNode }) {
   return (
     <View style={styles.iconRow}>
       <View style={styles.iconBadge}>
-        <MaterialCommunityIcons name={icon} size={20} color={theme.colors.primaryDark} />
+        {(() => { const IconComp = (LucideIcons as any)[icon]; return IconComp ? <IconComp size={20} color={theme.colors.primaryDark} /> : null; })()}
       </View>
       <View style={{ flex: 1 }}>
         <AppText variant="label">{title}</AppText>

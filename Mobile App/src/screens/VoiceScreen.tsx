@@ -1,4 +1,5 @@
-import { Ionicons } from '@expo/vector-icons';
+
+import { X, Scan } from 'lucide-react-native';
 import { useMutation } from '@tanstack/react-query';
 import { Audio } from 'expo-av';
 import { useNavigation } from '@react-navigation/native';
@@ -60,10 +61,10 @@ export function VoiceScreen() {
     <Screen dark>
       <View style={styles.topBar}>
         <Pressable onPress={() => navigation.goBack()}>
-          <Ionicons name="close" size={28} color={theme.colors.textOnDark} />
+          <X size={28} color={theme.colors.textOnDark} />
         </Pressable>
         <Pressable onPress={() => navigation.navigate('ImageScan')}>
-          <Ionicons name="scan" size={24} color={theme.colors.textOnDark} />
+          <Scan size={24} color={theme.colors.textOnDark} />
         </Pressable>
       </View>
       <View style={styles.center}>

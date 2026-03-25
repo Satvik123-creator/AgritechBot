@@ -1,4 +1,5 @@
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+
+import { ArrowLeft, Search, MoreVertical, PlayCircle, Mic, ImagePlus } from 'lucide-react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { useMutation } from '@tanstack/react-query';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -205,7 +206,7 @@ export function ChatScreen() {
         <View style={[styles.header, { backgroundColor: isDark ? '#151d19' : '#eaf3ee' }]}>
           <View style={styles.headerLeft}>
             <Pressable onPress={() => navigation.goBack()} style={styles.topIconButton}>
-              <Ionicons name="arrow-back" size={20} color={theme.colors.textOnDark} />
+              <ArrowLeft size={20} color={theme.colors.textOnDark} />
             </Pressable>
             <Image source={{ uri: designImages.chatAvatar }} style={styles.avatar} />
             <View>
@@ -217,10 +218,10 @@ export function ChatScreen() {
           </View>
           <View style={styles.headerActions}>
             <Pressable style={styles.topIconButton}>
-              <Ionicons name="search" size={20} color={theme.colors.textOnDark} />
+              <Search size={20} color={theme.colors.textOnDark} />
             </Pressable>
             <Pressable style={styles.topIconButton}>
-              <Ionicons name="ellipsis-vertical" size={20} color={theme.colors.textOnDark} />
+              <MoreVertical size={20} color={theme.colors.textOnDark} />
             </Pressable>
           </View>
         </View>
@@ -247,7 +248,7 @@ export function ChatScreen() {
                 </AppText>
                 {message.role === 'assistant' && message.audioUrl ? (
                   <Pressable onPress={() => playAudio(message.audioUrl)} style={styles.audioButton}>
-                    <Ionicons name="play-circle" size={18} color={theme.colors.primaryDark} />
+                    <PlayCircle size={18} color={theme.colors.primaryDark} />
                     <AppText variant="label" color={theme.colors.primaryDark}>
                       {t(language, 'audioPlayback')}
                     </AppText>
@@ -280,7 +281,7 @@ export function ChatScreen() {
           ) : null}
           <View style={styles.inputRow}>
             <Pressable onPress={pickImage} style={styles.iconAction}>
-              <MaterialCommunityIcons name="image-plus" size={20} color={theme.colors.textOnDark} />
+              <ImagePlus size={20} color={theme.colors.textOnDark} />
             </Pressable>
             <TextInput
               placeholder={t(language, 'typeHere')}
@@ -291,7 +292,7 @@ export function ChatScreen() {
               multiline
             />
             <Pressable onPress={() => navigation.navigate('Voice')} style={styles.iconAction}>
-              <Ionicons name="mic" size={20} color={theme.colors.textOnDark} />
+              <Mic size={20} color={theme.colors.textOnDark} />
             </Pressable>
             <GradientButton label="→" onPress={sendMessage} style={styles.sendButton} />
           </View>

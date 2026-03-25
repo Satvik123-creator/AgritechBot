@@ -1,4 +1,5 @@
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+
+import { Bell, CloudSun, Droplets } from 'lucide-react-native';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -169,7 +170,7 @@ export function HomeScreen() {
         </View>
         <Pill
           label={unreadCount > 0 ? `Alerts (${unreadCount})` : 'Alerts'}
-          icon={<Ionicons name="notifications-outline" size={16} color={isDark ? theme.colors.textOnDark : theme.colors.text} />}
+          icon={<Bell size={16} color={isDark ? theme.colors.textOnDark : theme.colors.text} />}
           onPress={() => navigation.navigate('Notifications')}
           active={unreadCount > 0}
         />
@@ -194,7 +195,7 @@ export function HomeScreen() {
               {liveLocationName}
             </AppText>
           </View>
-          <MaterialCommunityIcons name="weather-partly-cloudy" size={36} color={theme.colors.primary} />
+          <CloudSun size={36} color={theme.colors.primary} />
         </View>
         <View style={styles.insightSplit}>
           <View style={styles.splitDivider} />
@@ -211,7 +212,7 @@ export function HomeScreen() {
             <AppText variant="heading">{weatherHumidity}</AppText>
             <AppText color={theme.colors.textMuted}>{homeWeatherCard.station}</AppText>
           </View>
-          <MaterialCommunityIcons name="water-percent" size={32} color={theme.colors.primary} />
+          <Droplets size={32} color={theme.colors.primary} />
         </View>
       </GlassCard>
 

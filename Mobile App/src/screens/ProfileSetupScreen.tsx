@@ -1,4 +1,5 @@
-import { Ionicons } from '@expo/vector-icons';
+
+import { Leaf, AlertCircle } from 'lucide-react-native';
 import { Image, Pressable, StyleSheet, TextInput, View, ActivityIndicator, Modal, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
@@ -118,7 +119,7 @@ export function ProfileSetupScreen({ navigation }: Props) {
 
       {error && (
         <View style={[styles.errorBox, { marginTop: 16 }]}>
-          <Ionicons name="alert-circle" size={16} color={theme.colors.danger} />
+          <AlertCircle size={16} color={theme.colors.danger} />
           <AppText color={theme.colors.danger} style={{ flex: 1, marginLeft: 8 }}>
             {error}
           </AppText>
@@ -153,7 +154,7 @@ export function ProfileSetupScreen({ navigation }: Props) {
               disabled={createProfileMutation.isPending}
               style={[styles.cropCard, active && styles.cropCardActive]}
             >
-              <Ionicons name="leaf" size={22} color={active ? theme.colors.textOnDark : theme.colors.primaryDark} />
+              <Leaf size={22} color={active ? theme.colors.textOnDark : theme.colors.primaryDark} />
               <AppText variant="label" color={active ? theme.colors.textOnDark : theme.colors.text}>
                 {crop}
               </AppText>

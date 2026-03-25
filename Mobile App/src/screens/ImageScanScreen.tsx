@@ -1,4 +1,5 @@
-import { Ionicons } from '@expo/vector-icons';
+
+import { ArrowLeft, Camera } from 'lucide-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -30,7 +31,7 @@ export function ImageScanScreen() {
       <ImageBackground source={{ uri: imageUri }} style={styles.background}>
         <View style={styles.header}>
           <Pressable onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-back" size={24} color={theme.colors.textOnDark} />
+            <ArrowLeft size={24} color={theme.colors.textOnDark} />
           </Pressable>
           <View>
             <AppText color={theme.colors.textOnDark} variant="heading">
@@ -39,7 +40,7 @@ export function ImageScanScreen() {
             <AppText color="#9ad5b0">Live Diagnostics</AppText>
           </View>
           <Pressable onPress={pickImage}>
-            <Ionicons name="camera" size={24} color={theme.colors.textOnDark} />
+            <Camera size={24} color={theme.colors.textOnDark} />
           </Pressable>
         </View>
         <View style={styles.scannerFrame}>

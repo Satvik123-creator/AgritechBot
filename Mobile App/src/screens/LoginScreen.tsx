@@ -1,5 +1,6 @@
+import { AlertCircle, Globe, Mail } from 'lucide-react-native';
 import { useMutation } from '@tanstack/react-query';
-import { Ionicons } from '@expo/vector-icons';
+
 import { useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, StyleSheet, TextInput, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -92,7 +93,7 @@ export function LoginScreen({ navigation }: Props) {
 
           {error && (
             <View style={styles.errorBox}>
-              <Ionicons name="alert-circle" size={16} color={theme.colors.danger} />
+              <AlertCircle size={16} color={theme.colors.danger} />
               <AppText color={theme.colors.danger} style={{ flex: 1, marginLeft: 8 }}>
                 {error}
               </AppText>
@@ -116,8 +117,8 @@ export function LoginScreen({ navigation }: Props) {
             <View style={styles.line} />
           </View>
           <View style={styles.socialRow}>
-            <GradientButton label="Google" secondary leftIcon={<Ionicons name="logo-google" size={18} color={theme.colors.primaryDark} />} style={styles.socialButton} />
-            <GradientButton label="Email" secondary leftIcon={<Ionicons name="mail" size={18} color={theme.colors.primaryDark} />} style={styles.socialButton} />
+            <GradientButton label="Google" secondary leftIcon={<Globe size={18} color={theme.colors.primaryDark} />} style={styles.socialButton} />
+            <GradientButton label="Email" secondary leftIcon={<Mail size={18} color={theme.colors.primaryDark} />} style={styles.socialButton} />
           </View>
         </ScreenCard>
         <AppText color={theme.colors.textMuted} style={styles.terms}>

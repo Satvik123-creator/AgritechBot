@@ -151,16 +151,16 @@ export function ProfileScreen() {
       </AppText>
       <ScreenCard>
         <Pressable onPress={() => navigation.navigate('OrderHistory')}>
-          <IconRow icon="truck-fast-outline" title="Track Orders" subtitle="Check status and delivery updates" />
+          <IconRow icon="Truck" title="Track Orders" subtitle="Check status and delivery updates" />
         </Pressable>
         <Pressable onPress={() => navigation.navigate('OrderHistory')}>
-          <IconRow icon="clipboard-list-outline" title="Order History" subtitle="View all past and current orders" />
+          <IconRow icon="ClipboardList" title="Order History" subtitle="View all past and current orders" />
         </Pressable>
         <Pressable onPress={() => navigation.navigate('Cart')}>
-          <IconRow icon="cart-outline" title="My Cart" subtitle="Review items and checkout" />
+          <IconRow icon="ShoppingCart" title="My Cart" subtitle="Review items and checkout" />
         </Pressable>
         <Pressable onPress={() => navigation.navigate('Marketplace')}>
-          <IconRow icon="storefront-outline" title="Continue Shopping" subtitle="Browse seeds, tools and fertilizers" />
+          <IconRow icon="Store" title="Continue Shopping" subtitle="Browse seeds, tools and fertilizers" />
         </Pressable>
       </ScreenCard>
       <AppText variant="caption" color={theme.colors.textMuted} style={styles.sectionLabel}>
@@ -168,12 +168,12 @@ export function ProfileScreen() {
       </AppText>
       <ScreenCard>
         <Pressable onPress={() => setEditModalVisible(true)}>
-          <IconRow icon="translate" title="App Language" subtitle={language} />
+          <IconRow icon="Languages" title="App Language" subtitle={language} />
         </Pressable>
-        <IconRow icon="theme-light-dark" title="Dark Appearance" right={<Switch value={darkMode} onValueChange={setDarkMode} trackColor={{ true: theme.colors.primary }} />} />
+        <IconRow icon="MoonStar" title="Dark Appearance" right={<Switch value={darkMode} onValueChange={setDarkMode} trackColor={{ true: theme.colors.primary }} />} />
         <Pressable onPress={() => navigation.navigate('Notifications')}>
           <IconRow
-            icon="bell-ring-outline"
+            icon="Bell"
             title="Notifications"
             subtitle={notificationsEnabled ? 'On' : 'Off'}
             right={
@@ -190,7 +190,7 @@ export function ProfileScreen() {
         Security & Data
       </AppText>
       <ScreenCard>
-        <IconRow icon="shield-lock-outline" title="Privacy Settings" />
+        <IconRow icon="ShieldCheck" title="Privacy Settings" />
         <Pressable onPress={() => {
           signOut();
           navigation.reset({

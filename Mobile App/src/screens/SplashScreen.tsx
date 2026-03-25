@@ -1,4 +1,5 @@
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+
+import { Leaf, Brain } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect } from 'react';
 import { ImageBackground, StyleSheet, View } from 'react-native';
@@ -41,9 +42,9 @@ export function SplashScreen({ navigation }: Props) {
             <View style={styles.outerRing} />
             <View style={styles.middleRing} />
             <View style={styles.logoCard}>
-              <MaterialCommunityIcons name="brain" size={40} color={theme.colors.primary} />
+              <Brain size={40} color={theme.colors.primary} />
               <View style={styles.ecoBadge}>
-                <Ionicons name="leaf" size={14} color={theme.colors.textOnDark} />
+                <Leaf size={14} color={theme.colors.textOnDark} />
               </View>
             </View>
           </View>
