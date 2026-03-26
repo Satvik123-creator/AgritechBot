@@ -55,6 +55,10 @@ export default function Navbar() {
         
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-4">
+          <Link to="/download" className="flex items-center gap-2 text-stone-300 hover:text-lime-400 font-bold text-sm tracking-wider uppercase transition-colors mr-2">
+            <span className="material-symbols-outlined text-sm">download</span>
+            Get App
+          </Link>
           <button className="material-symbols-outlined text-white hover:scale-105 transition-transform duration-200">
             language
           </button>
@@ -83,6 +87,9 @@ export default function Navbar() {
             </Link>
             <Link to="/contact" onClick={toggleMenu} className={`font-headline font-bold text-xl uppercase tracking-widest ${isActive('/contact') ? 'text-lime-400' : 'text-stone-200'}`}>
               Contact
+            </Link>
+            <Link to="/download" onClick={toggleMenu} className={`font-headline font-bold text-xl uppercase tracking-widest ${isActive('/download') ? 'text-lime-400' : 'text-stone-200'}`}>
+              Get App
             </Link>
             <hr className="border-white/10 mx-10 my-2" />
             <Link to="/chat" onClick={toggleMenu} className="bg-lime-400 text-emerald-950 text-center px-6 py-4 rounded-2xl font-bold mx-4 shadow-xl uppercase tracking-widest hover:scale-105 transition-transform">

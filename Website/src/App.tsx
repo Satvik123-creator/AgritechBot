@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Chatbot from './pages/Chatbot';
 import Contact from './pages/Contact';
 import VendorProfile from './pages/VendorProfile';
+import DownloadApp from './pages/DownloadApp';
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
             <Route path="/chat" element={<Chatbot />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/vendor/:id" element={<VendorProfile />} />
+            <Route path="/download" element={<DownloadApp />} />
           </Routes>
         </main>
 

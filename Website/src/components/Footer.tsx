@@ -43,7 +43,7 @@ export default function Footer() {
       </div>
       
       <div className="max-w-7xl mx-auto px-8 py-8 border-t border-stone-100 flex flex-col md:flex-row justify-between items-center gap-4">
-        <p className="text-stone-500 font-body text-sm tracking-wide">© 2024 Anaaj.ai Precision. Rooted in Intelligence.</p>
+        <p className="text-stone-500 font-body text-sm tracking-wide">© 2026 Anaaj.ai Precision. Rooted in Intelligence.</p>
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-lime-500 animate-pulse"></span>
           <span className="text-xs font-bold text-stone-500 uppercase tracking-tighter">Systems Operational</span>
