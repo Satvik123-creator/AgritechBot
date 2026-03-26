@@ -7,6 +7,11 @@ import Chatbot from './pages/Chatbot';
 import Contact from './pages/Contact';
 import VendorProfile from './pages/VendorProfile';
 import DownloadApp from './pages/DownloadApp';
+import AboutUs from './pages/AboutUs';
+import Sustainability from './pages/Sustainability';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
+import Sitemap from './pages/Sitemap';
 
 export default function App() {
   return (
@@ -21,6 +26,11 @@ export default function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/vendor/:id" element={<VendorProfile />} />
             <Route path="/download" element={<DownloadApp />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/sustainability" element={<Sustainability />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsOfService />} />
+            <Route path="/sitemap" element={<Sitemap />} />
           </Routes>
         </main>
 

@@ -88,7 +88,7 @@ export default function Contact() {
               </div>
               
               <button type="button" className="w-full bg-primary text-on-primary py-4 rounded-xl font-bold text-lg shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 group">
-                Send Output
+                Send Message
                 <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
               </button>
             </form>

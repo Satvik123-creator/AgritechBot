@@ -34,10 +34,12 @@ export default function Navbar() {
       <div className={`flex justify-between items-center w-full max-w-7xl mx-auto px-6 md:px-8 ${isScrolled ? 'py-3' : 'py-5'} transition-all duration-300`}>
         <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <img 
-            src="https://res.cloudinary.com/dvwpxb2oa/image/upload/v1773933014/FullWhiteLogo_nlnlbh.svg" 
+            src="https://res.cloudinary.com/dvwpxb2oa/image/upload/v1774369551/Printable_Logo_nim1ca.svg" 
             alt="Anaaj.ai Logo" 
             className={`transition-all duration-500 ease-[cubic-bezier(0.2,1,0.2,1)] ${isScrolled ? 'h-7 md:h-8' : 'h-8 md:h-10'}`} 
           />
+
+          <h1 className="text-white text-2xl font-bold">Anaaj AI</h1>
         </Link>
         
         {/* Desktop Menu */}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -14,18 +15,18 @@ export default function Footer() {
         <div>
           <h5 className="text-emerald-900 font-bold mb-6">Company</h5>
           <ul className="space-y-4">
-            <li><a className="text-stone-500 hover:text-emerald-700 hover:translate-x-1 transition-all inline-block font-body text-sm" href="#">About Us</a></li>
-            <li><a className="text-stone-500 hover:text-emerald-700 hover:translate-x-1 transition-all inline-block font-body text-sm" href="#">Sustainability Report</a></li>
-            <li><a className="text-stone-500 hover:text-emerald-700 hover:translate-x-1 transition-all inline-block font-body text-sm" href="#">Global Sitemap</a></li>
+            <li><Link className="text-stone-500 hover:text-emerald-700 hover:translate-x-1 transition-all inline-block font-body text-sm" to="/about">About Us</Link></li>
+            <li><Link className="text-stone-500 hover:text-emerald-700 hover:translate-x-1 transition-all inline-block font-body text-sm" to="/sustainability">Sustainability Report</Link></li>
+            <li><Link className="text-stone-500 hover:text-emerald-700 hover:translate-x-1 transition-all inline-block font-body text-sm" to="/sitemap">Global Sitemap</Link></li>
           </ul>
         </div>
         
         <div>
           <h5 className="text-emerald-900 font-bold mb-6">Support</h5>
           <ul className="space-y-4">
-            <li><a className="text-stone-500 hover:text-emerald-700 hover:translate-x-1 transition-all inline-block font-body text-sm" href="#">Contact Support</a></li>
-            <li><a className="text-stone-500 hover:text-emerald-700 hover:translate-x-1 transition-all inline-block font-body text-sm" href="#">Privacy Policy</a></li>
-            <li><a className="text-stone-500 hover:text-emerald-700 hover:translate-x-1 transition-all inline-block font-body text-sm" href="#">Terms of Service</a></li>
+            <li><Link className="text-stone-500 hover:text-emerald-700 hover:translate-x-1 transition-all inline-block font-body text-sm" to="/contact">Contact Support</Link></li>
+            <li><Link className="text-stone-500 hover:text-emerald-700 hover:translate-x-1 transition-all inline-block font-body text-sm" to="/privacy">Privacy Policy</Link></li>
+            <li><Link className="text-stone-500 hover:text-emerald-700 hover:translate-x-1 transition-all inline-block font-body text-sm" to="/terms">Terms of Service</Link></li>
           </ul>
         </div>
         

@@ -117,7 +117,7 @@ export default function VendorProfile() {
         </motion.div>
       </main>
       
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

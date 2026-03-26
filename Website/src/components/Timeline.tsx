@@ -22,8 +22,8 @@ export default function Timeline() {
               <p className="mt-4 font-bold uppercase tracking-widest text-sm text-center px-2">Voice Input</p>
             </div>
             <img
-              src="https://images.unsplash.com/photo-1592982537447-6f296b0f0b4a?q=80&w=800&auto=format&fit=crop"
-              alt="Farmer using a smartphone"
+              src="/step1.png"
+              alt="Step 1: Ask"
               className={imageClass}
             />
           </div>
@@ -39,8 +39,8 @@ export default function Timeline() {
           </p>
           <div className="grid grid-cols-2 gap-4">
             <img
-              src="https://images.unsplash.com/photo-1586771107445-d3af9e1501bc?q=80&w=800&auto=format&fit=crop"
-              alt="AI analyzing crops in the field"
+              src="/step 2.png"
+              alt="Step 2: Understand"
               className={imageClass}
             />
              <div className={`bg-primary text-on-primary ${iconBaseClass}`}>
@@ -81,8 +81,8 @@ export default function Timeline() {
           </p>
           <div className="grid grid-cols-2 gap-4">
             <img
-              src="https://images.unsplash.com/photo-1628522071665-27663e8a4d2e?q=80&w=800&auto=format&fit=crop"
-              alt="Healthy high-yield harvest basket"
+              src="/step4.png"
+              alt="Step 4: Thrive"
               className={imageClass}
             />
              <div className={`bg-surface-container text-primary ${iconBaseClass}`}>

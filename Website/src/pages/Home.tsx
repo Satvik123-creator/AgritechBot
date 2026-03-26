@@ -8,13 +8,14 @@ import WeatherWidget from '../components/WeatherWidget';
 import Marketplace from '../components/Marketplace';
 import AppShowcase from '../components/AppShowcase';
 import PricingFAQ from '../components/PricingFAQ';
+import MapSection from '../components/MapSection';
 import FinalCTA from '../components/FinalCTA';
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <Story />
+      {/* <Story /> */}
       <LiveChat />
       <Features />
       <Timeline />
@@ -22,6 +23,7 @@ export default function Home() {
       <Marketplace />
       <AppShowcase />
       <PricingFAQ />
+      <MapSection />
       <FinalCTA />
     </>
   );
