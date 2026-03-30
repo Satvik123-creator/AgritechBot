@@ -1,2 +1,0 @@
-# This file forces a git commit inside the Backend directory
-# It triggers the Render auto-deploy hook for the Web Service if the Root Directory is set to "Backend".

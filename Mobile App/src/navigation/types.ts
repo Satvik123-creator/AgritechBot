@@ -2,9 +2,8 @@ import type { NavigatorScreenParams } from '@react-navigation/native';
 
 export type MainTabParamList = {
   HomeTab: undefined;
-  ChatTab: { chatId?: string } | undefined;
+  ChatTab: undefined; // Now points to ChatListScreen
   MarketplaceTab: undefined;
-  HistoryTab: undefined;
   ProfileTab: undefined;
 };
 
@@ -19,6 +18,7 @@ export type RootStackParamList = {
   ProfileCompletion: undefined;
   ProfileComplete: undefined;
   MainTabs: NavigatorScreenParams<MainTabParamList> | undefined;
+  Chat: { chatId?: string };
   Marketplace: undefined;
   ProductDetail: { productId?: string };
   Cart: undefined;

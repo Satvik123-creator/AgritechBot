@@ -26,12 +26,13 @@ import { apiService } from '../api/services';
 import { AppText, GradientButton, Pill, Screen, TypingDots } from '../components/ui';
 import { designImages } from '../constants/designData';
 import { t } from '../constants/localization';
-import { MainTabParamList, RootStackParamList } from '../navigation/types';
+import { RootStackParamList } from '../navigation/types';
 import { useAppStore } from '../store/useAppStore';
 import { ChatMessage, ChatSummary } from '../types/api';
 import { useTheme } from '../providers/ThemeContext';
 import { languageOptions } from '../constants/designData';
 import { useI18n } from '../hooks/useI18n';
+import { theme } from '../constants/theme';
 import { RecordedAudioClip, useAudioRecorder } from '../hooks/useAudioRecorder';
 
 const starterId = 'starter';
@@ -48,14 +49,14 @@ function buildStarterMessage(language: string): ChatMessage {
 export function ChatScreen() {
   const { isDark, colors } = useTheme();
   const { t: tx } = useI18n();
-  const route = useRoute<RouteProp<MainTabParamList, 'ChatTab'>>();
+  const route = useRoute<RouteProp<RootStackParamList, 'Chat'>>();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const queryClient = useQueryClient();
   const language = useAppStore((state) => state.language);
   const setLanguage = useAppStore((state) => state.setLanguage);
   const [messages, setMessages] = useState<ChatMessage[]>([buildStarterMessage(language)]);
   const [input, setInput] = useState('');
-  const [chatId, setChatId] = useState<string | undefined>(route.params?.chatId);
+  const [chatId, setChatId] = useState<string | undefined>(route?.params?.chatId);
   const [pickedImageUri, setPickedImageUri] = useState<string | null>(null);
   const [pickedImageBase64, setPickedImageBase64] = useState<string | null>(null);
   const [pickedImageMimeType, setPickedImageMimeType] = useState<string | null>(null);
@@ -66,7 +67,11 @@ export function ChatScreen() {
   const [languagePickerOpen, setLanguagePickerOpen] = useState(false);
   const [activeTimestampId, setActiveTimestampId] = useState<string | null>(null);
   const [showScrollToBottom, setShowScrollToBottom] = useState(false);
-  const [lastFailedDraft, setLastFailedDraft] = useState<string | null>(null);
+  const [lastFailedDraft, setLastFailedDraft] = useState<
+    | { type: 'text'; message: string; imageBase64?: string; imageMimeType?: string }
+    | { type: 'voice'; clip: RecordedAudioClip }
+    | null
+  >(null);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   // Voice status: idle | recording | transcribing | processing
   const [voiceStatus, setVoiceStatus] = useState<'idle' | 'recording' | 'transcribing' | 'processing'>('idle');
@@ -225,6 +230,7 @@ export function ChatScreen() {
           content: data.answer,
           audioUrl: responseAudioUrl,
           audioMimeType: data.audioMimeType,
+          createdAt: new Date().toISOString(),
         },
       ]);
 
@@ -255,7 +261,12 @@ export function ChatScreen() {
         }
       }
 
-      setLastFailedDraft(variables.message);
+      setLastFailedDraft({
+        type: 'text',
+        message: variables.message,
+        imageBase64: variables.imageBase64,
+        imageMimeType: variables.imageMimeType,
+      });
       setMessages((current) => [
         ...current,
         {
@@ -312,6 +323,7 @@ export function ChatScreen() {
         role: 'user',
         content: outgoing,
         type: pickedImageBase64 ? 'image' : 'text',
+        createdAt: new Date().toISOString(),
       },
     ]);
     setInput('');
@@ -328,7 +340,30 @@ export function ChatScreen() {
       return;
     }
 
-    sendMessage(lastFailedDraft);
+    if (lastFailedDraft.type === 'text') {
+      const outgoing = lastFailedDraft.message.trim();
+      if (!outgoing) return;
+
+      const localChatId = chatId ?? 'local';
+      setMessages((current) => [
+        ...current.filter((message) => message.id !== starterId),
+        {
+          id: `${Date.now()}-user`,
+          chatId: localChatId,
+          role: 'user',
+          content: outgoing,
+          type: lastFailedDraft.imageBase64 ? 'image' : 'text',
+          createdAt: new Date().toISOString(),
+        },
+      ]);
+      askMutation.mutate({
+        message: outgoing,
+        imageBase64: lastFailedDraft.imageBase64,
+        imageMimeType: lastFailedDraft.imageMimeType,
+      });
+    } else if (lastFailedDraft.type === 'voice') {
+      voiceMutation.mutate(lastFailedDraft.clip);
+    }
   };
 
   const pickImage = async () => {
@@ -390,6 +425,7 @@ export function ChatScreen() {
           content: data.transcript || '',
           type: 'text',
           voiceInput: true,
+          createdAt: new Date().toISOString(),
         },
         {
           id: `${Date.now()}-voice-assistant`,
@@ -398,6 +434,7 @@ export function ChatScreen() {
           content: data.answer,
           audioUrl: voiceAudioUrl,
           audioMimeType: data.audioMimeType,
+          createdAt: new Date().toISOString(),
         },
       ]);
 
@@ -408,7 +445,8 @@ export function ChatScreen() {
         await playAudio(voiceAudioUrl);
       }
     },
-    onError: (error) => {
+    onError: (error, variables) => {
+      setLastFailedDraft({ type: 'voice', clip: variables });
       let message = tx('voiceRouteUnavailable');
 
       if (axios.isAxiosError(error)) {
@@ -446,8 +484,22 @@ export function ChatScreen() {
         setInput((prev) => prev ? `${prev} ${data.transcript}` : data.transcript);
       }
     },
-    onError: () => {
-      Alert.alert(tx('voiceRequestFailed'), tx('voiceRouteUnavailable'));
+    onError: (error) => {
+      let message = tx('voiceRouteUnavailable');
+
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          message = t(language, 'sessionExpired');
+        } else if (error.code === 'ECONNABORTED') {
+          message = 'Voice transcription timed out. Please try again.';
+        } else if (typeof error.response?.data === 'object' && error.response?.data && 'error' in error.response.data) {
+          message = String((error.response.data as { error?: unknown }).error || message);
+        } else if (error.message) {
+          message = error.message;
+        }
+      }
+
+      Alert.alert(tx('voiceRequestFailed'), message);
     },
   });
 
@@ -542,46 +594,50 @@ export function ChatScreen() {
     <Screen dark={isDark} padded={false}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        keyboardVerticalOffset={0}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
         style={{ flex: 1 }}
       >
         <View
           style={[
             styles.header,
             {
-              backgroundColor: isDark ? colors.backgroundAlt : '#eaf3ee',
+              backgroundColor: isDark ? colors.backgroundAlt : '#ffffff',
               borderBottomColor: colors.border,
+              paddingTop: Platform.OS === 'ios' ? 44 : 12,
             },
           ]}
         >
           <View style={styles.headerLeft}>
             <Pressable
-              onPress={() => setSessionDrawerOpen(true)}
+              onPress={() => navigation.goBack()}
               style={[
                 styles.topIconButton,
-                { backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)' },
+                { backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)', marginRight: 4 },
               ]}
             >
               {(() => {
-                const IconComp = IconMap['ChevronRight'];
-                return IconComp ? <IconComp size={20} color={isDark ? colors.textOnDark : colors.text} /> : null;
+                const IconComp = IconMap['ChevronLeft'];
+                return IconComp ? <IconComp size={24} color={isDark ? colors.textOnDark : colors.text} /> : null;
               })()}
             </Pressable>
-            <Image source={{ uri: designImages.chatAvatar }} style={styles.avatar} />
             <Pressable
+              style={{ flex: 1 }}
               onPress={() => {
-                if (chatId && currentSession) {
+                if (currentSession) {
                   setRenameValue(currentSession.title);
                   setRenameModalOpen(true);
                 }
               }}
             >
-              <AppText variant="heading" color={isDark ? colors.textOnDark : colors.text}>
+              <AppText variant="label" color={isDark ? colors.textOnDark : colors.text} numberOfLines={1} style={{ fontSize: 17, fontWeight: '600' }}>
                 {currentSession?.title || tx('newChat')}
               </AppText>
-              <AppText color={isDark ? '#8de2b2' : colors.primaryDark}>
-                {contextQuery.data?.location || t(language, 'online')}
-              </AppText>
+              <View style={styles.statusRow}>
+                <View style={[styles.statusDot, { backgroundColor: colors.primary }]} />
+                <AppText variant="caption" color={colors.textMuted}>
+                   {contextQuery.data?.location || t(language, 'online')}
+                </AppText>
+              </View>
             </Pressable>
           </View>
           <View style={styles.headerActions}>
@@ -651,8 +707,8 @@ export function ChatScreen() {
             >
               <Pressable
                 onPress={() =>
-                  setActiveTimestampId((current) => (current === message.id ? null : message.id))
-                }
+                    setActiveTimestampId((current) => (current === message.id ? null : message.id))
+                  }
                 onLongPress={() => onMessageLongPress(message)}
                 style={[
                   styles.bubble,
@@ -661,11 +717,12 @@ export function ChatScreen() {
                     : [
                         styles.aiBubble,
                         {
-                          backgroundColor: isDark ? colors.surface : '#ffffff',
-                          borderColor: colors.border,
+                          backgroundColor: isDark ? '#1f2924' : '#f0f4f2',
+                          borderColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.02)',
                           borderWidth: 1,
                         },
                       ],
+                  message.role === 'user' ? styles.userBubbleTail : styles.aiBubbleTail,
                 ]}
               >
                 {message.type === 'tool_result' ? (
@@ -681,39 +738,44 @@ export function ChatScreen() {
                   color={message.role === 'user' ? colors.textOnDark : isDark ? colors.textOnDark : colors.text}
                   numberOfLines={0}
                   selectable
-                  style={{ flexShrink: 1, flexWrap: 'wrap' }}
+                  style={{ flexShrink: 1, flexWrap: 'wrap', fontSize: 16, lineHeight: 22 }}
                 >
                   {message.content}
                 </AppText>
-                {message.voiceInput ? (
-                  <AppText
-                    variant="caption"
-                    color={message.role === 'user' ? 'rgba(255,255,255,0.8)' : colors.textMuted}
-                    style={{ marginTop: 8 }}
-                  >
-                    {tx('recordVoice')}
-                  </AppText>
-                ) : null}
+                
+                <View style={styles.messageMeta}>
+                    {message.voiceInput && (
+                        <AppText
+                            variant="caption"
+                            color={message.role === 'user' ? 'rgba(255,255,255,0.7)' : colors.textMuted}
+                            style={{ marginRight: 6 }}
+                        >
+                            {tx('recordVoice')}
+                        </AppText>
+                    )}
+                    {(activeTimestampId === message.id || message.role === 'assistant') && message.createdAt && (
+                        <AppText
+                            variant="caption"
+                            color={message.role === 'user' ? 'rgba(255,255,255,0.6)' : colors.textMuted}
+                            style={styles.timestamp}
+                        >
+                            {new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </AppText>
+                    )}
+                </View>
+
                 {message.role === 'assistant' && message.audioUrl ? (
-                  <Pressable onPress={() => playAudio(message.audioUrl)} style={styles.audioButton}>
+                  <Pressable onPress={() => playAudio(message.audioUrl)} style={[styles.audioButton, { backgroundColor: isDark ? 'rgba(82,183,129,0.1)' : 'rgba(82,183,129,0.05)' }]}>
                     {(() => {
                       const IconComp = IconMap['PlayCircle'];
                       return IconComp ? <IconComp size={18} color={colors.primaryDark} /> : null;
                     })()}
-                    <AppText variant="label" color={colors.primaryDark}>
+                    <AppText variant="label" color={colors.primaryDark} style={{ fontSize: 13 }}>
                       {t(language, 'audioPlayback')}
                     </AppText>
                   </Pressable>
                 ) : null}
-                {activeTimestampId === message.id && message.createdAt ? (
-                  <AppText
-                    variant="caption"
-                    color={message.role === 'user' ? 'rgba(255,255,255,0.8)' : colors.textMuted}
-                    style={{ marginTop: 8 }}
-                  >
-                    {new Date(message.createdAt).toLocaleString()}
-                  </AppText>
-                ) : null}
+
                 {message.error ? (
                   <GradientButton
                     label={tx('retry')}
@@ -726,22 +788,20 @@ export function ChatScreen() {
             </View>
           ))}
 
-          {(askMutation.isPending || voiceMutation.isPending || isHydratingHistory) && (
+          {(askMutation.isPending || voiceMutation.isPending || transcribeMutation.isPending || isHydratingHistory) && (
             <View style={styles.messageRow}>
               <View
                 style={[
                   styles.aiBubble,
                   {
-                    backgroundColor: isDark ? colors.surface : '#ffffff',
-                    borderColor: colors.border,
+                    backgroundColor: isDark ? '#1f2924' : '#f0f4f2',
+                    borderColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.02)',
                     borderWidth: 1,
                   },
+                  styles.aiBubbleTail
                 ]}
               >
                 <TypingDots isDark={isDark} />
-                <AppText color={colors.textMuted}>
-                  {voiceMutation.isPending ? t(language, 'processing') : tx('thinking')}
-                </AppText>
               </View>
             </View>
           )}
@@ -771,7 +831,7 @@ export function ChatScreen() {
           style={[
             styles.footer,
             {
-              backgroundColor: isDark ? colors.backgroundAlt : '#eaf3ee',
+              backgroundColor: isDark ? colors.backgroundAlt : '#ffffff',
               borderTopColor: colors.border,
             },
           ]}
@@ -780,23 +840,19 @@ export function ChatScreen() {
             <View style={styles.imagePreviewRow}>
               <Image source={{ uri: pickedImageUri }} style={styles.previewImage} />
               <View style={{ flex: 1 }}>
-                <AppText color={isDark ? colors.textOnDark : colors.text}>{t(language, 'imageAttached')}</AppText>
+                <AppText color={isDark ? colors.textOnDark : colors.text} style={{ fontWeight: '600' }}>{t(language, 'imageAttached')}</AppText>
                 <AppText variant="caption" color={colors.textMuted}>
                   {tx('imageWillBeSentWithQuestion')}
                 </AppText>
               </View>
-              <Pressable onPress={removePickedImage} style={styles.removeImageButton}>
+              <Pressable onPress={removePickedImage} style={[styles.removeImageButton, { backgroundColor: colors.surface }]}>
                 {(() => {
                   const IconComp = IconMap['X'];
-                  return IconComp ? <IconComp size={18} color={colors.textMuted} /> : null;
+                  return IconComp ? <IconComp size={16} color={colors.textMuted} /> : null;
                 })()}
               </Pressable>
             </View>
           ) : null}
-
-          <View style={styles.languageRow}>
-            <Pill label={language} active />
-          </View>
 
           {/* Voice status banner */}
           {voiceStatus !== 'idle' && (
@@ -813,18 +869,21 @@ export function ChatScreen() {
                 },
               ]}
             >
-              {(() => {
-                const IconComp = voiceStatus === 'recording' ? IconMap['Mic'] : IconMap['Sparkles'];
-                return IconComp ? (
-                  <IconComp
-                    size={14}
-                    color={voiceStatus === 'recording' ? '#d45f5f' : colors.primary}
-                  />
-                ) : null;
-              })()}
+              <Animated.View style={{ transform: [{ scale: micPulse }] }}>
+                {(() => {
+                    const IconComp = voiceStatus === 'recording' ? IconMap['Mic'] : IconMap['Sparkles'];
+                    return IconComp ? (
+                    <IconComp
+                        size={14}
+                        color={voiceStatus === 'recording' ? '#d45f5f' : colors.primary}
+                    />
+                    ) : null;
+                })()}
+              </Animated.View>
               <AppText
                 variant="caption"
                 color={voiceStatus === 'recording' ? '#d45f5f' : colors.primary}
+                style={{ fontWeight: '600' }}
               >
                 {voiceStatus === 'recording'
                   ? tx('listening')
@@ -834,7 +893,7 @@ export function ChatScreen() {
               </AppText>
               {voiceStatus === 'recording' && (
                 <AppText variant="caption" color={colors.textMuted}>
-                  {'Tap to fill input. Hold for AI reply.'}
+                  {' (Hold for AI)'}
                 </AppText>
               )}
             </View>
@@ -861,55 +920,69 @@ export function ChatScreen() {
               style={[
                 styles.input,
                 {
-                  backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : '#ffffff',
+                  backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : '#f3f7f5',
                   color: isDark ? colors.textOnDark : colors.text,
-                  borderColor: colors.border,
-                  borderWidth: 1,
+                  borderColor: 'transparent',
                 },
               ]}
               multiline
             />
-            {/* Mic button: tap = STT to box | long-press = full voice reply */}
-            <Animated.View style={{ transform: [{ scale: micPulse }] }}>
-              <Pressable
-                onPress={handleMicTap}
-                onLongPress={handleMicHoldStart}
-                onPressOut={handleMicHoldEnd}
-                delayLongPress={400}
-                disabled={voiceMutation.isPending || transcribeMutation.isPending}
-                style={[
-                  styles.iconAction,
-                  {
-                    backgroundColor: isRecording
-                      ? '#d45f5f'
-                      : voiceMutation.isPending || transcribeMutation.isPending
-                        ? isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)'
+            
+            <View style={{ flexDirection: 'row', gap: 8 }}>
+                {/* Mic button */}
+                <Animated.View style={{ transform: [{ scale: micPulse }] }}>
+                <Pressable
+                    onPress={handleMicTap}
+                    onLongPress={handleMicHoldStart}
+                    onPressOut={handleMicHoldEnd}
+                    delayLongPress={400}
+                    disabled={voiceMutation.isPending || transcribeMutation.isPending}
+                    style={[
+                    styles.iconAction,
+                    {
+                        backgroundColor: isRecording
+                        ? '#d45f5f'
                         : isDark
-                          ? 'rgba(255,255,255,0.08)'
-                          : 'rgba(0,0,0,0.05)',
-                  },
-                ]}
-              >
-                {(() => {
-                  const IconComp = IconMap['Mic'];
-                  return IconComp ? (
-                    <IconComp
-                      size={20}
-                      color={
-                        isRecording
-                          ? '#ffffff'
-                          : voiceMutation.isPending || transcribeMutation.isPending
-                            ? colors.textMuted
+                            ? 'rgba(255,255,255,0.08)'
+                            : 'rgba(0,0,0,0.05)',
+                    },
+                    ]}
+                >
+                    {(() => {
+                    const IconComp = IconMap['Mic'];
+                    return IconComp ? (
+                        <IconComp
+                        size={20}
+                        color={
+                            isRecording
+                            ? '#ffffff'
                             : isDark ? colors.textOnDark : colors.text
-                      }
-                    />
-                  ) : null;
-                })()}
-              </Pressable>
-            </Animated.View>
-            <GradientButton label={t(language, 'sendMessage')} onPress={() => sendMessage()} style={styles.sendButton} />
-          </View>
+                        }
+                        />
+                    ) : null;
+                    })()}
+                </Pressable>
+                </Animated.View>
 
+                {/* Send Button */}
+                <Pressable
+                    onPress={() => sendMessage()}
+                    disabled={!input.trim()}
+                    style={({ pressed }) => [
+                        styles.sendBtn,
+                        { 
+                            backgroundColor: input.trim() ? colors.primary : colors.border,
+                            opacity: pressed ? 0.8 : 1
+                        }
+                    ]}
+                >
+                    {(() => {
+                    const IconComp = IconMap['Send'];
+                    return IconComp ? <IconComp size={20} color="#fff" /> : null;
+                    })()}
+                </Pressable>
+            </View>
+          </View>
         </View>
 
           <Modal
@@ -1103,93 +1176,123 @@ export function ChatScreen() {
 
 const styles = StyleSheet.create({
   header: {
-    paddingTop: 8,
     paddingHorizontal: 16,
-    paddingBottom: 8,
+    paddingBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     borderBottomWidth: 1,
+    ...theme.shadow.card,
   },
   headerLeft: {
     flexDirection: 'row',
-    gap: 10,
     alignItems: 'center',
     flex: 1,
+  },
+  statusRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    marginTop: 2,
+  },
+  statusDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
   },
   headerActions: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 6,
   },
   topIconButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  avatar: {
     width: 40,
     height: 40,
-    borderRadius: 14,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   messagesScroll: {
     flex: 1,
   },
   messages: {
     paddingHorizontal: 16,
-    paddingBottom: 12,
-    gap: 12,
+    paddingTop: 16,
+    paddingBottom: 32,
+    gap: 16,
     flexGrow: 1,
   },
   dateLabel: {
     textAlign: 'center',
-    marginVertical: 12,
+    marginBottom: 8,
+    fontSize: 12,
+    opacity: 0.7,
   },
   messageRow: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
+    width: '100%',
   },
   messageRowUser: {
     justifyContent: 'flex-end',
   },
   bubble: {
-    maxWidth: '84%',
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    borderRadius: 22,
-    flexShrink: 1,
-    minWidth: 0,
+    maxWidth: '85%',
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    borderRadius: 20,
+    position: 'relative',
   },
   aiBubble: {
-    borderTopLeftRadius: 8,
+    borderTopLeftRadius: 4,
   },
   userBubble: {
-    borderTopRightRadius: 8,
+    borderTopRightRadius: 4,
+  },
+  aiBubbleTail: {
+    // Tail logic
+  },
+  userBubbleTail: {
+    // Tail logic
+  },
+  messageMeta: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      marginTop: 4,
+  },
+  timestamp: {
+      fontSize: 10,
+      opacity: 0.6,
   },
   audioButton: {
     marginTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 14,
   },
   footer: {
-    paddingHorizontal: 16,
-    paddingTop: 8,
-    paddingBottom: 10,
+    paddingHorizontal: 12,
+    paddingTop: 10,
+    paddingBottom: Platform.OS === 'ios' ? 34 : 14,
     borderTopWidth: 1,
-    gap: 10,
+    gap: 8,
   },
   imagePreviewRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
+    padding: 8,
+    borderRadius: 16,
+    backgroundColor: 'rgba(82,183,129,0.05)',
   },
   previewImage: {
-    width: 48,
-    height: 48,
-    borderRadius: 14,
+    width: 50,
+    height: 50,
+    borderRadius: 12,
   },
   removeImageButton: {
     width: 28,
@@ -1198,67 +1301,68 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  languageRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
   inputRow: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     gap: 8,
   },
   iconAction: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
   },
   input: {
     flex: 1,
-    minHeight: 40,
-    maxHeight: 100,
-    borderRadius: 18,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    minWidth: 0,
+    minHeight: 44,
+    maxHeight: 120,
+    borderRadius: 22,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    fontSize: 16,
   },
-  sendButton: {
-    minWidth: 74,
+  sendBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...theme.shadow.glow,
   },
   scrollFab: {
     position: 'absolute',
     right: 20,
-    bottom: 120,
-    width: 42,
-    height: 42,
-    borderRadius: 21,
+    bottom: 140,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
+    ...theme.shadow.card,
   },
   modalBackdrop: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.2)',
+    backgroundColor: 'rgba(0,0,0,0.4)',
     justifyContent: 'flex-start',
   },
   drawer: {
-    width: '82%',
+    width: '85%',
     maxWidth: 360,
     height: '100%',
-    paddingTop: 60,
+    paddingTop: Platform.OS === 'ios' ? 60 : 40,
     paddingHorizontal: 16,
     borderRightWidth: 1,
   },
   drawerHeader: {
-    gap: 12,
-    marginBottom: 16,
+    gap: 16,
+    marginBottom: 24,
   },
   sessionCard: {
-    borderRadius: 22,
-    padding: 14,
+    borderRadius: 20,
+    padding: 16,
     borderWidth: 1,
-    gap: 6,
+    gap: 8,
   },
   sessionActions: {
     marginTop: 8,
@@ -1267,43 +1371,44 @@ const styles = StyleSheet.create({
   },
   centeredModalBackdrop: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.25)',
+    backgroundColor: 'rgba(0,0,0,0.5)',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 16,
+    padding: 20,
   },
   renameModal: {
     width: '100%',
-    maxWidth: 420,
-    borderRadius: 24,
+    maxWidth: 400,
+    borderRadius: 28,
     borderWidth: 1,
-    padding: 18,
-    gap: 14,
+    padding: 24,
+    gap: 20,
   },
   renameInput: {
     borderWidth: 1,
-    borderRadius: 16,
-    paddingHorizontal: 12,
-    paddingVertical: 12,
+    borderRadius: 18,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    fontSize: 16,
   },
   renameActions: {
     flexDirection: 'row',
-    gap: 10,
+    gap: 12,
     justifyContent: 'flex-end',
   },
   languageModal: {
     width: '100%',
-    maxWidth: 420,
-    borderRadius: 24,
+    maxWidth: 400,
+    borderRadius: 28,
     borderWidth: 1,
-    padding: 18,
-    gap: 14,
+    padding: 24,
+    gap: 20,
   },
   languageOption: {
     borderWidth: 1,
-    borderRadius: 18,
-    paddingHorizontal: 14,
-    paddingVertical: 14,
+    borderRadius: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -1311,12 +1416,11 @@ const styles = StyleSheet.create({
   voiceStatusBanner: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 7,
-    borderRadius: 12,
+    gap: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    borderRadius: 16,
     borderWidth: 1,
-    marginBottom: 4,
-    flexWrap: 'wrap',
+    marginBottom: 6,
   },
 });

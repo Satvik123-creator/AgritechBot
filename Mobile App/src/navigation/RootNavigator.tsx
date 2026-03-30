@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useTheme } from '../providers/ThemeContext';
 
 import { AnaajTabBar } from '../components/ui';
-import { theme } from '../constants/theme';
 import { useI18n } from '../hooks/useI18n';
 import { MainTabParamList, RootStackParamList } from './types';
 
@@ -32,17 +31,12 @@ function MainTabs() {
       <Tab.Screen
         name="ChatTab"
         options={{ title: t('chatTab') }}
-        getComponent={() => require('../screens/ChatScreen').ChatScreen}
+        getComponent={() => require('../screens/ChatListScreen').ChatListScreen}
       />
       <Tab.Screen
         name="MarketplaceTab"
         options={{ title: t('marketplaceTab') }}
         getComponent={() => require('../screens/MarketplaceScreen').MarketplaceScreen}
-      />
-      <Tab.Screen
-        name="HistoryTab"
-        options={{ title: t('historyTab') }}
-        getComponent={() => require('../screens/HistoryScreen').HistoryScreen}
       />
       <Tab.Screen
         name="ProfileTab"
@@ -88,6 +82,7 @@ export function RootNavigator() {
         <Stack.Screen name="ProfileCompletion" getComponent={() => require('../screens/ProfileSetupScreen').ProfileSetupScreen} />
         <Stack.Screen name="ProfileComplete" getComponent={() => require('../screens/ProfileSetupScreen').ProfileSetupScreen} />
         <Stack.Screen name="MainTabs" component={MainTabs} />
+        <Stack.Screen name="Chat" getComponent={() => require('../screens/ChatScreen').ChatScreen} />
         <Stack.Screen name="Marketplace" getComponent={() => require('../screens/MarketplaceScreen').MarketplaceScreen} />
         <Stack.Screen name="ProductDetail" getComponent={() => require('../screens/ProductDetailScreen').ProductDetailScreen} />
         <Stack.Screen name="Cart" getComponent={() => require('../screens/CartScreen').CartScreen} />

@@ -27,7 +27,7 @@ function fileExtensionForMimeType(mimeType: string): string {
 export async function speechToText(
   audioBase64: string,
   language?: string,
-  mimeType: string = 'audio/m4a',
+  mimeType: string = 'audio/mp4',
   fileName?: string
 ): Promise<STTResponse> {
   try {
@@ -35,7 +35,11 @@ export async function speechToText(
 
     // Sarvam STT expects multipart/form-data with the audio file
     const audioBuffer = Buffer.from(audioBase64, 'base64');
-    const normalizedMimeType = mimeType || 'audio/m4a';
+    let normalizedMimeType = mimeType || 'audio/mp4';
+    if (normalizedMimeType === 'audio/m4a') {
+      normalizedMimeType = 'audio/mp4';
+    }
+    
     const audioBlob = new Blob([audioBuffer], { type: normalizedMimeType });
     const uploadFileName =
       fileName && fileName.trim().length > 0

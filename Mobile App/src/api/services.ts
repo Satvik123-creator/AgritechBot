@@ -347,6 +347,7 @@ export const apiService = {
       formData,
       {
         timeout: 90000,
+        headers: { 'Content-Type': 'multipart/form-data' },
       }
     );
 
@@ -377,6 +378,7 @@ export const apiService = {
       formData,
       {
         timeout: 90000,
+        headers: { 'Content-Type': 'multipart/form-data' },
       }
     );
 
@@ -404,7 +406,10 @@ export const apiService = {
     const { data } = await api.post<{ transcript: string; language: string }>(
       '/api/v1/chat/voice-input',
       formData,
-      { timeout: 30000 },
+      { 
+        timeout: 30000,
+        headers: { 'Content-Type': 'multipart/form-data' },
+      },
     );
 
     return data;

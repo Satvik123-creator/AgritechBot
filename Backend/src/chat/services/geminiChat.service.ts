@@ -241,11 +241,17 @@ function getSafeFriendlyErrorMessage(_language: ChatLanguageCode, code: string):
   return 'The chat service is temporarily unavailable. Please try again shortly.';
 }
 
-function getQuotaLimitedMessage(retryAfterSeconds: number): string {
+function getQuotaLimitedMessage(language: ChatLanguageCode, retryAfterSeconds: number): string {
+  if (language === 'hi') return `Gemini API quota अभी limit हो गई है। कृपया ${retryAfterSeconds}s बाद फिर कोशिश करें।`;
+  if (language === 'gu') return `Gemini API quota હાલમાં મર્યાદા પર છે. કૃપા કરીને ${retryAfterSeconds}s પછી ફરી પ્રયત્ન કરો.`;
+  if (language === 'pa') return `Gemini API quota ਇਸ ਵੇਲੇ ਸੀਮਾ ਤੇ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ${retryAfterSeconds}s ਬਾਅਦ ਫਿਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ।`;
   return `Gemini API quota is currently limited. Please retry in ${retryAfterSeconds}s.`;
 }
 
-function getQuotaExceededMessage(retryAfterSeconds: number): string {
+function getQuotaExceededMessage(language: ChatLanguageCode, retryAfterSeconds: number): string {
+  if (language === 'hi') return `आज Gemini API quota limit हो गई है। कृपया ${retryAfterSeconds}s बाद फिर कोशिश करें।`;
+  if (language === 'gu') return `Gemini API quota પૂર્ણ થઈ ગઈ છે. કૃપા કરીને ${retryAfterSeconds}s પછી ફરી પ્રયત્ન કરો.`;
+  if (language === 'pa') return `Gemini API quota ਸਮਾਪਤ ਹੋ ਗਈ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ${retryAfterSeconds}s ਬਾਅਦ ਫਿਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ।`;
   return `Gemini API quota exceeded. Please retry in ${retryAfterSeconds}s.`;
 }
 
@@ -294,7 +300,7 @@ async function buildConversationContents(params: {
     },
   ];
 
-  return { contents, contextString, location, season, summaryUsed: truncated.summaryUsed };
+  return { contents, contextString, location, season, summaryUsed: truncated.summaryUsed, isFirstMessage: previousMessages.length === 0 };
 }
 
 async function runToolLoop(params: {
@@ -488,25 +494,13 @@ export async function sendChatMessage(params: {
   preferredLanguage?: PreferredChatLanguage;
   imageBase64?: string;
   imageMimeType?: string;
+  forceVoiceReply?: boolean;
 }) {
   if (Date.now() < quotaBlockedUntil) {
-    {
-      const retryMs = quotaBlockedUntil - Date.now();
-      const retryAfterSeconds = Math.max(1, Math.ceil(retryMs / 1000));
-      const message = getQuotaLimitedMessage(retryAfterSeconds);
-      throw new HttpError(message, 429, { retryAfterSeconds });
-    }
     const retryMs = quotaBlockedUntil - Date.now();
     const retryAfterSeconds = Math.max(1, Math.ceil(retryMs / 1000));
     const language = resolveChatLanguage(params.text, params.preferredLanguage);
-    const message =
-      language === 'hi'
-        ? `Gemini API quota अभी limit हो गई है। कृपया ${retryAfterSeconds}s बाद फिर कोशिश करें।`
-        : language === 'gu'
-          ? `Gemini API quota હાલમાં મર્યાદા પર છે. કૃપા કરીને ${retryAfterSeconds}s પછી ફરી પ્રયત્ન કરો.`
-          : language === 'pa'
-            ? `Gemini API quota ਇਸ ਵੇਲੇ ਸੀਮਾ ਤੇ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ${retryAfterSeconds}s ਬਾਅਦ ਫਿਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ।`
-        : `Gemini API quota is currently limited. Please retry in ${retryAfterSeconds}s.`;
+    const message = getQuotaLimitedMessage(language, retryAfterSeconds);
     throw new HttpError(message, 429, { retryAfterSeconds });
   }
 
@@ -571,17 +565,20 @@ export async function sendChatMessage(params: {
     const cacheHit = Boolean(usage?.cachedContentTokenCount);
     let audioBase64: string | undefined;
     let audioMimeType: string | undefined;
+    const shouldGenerateVoice = built.isFirstMessage || params.forceVoiceReply;
 
-    try {
-      audioBase64 = await textToSpeech(responseText, getLanguageLabel(language));
-      if (audioBase64) {
-        audioMimeType = 'audio/mp3';
+    if (shouldGenerateVoice) {
+      try {
+        audioBase64 = await textToSpeech(responseText, getLanguageLabel(language));
+        if (audioBase64) {
+          audioMimeType = 'audio/mp3';
+        }
+      } catch (ttsError) {
+        logger.warn(
+          { err: ttsError, sessionId: params.sessionId, farmerId: params.farmerId },
+          'Sarvam TTS failed for text chat response; returning text-only reply'
+        );
       }
-    } catch (ttsError) {
-      logger.warn(
-        { err: ttsError, sessionId: params.sessionId, farmerId: params.farmerId },
-        'Sarvam TTS failed for text chat response; returning text-only reply'
-      );
     }
 
     await persistSuccessfulExchange({
@@ -615,40 +612,10 @@ export async function sendChatMessage(params: {
   } catch (error) {
     const processingTimeMs = Date.now() - startedAt;
     if (isQuotaError(error)) {
-      {
-        const delayMs = parseRetryDelayMs(error);
-        quotaBlockedUntil = Date.now() + delayMs;
-        const retryAfterSeconds = Math.max(1, Math.ceil(delayMs / 1000));
-        const msg = getQuotaExceededMessage(retryAfterSeconds);
-
-        await persistFailedExchange({
-          sessionId: params.sessionId,
-          farmerId: params.farmerId,
-          userText: params.text,
-          imageBase64: params.imageBase64,
-          language,
-          processingTimeMs,
-          errorCode: 'quota',
-          errorMessage: msg,
-        });
-
-        logger.warn(
-          { retryAfterSeconds, blockedUntil: new Date(quotaBlockedUntil).toISOString() },
-          'Gemini quota exceeded; enabling temporary cooldown'
-        );
-        throw new HttpError(msg, 429, { retryAfterSeconds });
-      }
       const delayMs = parseRetryDelayMs(error);
       quotaBlockedUntil = Date.now() + delayMs;
       const retryAfterSeconds = Math.max(1, Math.ceil(delayMs / 1000));
-      const msg =
-        language === 'hi'
-          ? `आज Gemini API quota limit हो गई है। कृपया ${retryAfterSeconds}s बाद फिर कोशिश करें।`
-          : language === 'gu'
-            ? `Gemini API quota પૂર્ણ થઈ ગઈ છે. કૃપા કરીને ${retryAfterSeconds}s પછી ફરી પ્રયત્ન કરો.`
-            : language === 'pa'
-              ? `Gemini API quota ਸਮਾਪਤ ਹੋ ਗਈ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ${retryAfterSeconds}s ਬਾਅਦ ਫਿਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ।`
-          : `Gemini API quota exceeded. Please retry in ${retryAfterSeconds}s.`;
+      const msg = getQuotaExceededMessage(language, retryAfterSeconds);
 
       await persistFailedExchange({
         sessionId: params.sessionId,
@@ -737,6 +704,7 @@ export async function sendVoiceMessage(params: {
     sessionId: params.sessionId,
     text: transcript,
     preferredLanguage: params.preferredLanguage,
+    forceVoiceReply: true,
   });
 
   const audioBase64 =
@@ -800,26 +768,41 @@ export async function streamChatMessage(params: {
   imageMimeType?: string;
   reply: FastifyReply;
 }) {
-  const result = await sendChatMessage(params);
-  const words = result.response.split(/(\s+)/).filter(Boolean);
-
-  params.reply.raw.writeHead(200, {
-    'Content-Type': 'text/event-stream',
-    'Cache-Control': 'no-cache, no-transform',
-    Connection: 'keep-alive',
-  });
-
   const writeEvent = (event: string, data: unknown) => {
     params.reply.raw.write(`event: ${event}\n`);
     params.reply.raw.write(`data: ${JSON.stringify(data)}\n\n`);
   };
 
-  writeEvent('start', { sessionId: params.sessionId });
+  try {
+    const result = await sendChatMessage(params);
+    const words = result.response.split(/(\s+)/).filter(Boolean);
 
-  for (const token of words) {
-    writeEvent('token', { token });
+    params.reply.raw.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache, no-transform',
+      Connection: 'keep-alive',
+    });
+
+    writeEvent('start', { sessionId: params.sessionId });
+
+    for (const token of words) {
+      writeEvent('token', { token });
+    }
+
+    writeEvent('done', result);
+  } catch (error) {
+    if (!params.reply.raw.headersSent) {
+      params.reply.raw.writeHead(200, {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache, no-transform',
+        Connection: 'keep-alive',
+      });
+    }
+
+    const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred.';
+    const statusCode = (error as { statusCode?: number }).statusCode || 500;
+    writeEvent('error', { message: errorMessage, statusCode });
+  } finally {
+    params.reply.raw.end();
   }
-
-  writeEvent('done', result);
-  params.reply.raw.end();
 }

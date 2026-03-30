@@ -172,7 +172,22 @@ export type TranslationKey =
   | 'playbackFailed'
   | 'voicePlaybackFailed'
   | 'voiceRequestFailed'
-  | 'voiceRouteUnavailable';
+  | 'voiceRouteUnavailable'
+  | 'chatTab'
+  | 'yourConversations'
+  | 'searchChats'
+  | 'noConversations'
+  | 'pastSessions'
+  | 'rename'
+  | 'archive'
+  | 'renameSession'
+  | 'enterSessionTitle'
+  | 'saving'
+  | 'newChat'
+  | 'seasonLabel'
+  | 'retry'
+  | 'toolResult';
+
 
 const translations: Record<AppLanguage, Record<TranslationKey, string>> = {
   English: {
@@ -348,6 +363,20 @@ const translations: Record<AppLanguage, Record<TranslationKey, string>> = {
     voicePlaybackFailed: 'Could not play the voice response.',
     voiceRequestFailed: 'Voice Request Failed',
     voiceRouteUnavailable: 'Voice service is currently unavailable. Please try again later.',
+    chatTab: 'Chat',
+    yourConversations: 'All your conversations',
+    searchChats: 'Search chats...',
+    noConversations: 'No conversations found',
+    pastSessions: 'Past Sessions',
+    rename: 'Rename',
+    archive: 'Archive',
+    renameSession: 'Rename Session',
+    enterSessionTitle: 'Enter session title',
+    saving: 'Saving...',
+    newChat: 'New Chat',
+    seasonLabel: 'Current Season',
+    retry: 'Retry',
+    toolResult: 'Tool Result',
   },
   Hindi: {
     marketTitle: 'मार्केट',
@@ -522,6 +551,20 @@ const translations: Record<AppLanguage, Record<TranslationKey, string>> = {
     voicePlaybackFailed: 'वॉयस रिस्पॉन्स नहीं चला सका।',
     voiceRequestFailed: 'वॉयस अनुरोध विफल',
     voiceRouteUnavailable: 'वॉयस सेवा वर्तमान में उपलब्ध नहीं है। कृपया बाद में पुनः प्रयास करें।',
+    chatTab: 'चैट',
+    yourConversations: 'आपकी बातचीत',
+    searchChats: 'चैट खोजें...',
+    noConversations: 'कोई बातचीत नहीं मिली',
+    pastSessions: 'पिछली बातचीत',
+    rename: 'नाम बदलें',
+    archive: 'संग्रહ करें',
+    renameSession: 'नाम बदलें',
+    enterSessionTitle: 'शीर्षक दर्ज करें',
+    saving: 'सहेज रहे हैं...',
+    newChat: 'नयी चैट',
+    seasonLabel: 'वर्तमान मौसम',
+    retry: 'पुनः प्रयास करें',
+    toolResult: 'टूल परिणाम',
   },
   Gujarati: {
     marketTitle: 'ખેતી બજાર',
@@ -696,6 +739,20 @@ const translations: Record<AppLanguage, Record<TranslationKey, string>> = {
     voicePlaybackFailed: 'વૉઇસ રિસ્પોન્સ ચલાવી શકાયું નથી.',
     voiceRequestFailed: 'વૉઇસ અનુરોધ નિષ્ફળ',
     voiceRouteUnavailable: 'વૉઇસ સેવા હાલમાં ઉપલબ્ધ નથી. કૃપા કરીને પછી ફરી પ્રયાસ કરો.',
+    chatTab: 'ચેટ',
+    yourConversations: 'તમારી વાતચીત',
+    searchChats: 'ચેટ શોધો...',
+    noConversations: 'કોઈ વાતચીત મળી નથી',
+    pastSessions: 'પાછલી વાતચીત',
+    rename: 'નામ બદલો',
+    archive: 'આર્કાઇવ',
+    renameSession: 'નામ બદલો',
+    enterSessionTitle: 'શીર્ષક દાખલ કરો',
+    saving: 'સાચવી રહ્યા છીએ...',
+    newChat: 'નવી ચેટ',
+    seasonLabel: 'વર્તમાન સિઝન',
+    retry: 'ફરી પ્રયાસ કરો',
+    toolResult: 'ટૂલ પરિણામ',
   },
   Punjabi: {
     marketTitle: 'ਮਾਰਕੀਟ',
@@ -870,6 +927,20 @@ const translations: Record<AppLanguage, Record<TranslationKey, string>> = {
     voicePlaybackFailed: 'ਵੌਇਸ ਜਵਾਬ ਨਹੀਂ ਚਲਾ ਸਕਿਆ।',
     voiceRequestFailed: 'ਵੌਇਸ ਬੇਨਤੀ ਫੇਲ',
     voiceRouteUnavailable: 'ਵੌਇਸ ਸੇਵਾ ਇਸ ਵੇਲੇ ਉਪਲਬਧ ਨਹੀਂ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।',
+    chatTab: 'ਚੈਟ',
+    yourConversations: 'ਤੁਹਾਡੀ ਗੱਲਬਾਤ',
+    searchChats: 'ਚੈਟ ਖੋਜੋ...',
+    noConversations: 'ਕੋਈ ਗੱਲਬਾਤ ਨਹੀਂ ਮਿਲੀ',
+    pastSessions: 'ਪਿਛਲੀ ਗੱਲਬਾਤ',
+    rename: 'ਨਾਂ ਬਦਲੋ',
+    archive: 'ਆਰਕਾਈਵ',
+    renameSession: 'ਨਾਂ ਬਦਲੋ',
+    enterSessionTitle: 'ਸਿਰਲੇਖ ਦਰਜ ਕਰੋ',
+    saving: 'ਸੇਵ ਕਰ ਰਿਹਾ ਹੈ...',
+    newChat: 'ਨਵੀਂ ਚੈਟ',
+    seasonLabel: 'ਮੌਜੂਦਾ ਮੌਸਮ',
+    retry: 'ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ',
+    toolResult: 'ਟੂਲ ਨਤੀਜਾ',
   },
 };
 

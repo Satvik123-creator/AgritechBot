@@ -60,9 +60,8 @@ export function VoiceScreen() {
         }
       }
 
-      navigation.navigate('MainTabs', {
-        screen: 'ChatTab',
-        params: { chatId: data.chatId },
+      navigation.navigate('Chat', {
+        chatId: data.chatId,
       });
     },
     onError: (error) => {
