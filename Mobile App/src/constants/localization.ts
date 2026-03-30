@@ -161,7 +161,18 @@ export type TranslationKey =
   | 'sendingResend'
   | 'didntReceiveCode'
   | 'secureConnection'
-  | 'stepTwoOfThree';
+  | 'stepTwoOfThree'
+  | 'thinking'
+  | 'listening'
+  | 'ready'
+  | 'askYourCropQuestionIn'
+  | 'voiceResponse'
+  | 'stopAndSend'
+  | 'startRecording'
+  | 'playbackFailed'
+  | 'voicePlaybackFailed'
+  | 'voiceRequestFailed'
+  | 'voiceRouteUnavailable';
 
 const translations: Record<AppLanguage, Record<TranslationKey, string>> = {
   English: {
@@ -326,6 +337,17 @@ const translations: Record<AppLanguage, Record<TranslationKey, string>> = {
     didntReceiveCode: "Didn't receive the code? Resend",
     secureConnection: 'Secure, encrypted connection',
     stepTwoOfThree: 'Step 2 of 3',
+    thinking: 'Thinking...',
+    listening: 'Listening...',
+    ready: 'Tap to speak',
+    askYourCropQuestionIn: 'Ask your crop question in',
+    voiceResponse: 'AI Response',
+    stopAndSend: 'Stop & Send',
+    startRecording: 'Start Recording',
+    playbackFailed: 'Playback Failed',
+    voicePlaybackFailed: 'Could not play the voice response.',
+    voiceRequestFailed: 'Voice Request Failed',
+    voiceRouteUnavailable: 'Voice service is currently unavailable. Please try again later.',
   },
   Hindi: {
     marketTitle: 'मार्केट',
@@ -489,6 +511,17 @@ const translations: Record<AppLanguage, Record<TranslationKey, string>> = {
     didntReceiveCode: 'कोड नहीं मिला? फिर से भेजें',
     secureConnection: 'सुरक्षित एन्क्रिप्टेड कनेक्शन',
     stepTwoOfThree: 'चरण 2 (3 में से)',
+    thinking: 'सोच रहे हैं...',
+    listening: 'सुन रहे हैं...',
+    ready: 'बोलने के लिए टैप करें',
+    askYourCropQuestionIn: 'अपना फसल प्रश्न पूछें',
+    voiceResponse: 'AI जवाब',
+    stopAndSend: 'रोकें और भेजें',
+    startRecording: 'रिकॉर्डिंग शुरू करें',
+    playbackFailed: 'प्लेबैक विफल',
+    voicePlaybackFailed: 'वॉयस रिस्पॉन्स नहीं चला सका।',
+    voiceRequestFailed: 'वॉयस अनुरोध विफल',
+    voiceRouteUnavailable: 'वॉयस सेवा वर्तमान में उपलब्ध नहीं है। कृपया बाद में पुनः प्रयास करें।',
   },
   Gujarati: {
     marketTitle: 'ખેતી બજાર',
@@ -652,6 +685,17 @@ const translations: Record<AppLanguage, Record<TranslationKey, string>> = {
     didntReceiveCode: 'કોડ ન મળ્યો? ફરી મોકલો',
     secureConnection: 'સુરક્ષિત, એન્ક્રિપ્ટેડ જોડાણ',
     stepTwoOfThree: 'પગલું 2 (3 માંથી)',
+    thinking: 'વિચારી રહ્યા છીએ...',
+    listening: 'સાંભળી રહ્યા છીએ...',
+    ready: 'બોલવા માટે ટેપ કરો',
+    askYourCropQuestionIn: 'તમારો ફસલ પ્રશ્ન પૂછો',
+    voiceResponse: 'AI જવાબ',
+    stopAndSend: 'રોકો અને મોકલો',
+    startRecording: 'રેકોર્ડિંગ શરૂ કરો',
+    playbackFailed: 'પ્લેબેક નિષ્ફળ',
+    voicePlaybackFailed: 'વૉઇસ રિસ્પોન્સ ચલાવી શકાયું નથી.',
+    voiceRequestFailed: 'વૉઇસ અનુરોધ નિષ્ફળ',
+    voiceRouteUnavailable: 'વૉઇસ સેવા હાલમાં ઉપલબ્ધ નથી. કૃપા કરીને પછી ફરી પ્રયાસ કરો.',
   },
   Punjabi: {
     marketTitle: 'ਮਾਰਕੀਟ',
@@ -815,6 +859,17 @@ const translations: Record<AppLanguage, Record<TranslationKey, string>> = {
     didntReceiveCode: 'ਕੋਡ ਨਹੀਂ ਮਿਲਿਆ? ਦੁਬਾਰਾ ਭੇਜੋ',
     secureConnection: 'ਸੁਰੱਖਿਅਤ, ਐਨਕ੍ਰਿਪਟਡ ਸੰਪਰਕ',
     stepTwoOfThree: 'ਤਬਦਾ 2 (3 ਵਿੱਚੋਂ)',
+    thinking: 'ਸੋਚ ਰਿਹਾ ਹੈ...',
+    listening: 'ਸੁਣ ਰਿਹਾ ਹੈ...',
+    ready: 'ਬੋਲਣ ਲਈ ਟੈਪ ਕਰੋ',
+    askYourCropQuestionIn: 'ਆਪਣਾ ਫਸਲ ਸੰਬੰਧੀ ਸਵਾਲ ਪੁੱਛੋ',
+    voiceResponse: 'AI ਜਵਾਬ',
+    stopAndSend: 'ਰੋਕੋ ਅਤੇ ਭੇਜੋ',
+    startRecording: 'ਰਿਕਾਰਡਿੰਗ ਸ਼ੁਰੂ ਕਰੋ',
+    playbackFailed: 'ਪਲੇਬੈਕ ਫੇਲ',
+    voicePlaybackFailed: 'ਵੌਇਸ ਜਵਾਬ ਨਹੀਂ ਚਲਾ ਸਕਿਆ।',
+    voiceRequestFailed: 'ਵੌਇਸ ਬੇਨਤੀ ਫੇਲ',
+    voiceRouteUnavailable: 'ਵੌਇਸ ਸੇਵਾ ਇਸ ਵੇਲੇ ਉਪਲਬਧ ਨਹੀਂ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।',
   },
 };
 

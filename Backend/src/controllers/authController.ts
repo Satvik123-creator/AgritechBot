@@ -141,3 +141,90 @@ export async function verifyOtp(request: FastifyRequest, reply: FastifyReply) {
     user: buildUserPayload(user),
   });
 }
+
+// --- 2Factor.in SMS OTP Integration ---
+const twoFactorSessions = new Map<string, string>(); // Maps phone -> sessionId
+const TWO_FACTOR_API_KEY = process.env.TWO_FACTOR_API_KEY || 'YOUR_2FACTOR_API_KEY';
+
+export async function send2FactorOtp(request: FastifyRequest, reply: FastifyReply) {
+  const parsed = sendOtpSchema.safeParse(request.body);
+  if (!parsed.success) {
+    return reply.status(400).send({ success: false, message: 'Invalid phone number format' });
+  }
+
+  const { phone } = parsed.data;
+
+  try {
+    const url = `https://2factor.in/API/V1/${TWO_FACTOR_API_KEY}/SMS/${encodeURIComponent(phone)}/AUTOGEN`;
+    const res = await fetch(url);
+    const data = await res.json() as Record<string, string>;
+
+    if (data.Status === 'Success') {
+      twoFactorSessions.set(phone, data.Details); // Store sessionId
+      return reply.send({ success: true, message: 'OTP sent successfully' });
+    } else {
+      return reply.status(400).send({ success: false, message: data.Details || 'Failed to send OTP' });
+    }
+  } catch (error) {
+    logger.error({ error }, 'Send 2Factor OTP failed');
+    return reply.status(500).send({ success: false, message: 'Internal Server Error' });
+  }
+}
+
+export async function verify2FactorOtp(request: FastifyRequest, reply: FastifyReply) {
+  const parsed = verifyOtpSchema.safeParse(request.body);
+  if (!parsed.success) {
+    return reply.status(400).send({ success: false, message: 'Invalid phone or OTP format' });
+  }
+
+  const { phone, otp } = parsed.data;
+  const sessionId = twoFactorSessions.get(phone);
+
+  if (!sessionId) {
+    return reply.status(400).send({ success: false, message: 'OTP session not found or expired. Please request a new OTP.' });
+  }
+
+  try {
+    const url = `https://2factor.in/API/V1/${TWO_FACTOR_API_KEY}/SMS/VERIFY/${sessionId}/${otp}`;
+    const res = await fetch(url);
+    const data = await res.json() as Record<string, string>;
+
+    if (data.Details === 'OTP Matched') {
+      twoFactorSessions.delete(phone); // Clean up session
+
+      // Standard user upsert sequence replacing OTP payload to allow access precisely like the existing system
+      let user = await User.findOne({ phone });
+      if (!user) {
+        user = new User({ phone, isVerified: true, subscriptionTier: 'free' });
+        await user.save();
+      } else if (!user.isVerified) {
+        user.isVerified = true;
+        await user.save();
+      }
+
+      const existingSub = await Subscription.findOne({ userId: user._id });
+      if (!existingSub) {
+        await Subscription.create({
+          userId: user._id,
+          tier: 'free',
+          endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+          features: TIER_FEATURES.free,
+        });
+      }
+
+      const internalToken = generateInternalToken(String(user._id), user.role);
+
+      return reply.send({
+        success: true,
+        message: 'Login successful',
+        token: internalToken,
+        user: buildUserPayload(user),
+      });
+    } else {
+      return reply.status(400).send({ success: false, message: data.Details || 'Invalid OTP' });
+    }
+  } catch (error) {
+    logger.error({ error }, 'Verify 2Factor OTP failed');
+    return reply.status(500).send({ success: false, message: 'Internal Server Error' });
+  }
+}
