@@ -129,14 +129,22 @@ export async function buildApp(): Promise<FastifyInstance> {
   // ── Health Check (extended with Redis + worker metrics) ──
   app.get('/health', async () => {
     const redisStatus = redis.status === 'ready' ? 'ok' : redis.status;
+    const dbStatus = require('mongoose').connection.readyState === 1 ? 'ok' : 'disconnected';
     const chatMetrics = await getChatHealthMetrics();
+
+    const overallStatus = 
+      dbStatus === 'ok' && redisStatus === 'ok' && chatMetrics.status === 'healthy'
+        ? 'ok'
+        : 'degraded';
+
     return {
-      status: 'ok',
+      status: overallStatus,
+      database: dbStatus,
+      redis: redisStatus,
       version: APP_VERSION,
       environment: env.NODE_ENV,
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
-      redis: redisStatus,
       workers: {
         chatProcessed: workerMetrics.chatProcessed,
         chatCacheHits: workerMetrics.chatCacheHits,

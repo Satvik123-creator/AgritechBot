@@ -340,17 +340,16 @@ export function AnaajTabBar({ state, descriptors, navigation }: BottomTabBarProp
     };
   }, []);
 
-  if (isKeyboardVisible) {
-    return null;
-  }
-
   return (
-    <View style={[styles.tabShell, { paddingBottom: Math.max(8, insets.bottom), backgroundColor: isDark ? '#08100B' : '#ffffff' }]}>
-      <View
+    <View style={styles.tabShell}>
+      <BlurView
+        intensity={isDark ? 95 : 100}
+        tint={isDark ? 'dark' : 'light'}
         style={[
           styles.tabBlur,
           {
-            backgroundColor: isDark ? '#08100B' : '#ffffff',
+            backgroundColor: isDark ? 'rgba(11, 14, 12, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+            borderColor: isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0,0,0,0.05)',
           },
         ]}
       >
@@ -359,54 +358,63 @@ export function AnaajTabBar({ state, descriptors, navigation }: BottomTabBarProp
           const { options } = descriptors[route.key];
           const label = (options.tabBarLabel as string) ?? options.title ?? route.name;
 
+          const tabIcons: Record<string, string> = {
+            HomeTab: 'Home',
+            MarketplaceTab: 'Search',
+            ChatTab: 'Clock',
+            ProfileTab: 'User',
+          };
+
           return (
             <React.Fragment key={route.key}>
-              {/* Insert central Scan button after the first two tabs */}
-              {index === 2 && (
-                <Pressable
-                  onPress={() => navigation.navigate('ImageScan' as any)}
-                  style={styles.tabCentralItem}
-                >
-                  <LinearGradient
-                    colors={[colors.primary, '#8de2b2']}
-                    style={styles.tabCentralOrb}
-                  >
-                    {(() => {
-                      const IconComp = IconMap['Scan'];
-                      return IconComp ? <IconComp size={24} color={colors.textOnDark} /> : null;
-                    })()}
-                  </LinearGradient>
-                  <AppText variant="caption" color={isDark ? 'rgba(247,250,248,0.62)' : colors.textMuted} style={{ marginTop: 4 }}>
-                    Scan
-                  </AppText>
-                </Pressable>
-              )}
               <Pressable
                 onPress={() => navigation.navigate(route.name)}
                 style={styles.tabItem}
               >
-                <View style={[styles.tabIconWrap, isFocused && { backgroundColor: colors.primary }]}>
+                <View style={[styles.tabIconWrap, isFocused && { backgroundColor: '#6366f1' + '15' }]}>
                   {(() => {
                     const IconComp = IconMap[tabIcons[route.name] ?? 'Circle'];
-                    return IconComp ? <IconComp size={20} color={isFocused ? colors.textOnDark : isDark ? 'rgba(247,250,248,0.72)' : colors.textMuted} /> : null;
+                    return IconComp ? <IconComp size={20} color={isFocused ? '#6366f1' : isDark ? 'rgba(247,250,248,0.5)' : colors.textMuted} /> : null;
                   })()}
                 </View>
-                <AppText
-                  variant="caption"
-                  color={
-                    isFocused
-                      ? (isDark ? '#8de2b2' : colors.primaryDark)
-                      : (isDark ? 'rgba(247,250,248,0.62)' : colors.textMuted)
-                  }
-                  style={{ letterSpacing: 0.4 }}
-                >
-                  {label.replace('Tab', '')}
-                </AppText>
+
+                {isFocused && <View style={[styles.activePip, { backgroundColor: '#6366f1' }]} />}
+                {!isFocused && (
+                  <AppText
+                    variant="caption"
+                    color={isDark ? 'rgba(247,250,248,0.4)' : colors.textMuted}
+                    style={{ letterSpacing: 0.4, marginTop: 2 }}
+                  >
+                    {label.replace('Tab', '')}
+                  </AppText>
+                )}
               </Pressable>
+
+              {/* Insert central Scan button exactly in the middle */}
+              {index === 1 && (
+                <View style={styles.tabCentralItem}>
+                  <Pressable
+                    onPress={() => navigation.navigate('ImageScan' as any)}
+                    style={({ pressed }) => [
+                      styles.tabCentralOrb,
+                      { opacity: pressed ? 0.9 : 1, transform: [{ scale: pressed ? 0.95 : 1 }] }
+                    ]}
+                  >
+                    <View style={[StyleSheet.absoluteFill, { backgroundColor: '#6366f1' }]} />
+                    {(() => {
+                      const IconComp = IconMap['Scan'];
+                      return IconComp ? <IconComp size={28} color={colors.textOnDark} /> : null;
+                    })()}
+                  </Pressable>
+                  <AppText variant="caption" color="#818cf8" style={{ fontWeight: '700', marginTop: 4 }}>
+                    SCAN
+                  </AppText>
+                </View>
+              )}
             </React.Fragment>
           );
         })}
-      </View>
+      </BlurView>
     </View>
   );
 }
@@ -570,32 +578,49 @@ const styles = StyleSheet.create({
     width: 28,
   },
   tabShell: {
-    paddingHorizontal: 0,
-    paddingTop: 0,
+    position: 'absolute',
+    bottom: 24,
+    left: 20,
+    right: 20,
+    borderRadius: 32,
+    overflow: 'hidden',
+    ...theme.shadow.card,
+    elevation: 10,
   },
   tabBlur: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingVertical: 10,
-    paddingHorizontal: 12,
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderWidth: 1,
   },
   tabItem: {
     alignItems: 'center',
-    gap: 4,
-    paddingVertical: 6,
-    minWidth: 58,
+    justifyContent: 'center',
+    minWidth: 44,
   },
   tabIconWrap: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'transparent',
+    marginBottom: 2,
+  },
+  activePip: {
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    marginTop: 4,
   },
   tabIconActive: {
     // Handled in component
+  },
+  tabLabel: {
+    fontSize: 10,
+    fontWeight: '600',
   },
   iconRow: {
     flexDirection: 'row',
@@ -617,21 +642,18 @@ const styles = StyleSheet.create({
   },
   tabCentralItem: {
     alignItems: 'center',
-    marginTop: -24,
-    minWidth: 70,
+    justifyContent: 'center',
   },
   tabCentralOrb: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
+    width: 62,
+    height: 62,
+    borderRadius: 31,
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 8,
-    shadowColor: '#52b781',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 8,
-    borderWidth: 3,
-    borderColor: '#08100B',
+    overflow: 'hidden',
+    ...theme.shadow.glow,
+    shadowColor: '#6366f1',
+    borderWidth: 4,
+    borderColor: 'rgba(255,255,255,0.1)',
   },
 });

@@ -25,22 +25,22 @@ function MainTabs() {
     >
       <Tab.Screen
         name="HomeTab"
-        options={{ title: t('homeTab') }}
+        options={{ title: 'Home' }}
         getComponent={() => require('../screens/HomeScreen').HomeScreen}
       />
       <Tab.Screen
-        name="ChatTab"
-        options={{ title: t('chatTab') }}
-        getComponent={() => require('../screens/ChatListScreen').ChatListScreen}
-      />
-      <Tab.Screen
         name="MarketplaceTab"
-        options={{ title: t('marketplaceTab') }}
+        options={{ title: 'Search' }}
         getComponent={() => require('../screens/MarketplaceScreen').MarketplaceScreen}
       />
       <Tab.Screen
+        name="ChatTab"
+        options={{ title: 'History' }}
+        getComponent={() => require('../screens/ChatListScreen').ChatListScreen}
+      />
+      <Tab.Screen
         name="ProfileTab"
-        options={{ title: t('profileTab') }}
+        options={{ title: 'Profile' }}
         getComponent={() => require('../screens/ProfileScreen').ProfileScreen}
       />
     </Tab.Navigator>
