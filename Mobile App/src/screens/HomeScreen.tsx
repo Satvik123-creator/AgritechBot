@@ -6,7 +6,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Image, StyleSheet, View } from 'react-native';
 import { useEffect, useMemo, useState } from 'react';
 import * as Location from 'expo-location';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import { Platform } from 'react-native';
 
 import { apiService } from '../api/services';
 import { AppText, GlassCard, Pill, PulseMic, Screen, ScreenCard } from '../components/ui';
@@ -70,7 +71,6 @@ export function HomeScreen() {
   }, [unreadData?.unreadCount, setUnreadCount]);
 
   const featured = data?.products?.[0] ?? marketplaceFallback[0];
-
   const weatherCoordinates = useMemo(
     () => ({
       latitude: liveCoords?.latitude ?? user?.location?.latitude ?? 28.6139,
@@ -79,11 +79,17 @@ export function HomeScreen() {
     [liveCoords, user?.location?.latitude, user?.location?.longitude]
   );
 
+  console.log('--- Map Diagnostics ---', {
+    latitude: weatherCoordinates.latitude,
+    longitude: weatherCoordinates.longitude,
+    isDark
+  });
+
   const { data: liveWeather } = useQuery({
     queryKey: ['home-live-weather', weatherCoordinates.latitude, weatherCoordinates.longitude],
     queryFn: async () => {
       const response = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${weatherCoordinates.latitude}&longitude=${weatherCoordinates.longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&timezone=auto`
+        `https://api.open-meteo.com/v1/forecast?latitude=${weatherCoordinates.latitude}&longitude=${weatherCoordinates.longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&hourly=soil_moisture_0_to_7cm&timezone=auto`
       );
       return response.json();
     },
@@ -119,6 +125,9 @@ export function HomeScreen() {
   const weatherWind = liveWeather?.current?.wind_speed_10m != null
     ? `${Math.round(liveWeather.current.wind_speed_10m)} km/h`
     : '8 km/h';
+  const soilMoisture = liveWeather?.hourly?.soil_moisture_0_to_7cm?.[0] != null
+    ? `${Math.round(liveWeather.hourly.soil_moisture_0_to_7cm[0])}%`
+    : weatherHumidity;
 
   const hour = new Date().getHours();
   const greeting = hour < 12
@@ -229,8 +238,8 @@ export function HomeScreen() {
         <AppText variant="caption" color={colors.primary}>Soil Moisture</AppText>
         <View style={styles.soilRow}>
           <View>
-            <AppText variant="heading">{weatherHumidity}</AppText>
-            <AppText color={colors.textMuted}>{homeWeatherCard.station}</AppText>
+            <AppText variant="heading">{soilMoisture}</AppText>
+            <AppText color={colors.textMuted}>{liveLocationName} Node</AppText>
           </View>
           {(() => { const IconComp = IconMap['Droplets']; return IconComp ? <IconComp size={32} color={colors.primary} /> : null; })()}
         </View>
@@ -242,27 +251,29 @@ export function HomeScreen() {
           <AppText color={colors.textMuted}>{liveLocationName}</AppText>
         </View>
         <MapView
-          provider="google"
+          provider={PROVIDER_GOOGLE}
           style={styles.mapView}
-          customMapStyle={isDark ? DARK_MAP_STYLE : []}
-          region={{
+          initialRegion={{
             latitude: weatherCoordinates.latitude,
             longitude: weatherCoordinates.longitude,
-            latitudeDelta: 0.02,
-            longitudeDelta: 0.02,
+            latitudeDelta: 0.1,
+            longitudeDelta: 0.1,
           }}
-          scrollEnabled={false}
-          pitchEnabled={false}
-          rotateEnabled={false}
-          zoomEnabled={false}
+          scrollEnabled={true}
+          pitchEnabled={true}
+          rotateEnabled={true}
+          zoomEnabled={true}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
         >
           <Marker
             coordinate={{
               latitude: weatherCoordinates.latitude,
               longitude: weatherCoordinates.longitude,
             }}
-            title="Farm"
+            title="Farm Location"
             description={liveLocationName}
+            pinColor={colors.primary}
           />
         </MapView>
       </ScreenCard>

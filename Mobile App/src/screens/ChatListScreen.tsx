@@ -46,34 +46,37 @@ export function ChatListScreen() {
         onPress={() => navigation.navigate('Chat', { chatId: item.id })}
         style={styles.chatItem}
       >
-        <View style={styles.chatItemInner}>
-          <View style={[styles.avatarCircle, { backgroundColor: isNew ? '#52b781' : 'rgba(255,255,255,0.06)' }]}>
-             {(() => { const IconComp = IconMap[isNew ? 'Sparkles' : 'MessageSquare']; return IconComp ? <IconComp size={22} color={isNew ? '#fff' : 'rgba(255,255,255,0.6)'} /> : null; })()}
+        <View style={[styles.chatItemInner, { backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)', borderColor: colors.border }]}>
+          <View style={[styles.avatarCircle, { backgroundColor: isNew ? colors.primary : isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)' }]}>
+             {(() => { const IconComp = IconMap[isNew ? 'Sparkles' : 'MessageSquare']; return IconComp ? <IconComp size={22} color={isNew ? '#fff' : isDark ? 'rgba(255,255,255,0.5)' : colors.textMuted} /> : null; })()}
           </View>
           <View style={styles.chatMain}>
             <View style={styles.chatTop}>
-              <AppText variant="title" style={styles.chatTitle} numberOfLines={1}>
-                {item.title || 'New Conservation'}
+              <AppText variant="title" style={[styles.chatTitle, { color: colors.text }]} numberOfLines={1}>
+                {item.title || 'New Conversation'}
               </AppText>
-              <AppText variant="caption" color="rgba(255,255,255,0.4)">{timeStr}</AppText>
+              <AppText variant="caption" color={colors.textMuted}>{timeStr}</AppText>
             </View>
-            <AppText numberOfLines={1} color="rgba(255,255,255,0.5)" style={styles.chatPreview}>
+            <AppText numberOfLines={1} color={colors.textMuted} style={styles.chatPreview}>
               {item.preview || 'Start a new conversation...'}
             </AppText>
           </View>
-          {(() => { const IconComp = IconMap['ChevronRight']; return IconComp ? <IconComp size={18} color="rgba(255,255,255,0.2)" /> : null; })()}
+          {(() => { const IconComp = IconMap['ChevronRight']; return IconComp ? <IconComp size={18} color={isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)'} /> : null; })()}
         </View>
       </Pressable>
     );
   };
 
   return (
-    <Screen padded={false} style={{ backgroundColor: '#0a100c' }}>
-      <LinearGradient colors={['#111c15', '#0a100c']} style={StyleSheet.absoluteFillObject} />
+    <Screen padded={false} style={{ backgroundColor: colors.background }}>
+      <LinearGradient 
+        colors={isDark ? ['#111c15', colors.background] : [colors.backgroundAlt, colors.background]} 
+        style={StyleSheet.absoluteFillObject} 
+      />
       
       <View style={styles.header}>
-        <AppText variant="heading" color="#fff" style={{ fontSize: 28 }}>Inbox</AppText>
-        <AppText color="rgba(255,255,255,0.5)">Continue your previous chats</AppText>
+        <AppText variant="heading" color={colors.text} style={{ fontSize: 28 }}>Inbox</AppText>
+        <AppText color={colors.textMuted}>Continue your previous chats</AppText>
       </View>
 
       <View style={styles.searchContainer}>
@@ -94,16 +97,17 @@ export function ChatListScreen() {
           <RefreshControl 
             refreshing={isLoading || isRefetching} 
             onRefresh={refetch} 
-            tintColor="#52b781"
+            tintColor={colors.primary}
+            colors={[colors.primary]}
           />
         }
         ListEmptyComponent={
           !isLoading ? (
             <View style={styles.emptyContainer}>
-              <View style={styles.emptyCircle}>
-                {(() => { const IconComp = IconMap['Ghost']; return IconComp ? <IconComp size={48} color="rgba(255,255,255,0.1)" /> : null; })()}
+              <View style={[styles.emptyCircle, { backgroundColor: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)' }]}>
+                {(() => { const IconComp = IconMap['Ghost']; return IconComp ? <IconComp size={48} color={isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'} /> : null; })()}
               </View>
-              <AppText color="rgba(255,255,255,0.3)" style={{ marginTop: 16 }}>No chats found</AppText>
+              <AppText color={colors.textMuted} style={{ marginTop: 16 }}>No chats found</AppText>
             </View>
           ) : null
         }
@@ -111,9 +115,9 @@ export function ChatListScreen() {
 
       <Pressable 
         onPress={() => navigation.navigate('Chat', {})}
-        style={styles.fab}
+        style={[styles.fab, { shadowColor: colors.primary, elevation: 8 }]}
       >
-        <LinearGradient colors={['#52b781', '#40916c']} style={styles.fabGradient}>
+        <LinearGradient colors={[colors.primary, colors.primaryDark]} style={styles.fabGradient}>
           {(() => { const IconComp = IconMap['Plus']; return IconComp ? <IconComp size={30} color="#fff" /> : null; })()}
         </LinearGradient>
       </Pressable>
@@ -142,8 +146,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: 'rgba(255,255,255,0.03)',
     borderRadius: 24,
+    borderWidth: 1,
   },
   avatarCircle: {
     width: 54,
@@ -165,8 +169,8 @@ const styles = StyleSheet.create({
   },
   chatTitle: {
     fontSize: 17,
-    color: '#fff',
     maxWidth: '80%',
+    fontWeight: '700',
   },
   chatPreview: {
     fontSize: 14,
@@ -181,7 +185,6 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: 'rgba(255,255,255,0.02)',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -193,8 +196,6 @@ const styles = StyleSheet.create({
     height: 64,
     borderRadius: 32,
     overflow: 'hidden',
-    elevation: 8,
-    shadowColor: '#52b781',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 10,

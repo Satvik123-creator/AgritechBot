@@ -614,7 +614,7 @@ export function ChatScreen() {
           style={[
             styles.header,
             {
-              backgroundColor: isDark ? colors.backgroundAlt : '#ffffff',
+              backgroundColor: isDark ? colors.backgroundAlt : colors.surface,
               borderBottomColor: colors.border,
               paddingTop: Platform.OS === 'ios' ? 44 : 12,
             },
@@ -625,7 +625,7 @@ export function ChatScreen() {
               onPress={() => navigation.goBack()}
               style={[
                 styles.topIconButton,
-                { backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)', marginRight: 4 },
+                { backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)', marginRight: 4 },
               ]}
             >
               {(() => {
@@ -730,8 +730,8 @@ export function ChatScreen() {
                     : [
                         styles.aiBubble,
                         {
-                          backgroundColor: isDark ? '#1f2924' : '#f0f4f2',
-                          borderColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.02)',
+                          backgroundColor: isDark ? colors.surface : colors.surfaceMuted,
+                          borderColor: colors.border,
                           borderWidth: 1,
                         },
                       ],

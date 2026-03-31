@@ -30,7 +30,7 @@ function MainTabs() {
       />
       <Tab.Screen
         name="MarketplaceTab"
-        options={{ title: 'Search' }}
+        options={{ title: 'Market' }}
         getComponent={() => require('../screens/MarketplaceScreen').MarketplaceScreen}
       />
       <Tab.Screen
@@ -68,19 +68,12 @@ export function RootNavigator() {
         initialRouteName="MainTabs"
         screenOptions={{
           headerShown: false,
-          animation: 'fade',
+          animation: 'slide_from_right',
           contentStyle: { backgroundColor: themeColors.background },
+          orientation: 'portrait',
         }}
       >
-        <Stack.Screen name="Splash" getComponent={() => require('../screens/SplashScreen').SplashScreen} />
-        <Stack.Screen name="LanguageOnboarding" getComponent={() => require('../screens/LanguageOnboardingScreen').LanguageOnboardingScreen} />
-        <Stack.Screen name="VoiceIntro" getComponent={() => require('../screens/VoiceIntroScreen').VoiceIntroScreen} />
-        <Stack.Screen name="CropIntro" getComponent={() => require('../screens/CropIntroScreen').CropIntroScreen} />
-        <Stack.Screen name="Login" getComponent={() => require('../screens/LoginScreen').LoginScreen} />
-        <Stack.Screen name="Otp" getComponent={() => require('../screens/OtpScreen').OtpScreen} />
-        <Stack.Screen name="ProfileSetup" getComponent={() => require('../screens/ProfileSetupScreen').ProfileSetupScreen} />
-        <Stack.Screen name="ProfileCompletion" getComponent={() => require('../screens/ProfileSetupScreen').ProfileSetupScreen} />
-        <Stack.Screen name="ProfileComplete" getComponent={() => require('../screens/ProfileSetupScreen').ProfileSetupScreen} />
+        {/* Onboarding screens removed for a leaner design experience as per request */}
         <Stack.Screen name="MainTabs" component={MainTabs} />
         <Stack.Screen name="Chat" getComponent={() => require('../screens/ChatScreen').ChatScreen} />
         <Stack.Screen name="Marketplace" getComponent={() => require('../screens/MarketplaceScreen').MarketplaceScreen} />

@@ -320,17 +320,10 @@ export function AnaajTabBar({ state, descriptors, navigation }: BottomTabBarProp
   const insets = useSafeAreaInsets();
   const { isDark, colors } = useTheme();
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
-  const tabIcons: Record<string, string> = {
-    HomeTab: 'Home',
-    ChatTab: 'MessageSquare',
-    MarketplaceTab: 'ShoppingBag',
-    HistoryTab: 'Clock',
-    ProfileTab: 'User',
-  };
 
   useEffect(() => {
     const showEvent = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
-    const hideEvent = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
+    const hideEvent = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidShow';
     const showSubscription = Keyboard.addListener(showEvent, () => setIsKeyboardVisible(true));
     const hideSubscription = Keyboard.addListener(hideEvent, () => setIsKeyboardVisible(false));
 
@@ -340,8 +333,17 @@ export function AnaajTabBar({ state, descriptors, navigation }: BottomTabBarProp
     };
   }, []);
 
+  if (isKeyboardVisible) return null;
+
+  const tabIcons: Record<string, string> = {
+    HomeTab: 'Home',
+    MarketplaceTab: 'ShoppingBag',
+    ChatTab: 'MessageSquare',
+    ProfileTab: 'User',
+  };
+
   return (
-    <View style={styles.tabShell}>
+    <View style={[styles.tabShell, { bottom: Math.max(10, insets.bottom + 2) }]}>
       <BlurView
         intensity={isDark ? 95 : 100}
         tint={isDark ? 'dark' : 'light'}
@@ -349,7 +351,7 @@ export function AnaajTabBar({ state, descriptors, navigation }: BottomTabBarProp
           styles.tabBlur,
           {
             backgroundColor: isDark ? 'rgba(11, 14, 12, 0.95)' : 'rgba(255, 255, 255, 0.95)',
-            borderColor: isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0,0,0,0.05)',
+            borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0,0,0,0.06)',
           },
         ]}
       >
@@ -358,27 +360,20 @@ export function AnaajTabBar({ state, descriptors, navigation }: BottomTabBarProp
           const { options } = descriptors[route.key];
           const label = (options.tabBarLabel as string) ?? options.title ?? route.name;
 
-          const tabIcons: Record<string, string> = {
-            HomeTab: 'Home',
-            MarketplaceTab: 'Search',
-            ChatTab: 'Clock',
-            ProfileTab: 'User',
-          };
-
           return (
             <React.Fragment key={route.key}>
               <Pressable
                 onPress={() => navigation.navigate(route.name)}
                 style={styles.tabItem}
               >
-                <View style={[styles.tabIconWrap, isFocused && { backgroundColor: '#6366f1' + '15' }]}>
+                <View style={[styles.tabIconWrap, isFocused && { backgroundColor: colors.primary + '15' }]}>
                   {(() => {
                     const IconComp = IconMap[tabIcons[route.name] ?? 'Circle'];
-                    return IconComp ? <IconComp size={20} color={isFocused ? '#6366f1' : isDark ? 'rgba(247,250,248,0.5)' : colors.textMuted} /> : null;
+                    return IconComp ? <IconComp size={20} color={isFocused ? colors.primary : isDark ? 'rgba(247,250,248,0.5)' : colors.textMuted} /> : null;
                   })()}
                 </View>
 
-                {isFocused && <View style={[styles.activePip, { backgroundColor: '#6366f1' }]} />}
+                {isFocused && <View style={[styles.activePip, { backgroundColor: colors.primary }]} />}
                 {!isFocused && (
                   <AppText
                     variant="caption"
@@ -390,7 +385,7 @@ export function AnaajTabBar({ state, descriptors, navigation }: BottomTabBarProp
                 )}
               </Pressable>
 
-              {/* Insert central Scan button exactly in the middle */}
+              {/* Central Scan Button */}
               {index === 1 && (
                 <View style={styles.tabCentralItem}>
                   <Pressable
@@ -400,13 +395,13 @@ export function AnaajTabBar({ state, descriptors, navigation }: BottomTabBarProp
                       { opacity: pressed ? 0.9 : 1, transform: [{ scale: pressed ? 0.95 : 1 }] }
                     ]}
                   >
-                    <View style={[StyleSheet.absoluteFill, { backgroundColor: '#6366f1' }]} />
+                    <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.primary }]} />
                     {(() => {
                       const IconComp = IconMap['Scan'];
-                      return IconComp ? <IconComp size={28} color={colors.textOnDark} /> : null;
+                      return IconComp ? <IconComp size={28} color="#ffffff" /> : null;
                     })()}
                   </Pressable>
-                  <AppText variant="caption" color="#818cf8" style={{ fontWeight: '700', marginTop: 4 }}>
+                  <AppText variant="caption" color={colors.primary} style={{ fontWeight: '800', marginTop: 4 }}>
                     SCAN
                   </AppText>
                 </View>
@@ -579,26 +574,27 @@ const styles = StyleSheet.create({
   },
   tabShell: {
     position: 'absolute',
-    bottom: 24,
-    left: 20,
-    right: 20,
-    borderRadius: 32,
-    overflow: 'hidden',
+    left: 16,
+    right: 16,
+    borderRadius: 36,
+    overflow: 'visible',
     ...theme.shadow.card,
-    elevation: 10,
+    elevation: 8,
   },
   tabBlur: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 36,
     borderWidth: 1,
+    overflow: 'visible',
   },
   tabItem: {
     alignItems: 'center',
     justifyContent: 'center',
-    minWidth: 44,
+    flex: 1,
   },
   tabIconWrap: {
     width: 38,
@@ -643,17 +639,18 @@ const styles = StyleSheet.create({
   tabCentralItem: {
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: -32, // Pop out effect
   },
   tabCentralOrb: {
-    width: 62,
-    height: 62,
-    borderRadius: 31,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
     ...theme.shadow.glow,
-    shadowColor: '#6366f1',
+    shadowColor: theme.colors.primary,
     borderWidth: 4,
-    borderColor: 'rgba(255,255,255,0.1)',
+    borderColor: 'rgba(255,255,255,0.15)',
   },
 });
