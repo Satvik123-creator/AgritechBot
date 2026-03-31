@@ -65,7 +65,7 @@ export function RootNavigator() {
       }}
     >
       <Stack.Navigator
-        initialRouteName="Splash"
+        initialRouteName="MainTabs"
         screenOptions={{
           headerShown: false,
           animation: 'fade',

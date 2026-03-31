@@ -18,6 +18,24 @@ import { useAppStore } from '../store/useAppStore';
 import { useTheme } from '../providers/ThemeContext';
 import { useI18n } from '../hooks/useI18n';
 
+const DARK_MAP_STYLE = [
+  { "elementType": "geometry", "stylers": [{ "color": "#1d2c21" }] },
+  { "elementType": "labels.icon", "stylers": [{ "visibility": "on" }, { "saturation": -60 }, { "lightness": -20 }] },
+  { "elementType": "labels.text.fill", "stylers": [{ "color": "#8de2b2" }, { "opacity": 0.8 }] },
+  { "elementType": "labels.text.stroke", "stylers": [{ "color": "#1a251e" }] },
+  { "featureType": "administrative", "elementType": "geometry", "stylers": [{ "color": "#2c3e32" }] },
+  { "featureType": "administrative.country", "elementType": "labels.text.fill", "stylers": [{ "color": "#a5d6a7" }] },
+  { "featureType": "landscape", "elementType": "geometry", "stylers": [{ "color": "#1d2c21" }] },
+  { "featureType": "poi", "elementType": "geometry", "stylers": [{ "color": "#233529" }] },
+  { "featureType": "poi", "elementType": "labels.text.fill", "stylers": [{ "color": "#6fb08b" }] },
+  { "featureType": "road", "elementType": "geometry", "stylers": [{ "color": "#2c3e32" }] },
+  { "featureType": "road", "elementType": "labels.text.fill", "stylers": [{ "color": "#8de2b2" }] },
+  { "featureType": "road.highway", "elementType": "geometry", "stylers": [{ "color": "#384f40" }] },
+  { "featureType": "transit", "elementType": "geometry", "stylers": [{ "color": "#233529" }] },
+  { "featureType": "water", "elementType": "geometry", "stylers": [{ "color": "#0e1611" }] },
+  { "featureType": "water", "elementType": "labels.text.fill", "stylers": [{ "color": "#3d5c49" }] }
+];
+
 export function HomeScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { isDark, colors } = useTheme();
@@ -224,12 +242,14 @@ export function HomeScreen() {
           <AppText color={colors.textMuted}>{liveLocationName}</AppText>
         </View>
         <MapView
+          provider="google"
           style={styles.mapView}
+          customMapStyle={isDark ? DARK_MAP_STYLE : []}
           region={{
             latitude: weatherCoordinates.latitude,
             longitude: weatherCoordinates.longitude,
-            latitudeDelta: 0.08,
-            longitudeDelta: 0.08,
+            latitudeDelta: 0.02,
+            longitudeDelta: 0.02,
           }}
           scrollEnabled={false}
           pitchEnabled={false}

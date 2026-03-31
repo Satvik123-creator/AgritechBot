@@ -18,7 +18,7 @@ export type RootStackParamList = {
   ProfileCompletion: undefined;
   ProfileComplete: undefined;
   MainTabs: NavigatorScreenParams<MainTabParamList> | undefined;
-  Chat: { chatId?: string };
+  Chat: { chatId?: string; initialMessage?: string };
   Marketplace: undefined;
   ProductDetail: { productId?: string };
   Cart: undefined;

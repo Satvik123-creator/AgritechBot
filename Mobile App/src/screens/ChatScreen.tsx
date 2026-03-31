@@ -129,6 +129,19 @@ export function ChatScreen() {
     });
   }, [language]);
 
+  // Handle initialMessage from other screens (e.g., ImageScan)
+  useEffect(() => {
+    if (route.params?.initialMessage) {
+      // If we have an initial message and hasn't been sent yet
+      setInput(route.params.initialMessage);
+      // We wait a tiny bit to ensure the UI is ready
+      const timer = setTimeout(() => {
+        sendMessage(route.params?.initialMessage);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [route.params?.initialMessage]);
+
   useEffect(() => {
     if (!chatId) {
       setMessages([buildStarterMessage(language)]);

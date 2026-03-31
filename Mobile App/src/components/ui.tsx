@@ -1,9 +1,9 @@
+import React, { PropsWithChildren, ReactNode, useEffect, useState } from 'react';
 import { IconMap } from './IconMap';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import { PropsWithChildren, ReactNode, useEffect, useState } from 'react';
 import {
   Image,
   ImageSourcePropType,
@@ -151,13 +151,13 @@ export function Pill({ label, active, onPress, icon, style }: { label: string; a
         style={[
           styles.pill,
           {
-            backgroundColor: active ? colors.primary : (isDark ? colors.surface : colors.surface),
-            borderColor: active ? colors.primary : (isDark ? colors.border : colors.border),
+            backgroundColor: active ? colors.primary : (isDark ? 'rgba(255,255,255,0.06)' : colors.surface),
           },
+          style
         ]}
       >
         {icon}
-        <AppText variant="label" color={active ? colors.textOnDark : (isDark ? colors.textOnDark : colors.text)}>
+        <AppText variant="label" color={active ? colors.textOnDark : (isDark ? 'rgba(255,255,255,0.7)' : colors.text)}>
           {label}
         </AppText>
       </View>
@@ -183,8 +183,7 @@ export function SearchInput({ value, onChangeText, placeholder }: { value: strin
       style={[
         styles.searchShell,
         {
-          backgroundColor: colors.surface,
-          borderColor: colors.border,
+          backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : colors.surface,
         },
       ]}
     >
@@ -346,15 +345,12 @@ export function AnaajTabBar({ state, descriptors, navigation }: BottomTabBarProp
   }
 
   return (
-    <View style={[styles.tabShell, { paddingBottom: Math.max(8, insets.bottom), backgroundColor: 'transparent' }]}>
-      <BlurView
-        intensity={isDark ? 35 : 70}
-        tint={isDark ? 'dark' : 'light'}
+    <View style={[styles.tabShell, { paddingBottom: Math.max(8, insets.bottom), backgroundColor: isDark ? '#08100B' : '#ffffff' }]}>
+      <View
         style={[
           styles.tabBlur,
           {
-            borderColor: isDark ? 'rgba(255,255,255,0.14)' : 'rgba(255,255,255,0.28)',
-            backgroundColor: isDark ? 'rgba(16,22,18,0.86)' : 'rgba(255,255,255,0.78)',
+            backgroundColor: isDark ? '#08100B' : '#ffffff',
           },
         ]}
       >
@@ -364,32 +360,53 @@ export function AnaajTabBar({ state, descriptors, navigation }: BottomTabBarProp
           const label = (options.tabBarLabel as string) ?? options.title ?? route.name;
 
           return (
-            <Pressable
-              key={route.key}
-              onPress={() => navigation.navigate(route.name)}
-              style={styles.tabItem}
-            >
-              <View style={[styles.tabIconWrap, isFocused && { backgroundColor: colors.primary }]}>
-                {(() => {
-                  const IconComp = IconMap[tabIcons[route.name] ?? 'Circle'];
-                  return IconComp ? <IconComp size={20} color={isFocused ? colors.textOnDark : isDark ? 'rgba(247,250,248,0.72)' : colors.textMuted} /> : null;
-                })()}
-              </View>
-              <AppText
-                variant="caption"
-                color={
-                  isFocused
-                    ? (isDark ? '#8de2b2' : colors.primaryDark)
-                    : (isDark ? 'rgba(247,250,248,0.62)' : colors.textMuted)
-                }
-                style={{ letterSpacing: 0.4 }}
+            <React.Fragment key={route.key}>
+              {/* Insert central Scan button after the first two tabs */}
+              {index === 2 && (
+                <Pressable
+                  onPress={() => navigation.navigate('ImageScan' as any)}
+                  style={styles.tabCentralItem}
+                >
+                  <LinearGradient
+                    colors={[colors.primary, '#8de2b2']}
+                    style={styles.tabCentralOrb}
+                  >
+                    {(() => {
+                      const IconComp = IconMap['Scan'];
+                      return IconComp ? <IconComp size={24} color={colors.textOnDark} /> : null;
+                    })()}
+                  </LinearGradient>
+                  <AppText variant="caption" color={isDark ? 'rgba(247,250,248,0.62)' : colors.textMuted} style={{ marginTop: 4 }}>
+                    Scan
+                  </AppText>
+                </Pressable>
+              )}
+              <Pressable
+                onPress={() => navigation.navigate(route.name)}
+                style={styles.tabItem}
               >
-                {label.replace('Tab', '')}
-              </AppText>
-            </Pressable>
+                <View style={[styles.tabIconWrap, isFocused && { backgroundColor: colors.primary }]}>
+                  {(() => {
+                    const IconComp = IconMap[tabIcons[route.name] ?? 'Circle'];
+                    return IconComp ? <IconComp size={20} color={isFocused ? colors.textOnDark : isDark ? 'rgba(247,250,248,0.72)' : colors.textMuted} /> : null;
+                  })()}
+                </View>
+                <AppText
+                  variant="caption"
+                  color={
+                    isFocused
+                      ? (isDark ? '#8de2b2' : colors.primaryDark)
+                      : (isDark ? 'rgba(247,250,248,0.62)' : colors.textMuted)
+                  }
+                  style={{ letterSpacing: 0.4 }}
+                >
+                  {label.replace('Tab', '')}
+                </AppText>
+              </Pressable>
+            </React.Fragment>
           );
         })}
-      </BlurView>
+      </View>
     </View>
   );
 }
@@ -411,7 +428,7 @@ export function IconRow({ icon, title, subtitle, right }: { icon: string; title:
 }
 
 export function ScreenCard({ children, style }: PropsWithChildren<{ style?: StyleProp<ViewStyle> }>) {
-  const { colors } = useTheme();
+  const { isDark, colors } = useTheme();
 
   return (
     <Animated.View
@@ -419,9 +436,7 @@ export function ScreenCard({ children, style }: PropsWithChildren<{ style?: Styl
       style={[
         styles.card,
         {
-          backgroundColor: colors.surface,
-          borderColor: colors.border,
-          borderWidth: 1,
+          backgroundColor: isDark ? 'rgba(255,255,255,0.04)' : colors.surface,
         },
         style,
       ]}
@@ -445,8 +460,7 @@ const styles = StyleSheet.create({
     ...theme.shadow.glow,
   },
   buttonSecondary: {
-    borderWidth: 1,
-    borderColor: 'rgba(82,183,129,0.16)',
+    backgroundColor: 'rgba(82,183,129,0.12)',
     shadowOpacity: 0,
     elevation: 0,
   },
@@ -454,8 +468,6 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     padding: 16,
     overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.2)',
     backgroundColor: 'rgba(255,255,255,0.08)',
   },
   pill: {
@@ -465,7 +477,6 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     paddingHorizontal: 14,
     paddingVertical: 10,
-    borderWidth: 1,
   },
   pillActive: {
     // Handled in component
@@ -483,7 +494,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
     alignItems: 'center',
-    borderWidth: 1,
   },
   searchInput: {
     flex: 1,
@@ -560,17 +570,15 @@ const styles = StyleSheet.create({
     width: 28,
   },
   tabShell: {
-    paddingHorizontal: 12,
-    paddingTop: 4,
+    paddingHorizontal: 0,
+    paddingTop: 0,
   },
   tabBlur: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    borderRadius: 30,
-    overflow: 'hidden',
-    paddingVertical: 6,
-    borderWidth: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
   },
   tabItem: {
     alignItems: 'center',
@@ -606,5 +614,24 @@ const styles = StyleSheet.create({
     borderRadius: 26,
     padding: 16,
     ...theme.shadow.card,
+  },
+  tabCentralItem: {
+    alignItems: 'center',
+    marginTop: -24,
+    minWidth: 70,
+  },
+  tabCentralOrb: {
+    width: 58,
+    height: 58,
+    borderRadius: 29,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 8,
+    shadowColor: '#52b781',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
+    borderWidth: 3,
+    borderColor: '#08100B',
   },
 });
