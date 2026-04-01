@@ -31,6 +31,7 @@ const imageAnalysisSchema = new Schema<IImageAnalysis>(
     },
     imageBase64: {
       type: String,
+      required: false,
     },
     diagnosis: {
       type: String,

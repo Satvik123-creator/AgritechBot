@@ -7,14 +7,15 @@ import {
 import { cropCalendarTool } from './cropCalendar.tool';
 import { mandiPriceTool } from './mandiPrice.tool';
 import { weatherTool, type ChatToolDefinition } from './weather.tool';
+import { productRecommendationTool } from './productRecommendation.tool';
 
 const toolRegistry = new Map<string, ChatToolDefinition>(
-  [weatherTool, cropCalendarTool, mandiPriceTool].map((tool) => [tool.name, tool])
+  [weatherTool, cropCalendarTool, mandiPriceTool, productRecommendationTool].map((tool) => [tool.name, tool])
 );
 
 export const TOOL_DEFINITIONS: Tool[] = [
   {
-    functionDeclarations: [weatherTool, cropCalendarTool, mandiPriceTool].map((tool) => ({
+    functionDeclarations: [weatherTool, cropCalendarTool, mandiPriceTool, productRecommendationTool].map((tool) => ({
       name: tool.name,
       description: tool.description,
       parameters: {

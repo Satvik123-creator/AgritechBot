@@ -44,7 +44,8 @@ export function OtpScreen({ navigation, route }: Props) {
 
       const hasProfile = isProfileComplete(data.user);
       setHasCompletedOnboarding(hasProfile);
-      navigation.replace(hasProfile ? 'MainTabs' : 'ProfileSetup');
+      // Navigation is now handled automatically by RootNavigator based on token and user state
+
     },
     onError: (mutationError: any) => {
       const message =

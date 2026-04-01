@@ -1,8 +1,12 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { cache } from '../../services/cache/redisCache';
-import { ChatMessageModel } from '../models/ChatMessage.model';
+import { logger } from '../../utils/logger';
 
-const lastSeenByFarmer = new Map<string, number>();
+// Rate limit configuration
+const SHORT_WINDOW_SECONDS = 3;
+const HOUR_WINDOW_SECONDS = 60 * 60;
+const SHORT_WINDOW_LIMIT = 1; // 1 message per 3 seconds
+const HOUR_WINDOW_LIMIT = 60; // 60 messages per hour
 
 export async function chatRateLimitMiddleware(
   request: FastifyRequest,
@@ -13,43 +17,32 @@ export async function chatRateLimitMiddleware(
   const shortWindowKey = `chat:rate:${farmerId}:3s`;
   const hourWindowKey = `chat:rate:${farmerId}:1h`;
 
-  const shortCount = await cache.increment(shortWindowKey, 3);
-  if (shortCount > 1) {
-    return reply.status(429).send({
-      error: 'Please wait a few seconds before sending another message.',
-      retryAfterSeconds: 3,
-    });
-  }
-
-  const hourCount = await cache.increment(hourWindowKey, 60 * 60);
-  if (hourCount > 60) {
-    return reply.status(429).send({
-      error: 'Hourly chat message limit reached. Please try again later.',
-      retryAfterSeconds: 3600,
-    });
-  }
-
-  if (shortCount === 0 || hourCount === 0) {
-    const now = Date.now();
-    const lastSeen = lastSeenByFarmer.get(farmerId) || 0;
-    if (now - lastSeen < 3000) {
+  try {
+    // Check short-term rate limit (burst protection)
+    const shortCount = await cache.increment(shortWindowKey, SHORT_WINDOW_SECONDS);
+    if (shortCount > SHORT_WINDOW_LIMIT) {
       return reply.status(429).send({
         error: 'Please wait a few seconds before sending another message.',
-        retryAfterSeconds: 3,
+        retryAfterSeconds: SHORT_WINDOW_SECONDS,
       });
     }
 
-    lastSeenByFarmer.set(farmerId, now);
-    const hourMessages = await ChatMessageModel.countDocuments({
-      farmerId,
-      role: 'user',
-      createdAt: { $gte: new Date(now - 60 * 60 * 1000) },
-    });
-    if (hourMessages >= 60) {
+    // Check hourly rate limit
+    const hourCount = await cache.increment(hourWindowKey, HOUR_WINDOW_SECONDS);
+    if (hourCount > HOUR_WINDOW_LIMIT) {
       return reply.status(429).send({
         error: 'Hourly chat message limit reached. Please try again later.',
-        retryAfterSeconds: 3600,
+        retryAfterSeconds: HOUR_WINDOW_SECONDS,
       });
     }
+
+    // If Redis returned 0 (unavailable), log warning but allow request
+    // This prevents blocking users when Redis is down
+    if (shortCount === 0 || hourCount === 0) {
+      logger.warn({ farmerId }, 'Rate limiting degraded - Redis unavailable');
+    }
+  } catch (error) {
+    // On rate limiter error, log but don't block the user
+    logger.error({ err: error, farmerId }, 'Rate limit check failed');
   }
 }

@@ -455,7 +455,7 @@ export const apiService = {
         diagnosis: string;
         status: string;
         createdAt: string;
-        imageBase64?: string;
+        thumbnailUrl?: string | null; // New: ready-to-use data URL for display
         metadata?: {
           language?: string;
           cropType?: string;

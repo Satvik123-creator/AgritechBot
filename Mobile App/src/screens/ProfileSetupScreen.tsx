@@ -86,7 +86,8 @@ export function ProfileSetupScreen({ navigation }: Props) {
       setError(null);
       setUser(data.user);
       setHasCompletedOnboarding(true);
-      navigation.replace('MainTabs');
+      // Navigation is now handled automatically by RootNavigator based on token and user state
+
     },
     onError: (error: any) => {
       const message = error?.response?.data?.error || t(language, 'failedToUpdateProfile');

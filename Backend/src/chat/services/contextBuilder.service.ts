@@ -86,7 +86,7 @@ export async function getFarmerContext(farmerId: string | Types.ObjectId): Promi
   const contextString = shouldRebuild ? buildContextString(user) : existing.contextString;
   const season = detectCurrentSeason();
   const location = [user.location?.district, user.location?.state].filter(Boolean).join(', ');
-  const version = shouldRebuild ? (existing?.version || 0) + 1 : existing!.version;
+  const version = shouldRebuild ? (existing?.version || 0) + 1 : (existing?.version || 1);
 
   if (shouldRebuild) {
     await FarmerContextModel.findOneAndUpdate(

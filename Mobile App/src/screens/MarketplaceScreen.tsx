@@ -89,7 +89,7 @@ export function MarketplaceScreen() {
   }, [filteredProducts]);
 
   return (
-    <Screen scrollable>
+    <Screen scrollable withTabBar>
       <View style={styles.headerRow}>
         <View>
           <AppText variant="heading">{t(language, 'marketTitle')}</AppText>
@@ -185,7 +185,7 @@ export function MarketplaceScreen() {
           {grouped.tools.length > 0 && (
             <>
               <SectionHeader title={t(language, 'modernTools')} />
-              <View style={{ gap: 12, paddingBottom: grouped.cropCare.length ? 16 : 108 }}>
+              <View style={{ gap: 12 }}>
                 {grouped.tools.map((product) => (
                   <Pressable
                     key={product.id}
@@ -215,7 +215,7 @@ export function MarketplaceScreen() {
           {grouped.cropCare.length > 0 && (
             <>
               <SectionHeader title={t(language, 'cropCare')} />
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={[styles.sectionScroller, { paddingBottom: 108 }]}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.sectionScroller}>
                 {grouped.cropCare.map((product) => (
                   <ProductFlowCard
                     key={product.id}
@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   emptyWrap: {
-    marginBottom: 108,
+    marginBottom: 24,
   },
   flowCard: {
     width: 190,

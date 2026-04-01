@@ -22,6 +22,8 @@ import { truncateConversationToBudget } from '../utils/contextTruncator';
 import { HttpError } from '../utils/httpError';
 import { speechToText } from '../../services/voice/sarvamSTT';
 import { textToSpeech } from '../../services/voice/sarvamTTS';
+import { ChatHistoryCache } from './chatHistoryCache.service';
+import { getQuickSuggestions, generateQuerySuggestions } from './querySuggestions.service';
 
 const gemini = new GoogleGenerativeAI(env.GEMINI_API_KEY);
 type PreferredChatLanguage = 'English' | 'Hindi' | 'Gujarati' | 'Punjabi';
@@ -33,7 +35,22 @@ const RESERVED_CONTEXT_TOKENS = 500;
 const HISTORY_TOKEN_BUDGET =
   MAX_TOTAL_TOKENS - RESERVED_OUTPUT_TOKENS - RESERVED_SYSTEM_TOKENS - RESERVED_CONTEXT_TOKENS;
 
+// API timeout for Gemini calls (30 seconds)
+const GEMINI_API_TIMEOUT_MS = 30_000;
+
 let quotaBlockedUntil = 0;
+
+/**
+ * Wrap a promise with a timeout
+ */
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number, errorMessage: string): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) =>
+      setTimeout(() => reject(new Error(errorMessage)), timeoutMs)
+    ),
+  ]);
+}
 
 function isQuotaError(err: unknown): boolean {
   if (typeof err !== 'object' || err === null) return false;
@@ -263,13 +280,15 @@ async function buildConversationContents(params: {
   imageBase64?: string;
   imageMimeType?: string;
 }) {
-  const { contextString, location, season } = await getFarmerContext(params.farmerId);
+  // OPTIMIZATION: Parallelize independent operations
+  const [{ contextString, location, season }, previousMessages] = await Promise.all([
+    getFarmerContext(params.farmerId),
+    ChatHistoryCache.getRecentMessages(params.sessionId, 50), // Use cache
+  ]);
+
   const effectiveContextString = `${contextString}\n\nACTIVE CONVERSATION LANGUAGE: ${getLanguageLabel(
     params.preferredLanguage
   )}\nAlways answer in this active conversation language unless the farmer clearly switches language.`;
-  const previousMessages = await ChatMessageModel.find({ sessionId: params.sessionId })
-    .sort({ createdAt: 1 })
-    .lean();
 
   const historyContents = previousMessages.map(mapStoredMessageToGeminiContent);
   const truncated = await truncateConversationToBudget({
@@ -311,13 +330,42 @@ async function runToolLoop(params: {
   farmerId: string;
   language: ChatLanguageCode;
 }) {
+  // OPTIMIZATION: Execute all tools in parallel with individual error handling
+  const toolSettledResults = await Promise.allSettled(
+    params.responseFunctionCalls.map(async (call) => {
+      const toolInput = (call.args || {}) as Record<string, unknown>;
+      const toolOutput = await executeTool(call.name, toolInput);
+      return { call, toolInput, toolOutput };
+    })
+  );
+
+  // Process results, handling failures gracefully
+  const toolResults: Array<{ call: FunctionCall; toolInput: Record<string, unknown>; toolOutput: Record<string, unknown> }> = [];
+  for (const result of toolSettledResults) {
+    if (result.status === 'fulfilled') {
+      toolResults.push(result.value);
+    } else {
+      // Log failed tool but continue with others
+      logger.error({ err: result.reason }, 'Tool execution failed');
+      // Find the corresponding call from original array
+      const index = toolSettledResults.indexOf(result);
+      const call = params.responseFunctionCalls[index];
+      if (call) {
+        toolResults.push({
+          call,
+          toolInput: (call.args || {}) as Record<string, unknown>,
+          toolOutput: { error: 'Tool execution failed', success: false },
+        });
+      }
+    }
+  }
+
+  // OPTIMIZATION: Batch database writes
+  const messagesToCreate: Array<Record<string, unknown>> = [];
   const toolMessages: Content[] = [];
 
-  for (const call of params.responseFunctionCalls) {
-    const toolInput = (call.args || {}) as Record<string, unknown>;
-    const toolOutput = await executeTool(call.name, toolInput);
-
-    await ChatMessageModel.create([
+  for (const { call, toolInput, toolOutput } of toolResults) {
+    messagesToCreate.push(
       {
         sessionId: params.sessionId,
         farmerId: params.farmerId,
@@ -347,8 +395,8 @@ async function runToolLoop(params: {
           language: params.language,
           modelVersion: env.GEMINI_MODEL,
         },
-      },
-    ]);
+      }
+    );
 
     toolMessages.push({
       role: 'function',
@@ -362,6 +410,9 @@ async function runToolLoop(params: {
       ],
     });
   }
+
+  // Save all tool messages in one batch
+  await ChatMessageModel.create(messagesToCreate);
 
   const firstRoundCallContents: Content = {
     role: 'model',
@@ -541,10 +592,14 @@ export async function sendChatMessage(params: {
   });
 
   try {
-    let result = await model.generateContent({
-      contents: built.contents,
-      ...(kbCacheName ? { cachedContent: kbCacheName } : {}),
-    });
+    let result = await withTimeout(
+      model.generateContent({
+        contents: built.contents,
+        ...(kbCacheName ? { cachedContent: kbCacheName } : {}),
+      }),
+      GEMINI_API_TIMEOUT_MS,
+      'AI response timed out. Please try again.'
+    );
 
     const functionCalls = result.response.functionCalls();
     if (functionCalls?.length) {
@@ -567,19 +622,32 @@ export async function sendChatMessage(params: {
     let audioMimeType: string | undefined;
     const shouldGenerateVoice = built.isFirstMessage || params.forceVoiceReply;
 
-    if (shouldGenerateVoice) {
-      try {
-        audioBase64 = await textToSpeech(responseText, getLanguageLabel(language));
-        if (audioBase64) {
-          audioMimeType = 'audio/mp3';
-        }
-      } catch (ttsError) {
-        logger.warn(
-          { err: ttsError, sessionId: params.sessionId, farmerId: params.farmerId },
-          'Sarvam TTS failed for text chat response; returning text-only reply'
-        );
-      }
+    // OPTIMIZATION: Run TTS and suggestions generation in parallel (non-blocking)
+    const [ttsResult, suggestions] = await Promise.allSettled([
+      // TTS (only if needed)
+      shouldGenerateVoice
+        ? textToSpeech(responseText, getLanguageLabel(language))
+            .then((audio) => ({ audioBase64: audio, audioMimeType: 'audio/mp3' as const }))
+            .catch((err) => {
+              logger.warn({ err, sessionId: params.sessionId }, 'TTS failed');
+              return undefined;
+            })
+        : Promise.resolve(undefined),
+
+      // Query suggestions (async, use quick fallback if AI fails)
+      getQuickSuggestions({
+        hasProducts: responseText.toLowerCase().includes('product') || responseText.toLowerCase().includes('खरीद'),
+        language: language,
+        crops: built.contextString.match(/crops?:\s*([^.\n]+)/i)?.[1]?.split(',').map((c) => c.trim()),
+      }),
+    ]);
+
+    if (ttsResult.status === 'fulfilled' && ttsResult.value) {
+      audioBase64 = ttsResult.value.audioBase64;
+      audioMimeType = ttsResult.value.audioMimeType;
     }
+
+    const querySuggestions = suggestions.status === 'fulfilled' ? suggestions.value : [];
 
     await persistSuccessfulExchange({
       sessionId: params.sessionId,
@@ -597,6 +665,9 @@ export async function sendChatMessage(params: {
       audioMimeType,
     });
 
+    // Invalidate chat cache after successful message
+    await ChatHistoryCache.invalidate(params.sessionId);
+
     return {
       messageId: `${params.sessionId}:${Date.now()}`,
       response: responseText,
@@ -608,6 +679,7 @@ export async function sendChatMessage(params: {
       summaryUsed: built.summaryUsed,
       audioBase64,
       audioMimeType,
+      suggestedQueries: querySuggestions, // NEW: Return query suggestions
     };
   } catch (error) {
     const processingTimeMs = Date.now() - startedAt;

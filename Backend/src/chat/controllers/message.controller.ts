@@ -5,11 +5,33 @@ import { sendChatMessage, sendVoiceMessage, streamChatMessage } from '../service
 import { clearChatHistory, getSessionMessages } from '../services/sessionManager.service';
 import { speechToText } from '../../services/voice/sarvamSTT';
 
+// Valid image MIME types for crop analysis
+const VALID_IMAGE_MIME_TYPES = new Set([
+  'image/jpeg',
+  'image/png',
+  'image/gif',
+  'image/webp',
+  'image/bmp',
+]);
+
+// Max image size: 5MB in base64 (~3.75MB decoded)
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+
 const messageBodySchema = z.object({
   text: z.string().trim().min(1).max(5000),
   language: z.enum(['English', 'Hindi', 'Gujarati', 'Punjabi']).optional(),
-  imageBase64: z.string().optional(),
-  imageMimeType: z.string().optional(),
+  imageBase64: z
+    .string()
+    .optional()
+    .refine((val) => !val || val.length <= MAX_IMAGE_SIZE, {
+      message: 'Image exceeds 5MB limit',
+    }),
+  imageMimeType: z
+    .string()
+    .optional()
+    .refine((val) => !val || VALID_IMAGE_MIME_TYPES.has(val), {
+      message: 'Invalid image type. Allowed: jpeg, png, gif, webp, bmp',
+    }),
 });
 
 const paginationSchema = z.object({

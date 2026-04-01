@@ -119,7 +119,7 @@ export function ProfileScreen() {
   };
 
   return (
-    <Screen scrollable>
+    <Screen scrollable withTabBar>
       <View style={styles.header}>
         <AppText variant="heading">{t(language, 'profile')}</AppText>
         <Pressable onPress={() => navigation.navigate('Notifications')}>
@@ -222,17 +222,12 @@ export function ProfileScreen() {
       </AppText>
       <ScreenCard>
         <IconRow icon="ShieldCheck" title={tx('privacySettings')} />
-        <Pressable onPress={() => {
-          signOut();
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'Splash' }],
-          });
-        }} style={{ paddingVertical: 12 }}>
+        <Pressable onPress={() => signOut()} style={{ paddingVertical: 12 }}>
           <AppText variant="label" color={theme.colors.danger}>
             {t(language, 'signOut')}
           </AppText>
         </Pressable>
+
       </ScreenCard>
 
       {/* Edit Profile Modal */}

@@ -20,12 +20,7 @@ export function SplashScreen({ navigation }: Props) {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (!token) {
-        navigation.replace(hasCompletedOnboarding ? 'Login' : 'LanguageOnboarding');
-        return;
-      }
-
-      navigation.replace(isProfileComplete(user) ? 'MainTabs' : 'ProfileSetup');
+      navigation.replace('Login');
     }, 2200);
 
     return () => clearTimeout(timer);

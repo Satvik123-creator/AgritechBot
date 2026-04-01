@@ -219,7 +219,7 @@ export function HomeScreen() {
   }, [featured, setFeaturedProduct]);
 
   return (
-    <Screen scrollable>
+    <Screen scrollable withTabBar>
       <LinearGradient colors={isDark ? [colors.backgroundAlt, colors.background] : ['#edf7f0', '#f6f7f7']} style={StyleSheet.absoluteFillObject} />
       <View style={styles.topRow}>
         <View style={styles.brandWrap}>
@@ -443,7 +443,7 @@ const styles = StyleSheet.create({
   micArea: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingBottom: 100,
+    paddingBottom: 24,
     paddingTop: 12,
   },
   recommendationCard: {

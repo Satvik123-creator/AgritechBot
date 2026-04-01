@@ -30,26 +30,13 @@ interface AppState {
 export const useAppStore = create<AppState>()(
   persist<AppState, [], [], Partial<AppState>>(
     (set) => ({
-      token: 'mock_token_for_design',
-      user: {
-        id: '1',
-        name: 'Ashish Ranjan',
-        phone: '+919934225353',
-        language: 'Hindi', // 'Hindi' matches the screenshot
-        role: 'FARMER',
-        location: {
-          address: 'Mandi Division, Himachal Pradesh',
-          latitude: 31.7087,
-          longitude: 76.9320,
-        },
-        profileComplete: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
+      token: null,
+      user: null,
       language: 'Hindi',
       phoneDraft: '+91',
-      hasCompletedOnboarding: true,
+      hasCompletedOnboarding: false,
       selectedCrops: [],
+
       featuredProduct: null,
       notificationsEnabled: true,
       unreadNotificationCount: 0,

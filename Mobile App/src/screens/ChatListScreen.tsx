@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   FlatList,
   RefreshControl,
@@ -39,6 +40,13 @@ export function ChatListScreen() {
     queryFn: () => apiService.getScanHistory(),
     enabled: mode === 'scans',
   });
+
+  useFocusEffect(
+    useCallback(() => {
+      if (mode === 'chats') chatRefetch();
+      else scanRefetch();
+    }, [mode, chatRefetch, scanRefetch])
+  );
 
   const chats = chatData?.chats || [];
   const filteredChats = chats.filter((c) => 
@@ -83,7 +91,7 @@ export function ChatListScreen() {
   };
 
   return (
-    <Screen padded={false} style={{ backgroundColor: colors.background }}>
+    <Screen padded={false} withTabBar style={{ backgroundColor: colors.background }}>
       <LinearGradient 
         colors={isDark ? ['#111c15', colors.background] : [colors.backgroundAlt, colors.background]} 
         style={StyleSheet.absoluteFillObject} 
@@ -121,37 +129,54 @@ export function ChatListScreen() {
         data={(mode === 'chats' ? filteredChats : filteredScans) as any[]}
         keyExtractor={(item) => (mode === 'chats' ? (item as any).id : (item as any)._id)}
         renderItem={mode === 'chats' ? renderChatItem : (({ item }) => {
-            const date = new Date((item as any).createdAt);
+            const scan = item as any;
+            const date = new Date(scan.createdAt);
             const timeStr = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            let diagnosisData: any = null;
+            try {
+              diagnosisData = JSON.parse(scan.diagnosis);
+            } catch (e) {
+              diagnosisData = { problem: 'Crop Diagnosis', summary: scan.diagnosis };
+            }
+
             return (
               <Pressable
                 onPress={() => {
-                  Alert.alert("Diagnosis History", (item as any).diagnosis);
+                  // Navigate back to ImageScan with the saved result to show the professional UI
+                  navigation.navigate('ImageScan' as any, { 
+                    image: `data:image/jpeg;base64,${scan.imageBase64}`,
+                    result: scan.diagnosis 
+                  });
                 }}
                 style={styles.chatItem}
               >
                 <View style={[styles.chatItemInner, { backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)', borderColor: colors.border }]}>
                   <View style={styles.scanThumbnailContainer}>
-                    {(item as any).imageBase64 ? (
+                    {scan.imageBase64 ? (
                       <Image 
-                        source={{ uri: `data:image/jpeg;base64,${(item as any).imageBase64}` }} 
+                        source={{ 
+                          uri: scan.imageBase64.startsWith('data:') 
+                            ? scan.imageBase64 
+                            : `data:image/jpeg;base64,${scan.imageBase64}` 
+                        }} 
                         style={styles.scanThumbnail}
                       />
                     ) : (
-                      <View style={[styles.avatarCircle, { backgroundColor: colors.primary + '20' }]}>
-                         {(() => { const IconComp = IconMap['ShieldCheck']; return IconComp ? <IconComp size={22} color={colors.primary} /> : null; })()}
+                      <View style={[styles.scanThumbnail, { backgroundColor: colors.primary + '15', alignItems: 'center', justifyContent: 'center' }]}>
+                         {(() => { const IconComp = IconMap['ShieldCheck']; return IconComp ? <IconComp size={24} color={colors.primary} /> : null; })()}
                       </View>
                     )}
                   </View>
                   <View style={styles.chatMain}>
                     <View style={styles.chatTop}>
                       <AppText variant="title" style={[styles.chatTitle, { color: colors.text }]} numberOfLines={1}>
-                         Crop Diagnosis
+                         {diagnosisData.problem || 'Crop Diagnosis'}
                       </AppText>
                       <AppText variant="caption" color={colors.textMuted}>{timeStr}</AppText>
                     </View>
                     <AppText numberOfLines={2} color={colors.textMuted} style={styles.chatPreview}>
-                      {(item as any).diagnosis?.substring(0, 80)}...
+                      {diagnosisData.summary || diagnosisData.problem || scan.diagnosis?.substring(0, 80)}
                     </AppText>
                   </View>
                   {(() => { const IconComp = IconMap['ChevronRight']; return IconComp ? <IconComp size={18} color={isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)'} /> : null; })()}
@@ -216,9 +241,9 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   scanThumbnail: {
-    width: 48,
-    height: 48,
-    borderRadius: 12,
+    width: 64,
+    height: 64,
+    borderRadius: 16,
     backgroundColor: 'rgba(0,0,0,0.05)',
   },
   searchContainer: {
@@ -281,7 +306,7 @@ const styles = StyleSheet.create({
   fab: {
     position: 'absolute',
     right: 24,
-    bottom: Platform.OS === 'ios' ? 40 : 24,
+    bottom: Platform.OS === 'ios' ? 120 : 110,
     width: 64,
     height: 64,
     borderRadius: 32,

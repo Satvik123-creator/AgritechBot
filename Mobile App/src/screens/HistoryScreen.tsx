@@ -26,7 +26,8 @@ export function HistoryScreen() {
   const chats = hasRealHistory ? data!.chats : fallbackHistory;
 
   return (
-    <Screen scrollable>
+    <Screen scrollable withTabBar>
+
       <AppText variant="heading">History / इतिहास / تاریخ</AppText>
       <AppText color={theme.colors.textMuted}>Your Scans</AppText>
       <View style={{ marginTop: 18 }}>

@@ -42,12 +42,14 @@ export function Screen({
   dark,
   style,
   refreshControl,
+  withTabBar,
 }: PropsWithChildren<{
   scrollable?: boolean;
   padded?: boolean;
   dark?: boolean;
   style?: StyleProp<ViewStyle>;
   refreshControl?: React.ReactElement;
+  withTabBar?: boolean;
 }>) {
   const { isDark, colors } = useTheme();
   const effectiveDark = dark ?? isDark;
@@ -58,6 +60,7 @@ export function Screen({
         styles.screen,
         { backgroundColor: effectiveDark ? colors.background : colors.background },
         padded && styles.screenPadding,
+        withTabBar && { paddingBottom: 120 },
         style,
       ]}
     >
@@ -449,6 +452,72 @@ export function ScreenCard({ children, style }: PropsWithChildren<{ style?: Styl
   );
 }
 
+export function ProgressBar({ 
+  progress, 
+  label, 
+  color, 
+  height = 8 
+}: { 
+  progress: number; 
+  label?: string; 
+  color?: string; 
+  height?: number 
+}) {
+  const { colors, isDark } = useTheme();
+  const barWidth = useSharedValue(0);
+
+  useEffect(() => {
+    barWidth.value = withTiming(Math.min(100, Math.max(0, progress)), { duration: 1000, easing: Easing.out(Easing.exp) });
+  }, [progress]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    width: `${barWidth.value}%`,
+  }));
+
+  const bgColor = color ?? colors.primary;
+
+  return (
+    <View style={styles.progressContainer}>
+      <View style={styles.progressHeader}>
+        <AppText variant="label" style={{ fontSize: 13 }}>{label}</AppText>
+        <AppText variant="label" color={bgColor} style={{ fontSize: 13 }}>{Math.round(progress)}%</AppText>
+      </View>
+      <View style={[styles.progressTrack, { height, backgroundColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' }]}>
+        <Animated.View style={[styles.progressFill, { height, backgroundColor: bgColor }, animatedStyle]} />
+      </View>
+    </View>
+  );
+}
+
+export function StatCard({ 
+  label, 
+  value, 
+  icon, 
+  color, 
+  style 
+}: { 
+  label: string; 
+  value: string; 
+  icon: string; 
+  color?: string; 
+  style?: StyleProp<ViewStyle> 
+}) {
+  const { colors, isDark } = useTheme();
+  const themeColor = color ?? colors.primary;
+
+  return (
+    <View style={[styles.statCard, { backgroundColor: isDark ? 'rgba(255,255,255,0.04)' : colors.surface }, style]}>
+      <View style={[styles.statIconBadge, { backgroundColor: themeColor + '15' }]}>
+        {(() => { const IconComp = IconMap[icon]; return IconComp ? <IconComp size={18} color={themeColor} /> : null; })()}
+      </View>
+      <View style={{ flex: 1 }}>
+        <AppText variant="caption" color={colors.textMuted} numberOfLines={1}>{label}</AppText>
+        <AppText variant="label" style={{ fontSize: 15, fontWeight: '700' }}>{value}</AppText>
+      </View>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   screen: { flex: 1 },
   screenPadding: { paddingHorizontal: 16, paddingBottom: 16 },
@@ -652,5 +721,38 @@ const styles = StyleSheet.create({
     shadowColor: theme.colors.primary,
     borderWidth: 4,
     borderColor: 'rgba(255,255,255,0.15)',
+  },
+  progressContainer: {
+    marginVertical: 10,
+    width: '100%',
+  },
+  progressHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  progressTrack: {
+    width: '100%',
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
+  progressFill: {
+    borderRadius: 10,
+  },
+  statCard: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    borderRadius: 18,
+    gap: 10,
+  },
+  statIconBadge: {
+    width: 34,
+    height: 34,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

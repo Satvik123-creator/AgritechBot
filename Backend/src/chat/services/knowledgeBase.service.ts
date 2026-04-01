@@ -137,8 +137,22 @@ export async function initializeKnowledgeBaseCache(): Promise<void> {
 
   if (!refreshTimer) {
     refreshTimer = setInterval(() => {
-      void refreshKnowledgeBaseCache();
+      refreshKnowledgeBaseCache().catch((err) => {
+        logger.error({ err }, 'Knowledge base cache refresh failed in timer');
+      });
     }, KB_CACHE_TTL_SECONDS * 1000);
     refreshTimer.unref();
+  }
+}
+
+/**
+ * Stop the knowledge base cache refresh timer
+ * Call this during graceful shutdown
+ */
+export function stopKnowledgeBaseCacheRefresh(): void {
+  if (refreshTimer) {
+    clearInterval(refreshTimer);
+    refreshTimer = null;
+    logger.info('Knowledge base cache refresh timer stopped');
   }
 }
