@@ -21,9 +21,12 @@ import { estimateTextTokens } from '../utils/tokenCounter';
 import { truncateConversationToBudget } from '../utils/contextTruncator';
 import { HttpError } from '../utils/httpError';
 import { speechToText } from '../../services/voice/sarvamSTT';
-import { textToSpeech } from '../../services/voice/sarvamTTS';
+import { textToSpeech, textToSpeechContinuous, type AudioChunk } from '../../services/voice/sarvamTTS';
 import { ChatHistoryCache, type LeanChatMessage } from './chatHistoryCache.service';
 import { getQuickSuggestions, generateQuerySuggestions } from './querySuggestions.service';
+import { formatChatResponse, formatLegacyResponse, transformProductToCard } from '../utils/responseFormatter';
+import { cleanUserInput } from '../utils/inputCleaner';
+import type { FormattedResponse } from '../types/formattedResponse.types';
 
 const gemini = new GoogleGenerativeAI(env.GEMINI_API_KEY);
 type PreferredChatLanguage = 'English' | 'Hindi' | 'Gujarati' | 'Punjabi';
@@ -320,7 +323,10 @@ async function runToolLoop(params: {
   sessionId: string;
   farmerId: string;
   language: ChatLanguageCode;
-}) {
+}): Promise<{
+  response: Awaited<ReturnType<ReturnType<GoogleGenerativeAI['getGenerativeModel']>['generateContent']>>;
+  productData?: Array<Record<string, unknown>>;
+}> {
   // OPTIMIZATION: Execute all tools in parallel with individual error handling
   const toolSettledResults = await Promise.allSettled(
     params.responseFunctionCalls.map(async (call) => {
@@ -415,9 +421,22 @@ async function runToolLoop(params: {
     })),
   };
 
-  return params.model.generateContent({
+  // Extract product data from the tool results if product recommendation tool was used
+  const productData = toolResults
+    .filter((tr) => tr.call.name === 'get_product_recommendations')
+    .flatMap((tr) => {
+      const output = tr.toolOutput as { products?: Array<Record<string, unknown>> };
+      return output.products || [];
+    });
+
+  const response = await params.model.generateContent({
     contents: [...params.contents, firstRoundCallContents, ...toolMessages],
   });
+
+  return {
+    response,
+    productData: productData.length > 0 ? productData : undefined,
+  };
 }
 
 async function persistSuccessfulExchange(params: {
@@ -537,7 +556,7 @@ export async function sendChatMessage(params: {
   imageBase64?: string;
   imageMimeType?: string;
   forceVoiceReply?: boolean;
-}) {
+}): Promise<FormattedResponse> {
   if (Date.now() < quotaBlockedUntil) {
     const retryMs = quotaBlockedUntil - Date.now();
     const retryAfterSeconds = Math.max(1, Math.ceil(retryMs / 1000));
@@ -593,8 +612,10 @@ export async function sendChatMessage(params: {
     );
 
     const functionCalls = result.response.functionCalls();
+    let productData: Record<string, unknown>[] | undefined;
+
     if (functionCalls?.length) {
-      result = await runToolLoop({
+      const toolLoopResult = await runToolLoop({
         model,
         contents: built.contents,
         responseFunctionCalls: functionCalls,
@@ -602,6 +623,9 @@ export async function sendChatMessage(params: {
         farmerId: params.farmerId,
         language,
       });
+
+      result = toolLoopResult.response as typeof result;
+      productData = toolLoopResult.productData;
     }
 
     const responseText = result.response.text().trim();
@@ -611,16 +635,51 @@ export async function sendChatMessage(params: {
     const cacheHit = Boolean(usage?.cachedContentTokenCount);
     let audioBase64: string | undefined;
     let audioMimeType: string | undefined;
+    let audioChunks: AudioChunk[] | undefined;
+    let greetingAudioBase64: string | undefined;
+    let greetingAudioMimeType: string | undefined;
     const shouldGenerateVoice = built.isFirstMessage || params.forceVoiceReply;
 
-    // OPTIMIZATION: Run TTS and suggestions generation in parallel (non-blocking)
-    const [ttsResult, suggestions] = await Promise.allSettled([
-      // TTS (only if needed)
+    // OPTIMIZATION: Run TTS (greeting + response) and suggestions generation in parallel (non-blocking)
+    const [ttsResult, greetingTtsResult, suggestions] = await Promise.allSettled([
+      // Main response TTS (only if needed)
       shouldGenerateVoice
-        ? textToSpeech(responseText, getLanguageLabel(language))
-            .then((audio) => ({ audioBase64: audio, audioMimeType: 'audio/mp3' as const }))
+        ? textToSpeechContinuous(responseText, getLanguageLabel(language))
+            .then((chunks) => {
+              // Store all chunks
+              audioChunks = chunks;
+              // Extract first chunk for backward compatibility
+              if (chunks.length > 0) {
+                return {
+                  audioBase64: chunks[0].audioBase64,
+                  audioMimeType: chunks[0].audioMimeType,
+                };
+              }
+              return undefined;
+            })
             .catch((err) => {
               logger.warn({ err, sessionId: params.sessionId }, 'TTS failed');
+              return undefined;
+            })
+        : Promise.resolve(undefined),
+
+      // Greeting TTS (first message only)
+      built.isFirstMessage
+        ? textToSpeechContinuous(
+            "नमस्ते! मैं कृषि से संबंधित आपके सभी सवालों में आपकी मदद करने के लिए यहाँ हूँ।",
+            getLanguageLabel(language)
+          )
+            .then((chunks) => {
+              if (chunks.length > 0) {
+                return {
+                  audioBase64: chunks[0].audioBase64,
+                  audioMimeType: chunks[0].audioMimeType,
+                };
+              }
+              return undefined;
+            })
+            .catch((err) => {
+              logger.warn({ err, sessionId: params.sessionId }, 'Greeting TTS failed');
               return undefined;
             })
         : Promise.resolve(undefined),
@@ -638,12 +697,20 @@ export async function sendChatMessage(params: {
       audioMimeType = ttsResult.value.audioMimeType;
     }
 
+    if (greetingTtsResult.status === 'fulfilled' && greetingTtsResult.value) {
+      greetingAudioBase64 = greetingTtsResult.value.audioBase64;
+      greetingAudioMimeType = greetingTtsResult.value.audioMimeType;
+    }
+
     const querySuggestions = suggestions.status === 'fulfilled' ? suggestions.value : [];
+
+    // Clean input text
+    const cleanedUserText = cleanUserInput(params.text);
 
     await persistSuccessfulExchange({
       sessionId: params.sessionId,
       farmerId: params.farmerId,
-      userText: params.text,
+      userText: cleanedUserText,
       assistantText: responseText,
       imageBase64: params.imageBase64,
       language,
@@ -659,19 +726,30 @@ export async function sendChatMessage(params: {
     // Invalidate chat cache after successful message
     await ChatHistoryCache.invalidate(params.sessionId);
 
-    return {
+    // Transform raw product data to ProductCard format
+    const productCards = productData?.map((p) => transformProductToCard(p as Record<string, unknown>));
+
+    // Format response using the response formatter
+    const formattedResponse = formatChatResponse({
       messageId: `${params.sessionId}:${Date.now()}`,
       response: responseText,
+      audioBase64,
+      audioMimeType,
       tokensUsed: usage?.totalTokenCount || inputTokens + outputTokens,
       processingTime: processingTimeMs,
       modelVersion: env.GEMINI_MODEL,
       cacheHit,
       language,
       summaryUsed: built.summaryUsed,
-      audioBase64,
-      audioMimeType,
-      suggestedQueries: querySuggestions, // NEW: Return query suggestions
-    };
+      isFirstMessage: built.isFirstMessage,
+      products: productCards,
+      suggestedQueries: querySuggestions,
+      audioChunks, // Include all audio chunks for seamless mobile concatenation
+      greetingAudioBase64, // Greeting audio for first message
+      greetingAudioMimeType, // Greeting audio MIME type
+    });
+
+    return formattedResponse;
   } catch (error) {
     const processingTimeMs = Date.now() - startedAt;
     if (isQuotaError(error)) {
@@ -770,9 +848,16 @@ export async function sendVoiceMessage(params: {
     forceVoiceReply: true,
   });
 
+  // Extract properties from FormattedResponse for backward compatibility
+  const responseText = chatResult.text;
   const audioBase64 =
-    chatResult.audioBase64 || (await textToSpeech(chatResult.response, chatResult.language));
-  const audioMimeType = chatResult.audioMimeType || 'audio/mp3';
+    chatResult.audioChunks?.[0]?.audioBase64 ||
+    chatResult.messages.find((m) => m.type !== 'greeting')?.audioBase64 ||
+    (await textToSpeech(responseText, chatResult.language));
+  const audioMimeType =
+    chatResult.audioChunks?.[0]?.audioMimeType ||
+    chatResult.messages.find((m) => m.type !== 'greeting')?.audioMimeType ||
+    'audio/mp3';
   const since = new Date(Date.now() - 60_000);
 
   await Promise.all([
@@ -797,7 +882,7 @@ export async function sendVoiceMessage(params: {
         sessionId: params.sessionId,
         farmerId: params.farmerId,
         role: 'assistant',
-        'content.text': chatResult.response,
+        'content.text': responseText,
         createdAt: { $gte: since },
       },
       {
@@ -813,12 +898,12 @@ export async function sendVoiceMessage(params: {
   return {
     chatId: params.sessionId,
     transcript,
-    answer: chatResult.response,
+    answer: responseText,
     audioBase64,
     audioMimeType,
     language: chatResult.language,
-    processingTime: chatResult.processingTime,
-    modelVersion: chatResult.modelVersion,
+    processingTime: chatResult._private.processingTimeMs,
+    modelVersion: chatResult._private.modelVersion,
   };
 }
 
@@ -838,7 +923,7 @@ export async function streamChatMessage(params: {
 
   try {
     const result = await sendChatMessage(params);
-    const words = result.response.split(/(\s+)/).filter(Boolean);
+    const words = result.text.split(/(\s+)/).filter(Boolean);
 
     params.reply.raw.writeHead(200, {
       'Content-Type': 'text/event-stream',
@@ -852,7 +937,14 @@ export async function streamChatMessage(params: {
       writeEvent('token', { token });
     }
 
-    writeEvent('done', result);
+    writeEvent('done', {
+      messageId: result.messageId,
+      text: result.text,
+      language: result.language,
+      hasAudio: result.hasAudio,
+      suggestions: result.suggestions,
+      _private: result._private,
+    });
   } catch (error) {
     if (!params.reply.raw.headersSent) {
       params.reply.raw.writeHead(200, {

@@ -47,13 +47,28 @@ export function ImageScanScreen({ route }: { route: any }) {
 
   const pickImage = async (useCamera: boolean = false) => {
     try {
-      const options: ImagePicker.ImagePickerOptions = {
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 0.7,
-        base64: true,
-      };
+      // Request permissions
+      if (useCamera) {
+        const cameraPermission = await ImagePicker.requestCameraPermissionsAsync();
+        if (!cameraPermission.granted) {
+          Alert.alert('Permission Denied', 'Camera access is required to take photos');
+          return;
+        }
+      } else {
+        const mediaPermission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (!mediaPermission.granted) {
+          Alert.alert('Permission Denied', 'Media library access is required to upload photos');
+          return;
+        }
+      }
+
+const options: ImagePicker.ImagePickerOptions = {
+  mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  allowsEditing: true,
+  aspect: [4, 3],
+  quality: 0.7,
+  base64: true,
+};
 
       const result = useCamera
         ? await ImagePicker.launchCameraAsync(options)

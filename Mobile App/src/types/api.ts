@@ -136,6 +136,13 @@ export interface AskChatResponse {
   recommendedProducts?: Product[];
   model?: string;
   mode?: string;
+  // New fields for structured responses
+  audioChunks?: Array<{ audioBase64: string; audioMimeType: string; sequenceNumber: number }>;
+  greetingMessage?: string;
+  greetingAudioBase64?: string;
+  productCards?: Array<{ id: string; name: string; price: number; imageUrl?: string; description: string }>;
+  language?: string;
+  hasAudio?: boolean;
 }
 
 export interface ChatSummary {

@@ -198,33 +198,58 @@ export const apiService = {
       sessionId = session.sessionId;
     }
 
-    const { data } = await api.post<{
-      messageId: string;
-      response: string;
-      tokensUsed: number;
-      processingTime: number;
-      modelVersion: string;
-      cacheHit: boolean;
-      audioBase64?: string;
-      audioMimeType?: string;
-    }>(`/api/v1/chat/sessions/${sessionId}/message`, {
+    const { data } = await api.post<any>(`/api/v1/chat/sessions/${sessionId}/message`, {
       text: payload.message,
       language: payload.language,
       imageBase64: payload.imageBase64,
       imageMimeType: payload.imageMimeType,
     });
 
-    return {
-      answer: data.response,
-      chatId: sessionId,
-      cached: data.cacheHit,
-      model: data.modelVersion,
-      mode: 'session-v1',
-      audioBase64: data.audioBase64,
-      audioMimeType: data.audioMimeType,
-      quickReplies: [],
-      recommendedProducts: [],
-    } satisfies AskChatResponse;
+    // Support both legacy and new FormattedResponse formats
+    const isFormattedResponse = data.messages && Array.isArray(data.messages);
+
+    if (isFormattedResponse) {
+      // New FormattedResponse format
+      const assistantMsg = data.messages.find((m: any) => m.type === 'text');
+      const greetingMsg = data.messages.find((m: any) => m.type === 'greeting');
+
+      return {
+        answer: data.text || assistantMsg?.text || '',
+        chatId: sessionId,
+        cached: data._private?.cacheHit,
+        model: data._private?.modelVersion,
+        mode: 'session-v1',
+        audioBase64: assistantMsg?.audioBase64,
+        audioMimeType: assistantMsg?.audioMimeType,
+        audioChunks: data.audioChunks,
+        greetingMessage: greetingMsg?.text,
+        greetingAudioBase64: greetingMsg?.audioBase64,
+        language: data.language,
+        hasAudio: data.hasAudio,
+        productCards: data.products?.map((p: any) => ({
+          id: p.id,
+          name: p.name,
+          price: p.price,
+          imageUrl: p.imageUrl,
+          description: p.description,
+        })),
+        quickReplies: data.suggestions?.slice(0, 3),
+        recommendedProducts: [],
+      } satisfies AskChatResponse;
+    } else {
+      // Legacy format
+      return {
+        answer: data.response,
+        chatId: sessionId,
+        cached: data.cacheHit,
+        model: data.modelVersion,
+        mode: 'session-v1',
+        audioBase64: data.audioBase64,
+        audioMimeType: data.audioMimeType,
+        quickReplies: [],
+        recommendedProducts: [],
+      } satisfies AskChatResponse;
+    }
   },
   async createChatSession() {
     const { data } = await api.post<{ sessionId: string; title: string; createdAt: string }>(
