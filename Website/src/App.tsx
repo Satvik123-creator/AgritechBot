@@ -13,6 +13,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import Sitemap from './pages/Sitemap';
 import Checkout from './pages/Checkout';
+import AdminOrders from './pages/AdminOrders';
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<TermsOfService />} />
             <Route path="/sitemap" element={<Sitemap />} />
+            <Route path="/admin/orders" element={<AdminOrders />} />
           </Routes>
         </main>
 

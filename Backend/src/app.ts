@@ -26,7 +26,7 @@ import { cache } from './services/cache/redisCache';
 import { getChatHealthMetrics } from './chat/services/chatMetrics.service';
 
 // ── App version from package.json ──
-const APP_VERSION = '1.0.0';
+const APP_VERSION = '2.0.0';
 
 export async function buildApp(): Promise<FastifyInstance> {
   const app = Fastify({
@@ -195,6 +195,7 @@ export async function buildApp(): Promise<FastifyInstance> {
   await app.register(notificationRoutes);
   await app.register(paymentRoutes);
   await app.register(imageAnalysisRoutes);
+  await app.register(require('./routes/orderRoutes').orderRoutes);
 
   logger.info(`All routes registered [env=${env.NODE_ENV}]`);
 

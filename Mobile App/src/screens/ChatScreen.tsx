@@ -386,7 +386,7 @@ export function ChatScreen() {
       base64: true,
     });
 
-    if (!result.canceled) {
+    if (!result.canceled && result.assets?.length) {
       const asset = result.assets[0];
       setPickedImageUri(asset.uri);
       setPickedImageBase64(asset.base64 || null);
@@ -748,7 +748,7 @@ export function ChatScreen() {
                   </AppText>
                 ) : null}
                 <AppText
-                  color={message.role === 'user' ? colors.textOnDark : isDark ? colors.textOnDark : colors.text}
+                  color={message.role === 'user' ? colors.textOnDark : colors.text}
                   numberOfLines={0}
                   selectable
                   style={{ flexShrink: 1, flexWrap: 'wrap', fontSize: 16, lineHeight: 22 }}

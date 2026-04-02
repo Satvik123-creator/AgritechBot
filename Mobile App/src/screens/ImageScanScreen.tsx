@@ -62,19 +62,19 @@ export function ImageScanScreen({ route }: { route: any }) {
         }
       }
 
-const options: ImagePicker.ImagePickerOptions = {
-  mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  allowsEditing: true,
-  aspect: [4, 3],
-  quality: 0.7,
-  base64: true,
-};
+      const options = {
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3] as [number, number],
+        quality: 0.7,
+        base64: true,
+      };
 
       const result = useCamera
         ? await ImagePicker.launchCameraAsync(options)
         : await ImagePicker.launchImageLibraryAsync(options);
 
-      if (!result.canceled && result.assets[0]) {
+      if (!result.canceled && result.assets?.length) {
         setImage(result.assets[0].uri);
         setResult(null); // Reset result for new image
         // Automatically start analysis if base64 is available

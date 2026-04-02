@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Image, Pressable, StyleSheet, TextInput, View, ActivityIndicator, Modal, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
 import { apiService } from '../api/services';
@@ -50,6 +50,7 @@ export function ProfileSetupScreen({ navigation }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [showLocationPicker, setShowLocationPicker] = useState(false);
   const [showMapPicker, setShowMapPicker] = useState(false);
+  const [shouldAutoOpenLocation, setShouldAutoOpenLocation] = useState(false);
 
   // Indian states and major agricultural districts
   const INDIAN_LOCATIONS: Record<string, string[]> = {
@@ -72,6 +73,14 @@ export function ProfileSetupScreen({ navigation }: Props) {
         : [...selectedCrops, cropValue]
     );
   };
+
+  // Auto-open location picker when name and crops are filled
+  useEffect(() => {
+    if (name.trim() && selectedCrops.length > 0 && shouldAutoOpenLocation && !location.state) {
+      setShowLocationPicker(true);
+      setShouldAutoOpenLocation(false);
+    }
+  }, [name, selectedCrops, shouldAutoOpenLocation, location.state]);
 
   const createProfileMutation = useMutation({
     mutationFn: () =>
@@ -201,7 +210,7 @@ export function ProfileSetupScreen({ navigation }: Props) {
 
       <ScreenCard style={{ marginTop: 18 }}>
         <View style={styles.locationHeader}>
-          <View>
+          <View style={{ flex: 1 }}>
             <AppText variant="label">{t(language, 'location')}</AppText>
             <AppText color={theme.colors.textMuted}>
               {location.state && location.district
@@ -214,8 +223,14 @@ export function ProfileSetupScreen({ navigation }: Props) {
               </AppText>
             )}
           </View>
-          <Pressable onPress={() => setShowLocationPicker(true)} disabled={createProfileMutation.isPending}>
-            <AppText color={theme.colors.primary}>{tx('change')}</AppText>
+          <Pressable
+            onPress={() => setShowLocationPicker(true)}
+            disabled={createProfileMutation.isPending}
+            style={styles.changeButton}
+          >
+            <AppText color={theme.colors.primary} variant="label">
+              {location.state ? tx('change') : tx('select')}
+            </AppText>
           </Pressable>
         </View>
       </ScreenCard>
@@ -233,8 +248,8 @@ export function ProfileSetupScreen({ navigation }: Props) {
       </View>
 
       {/* Location Picker Modal */}
-      <Modal visible={showLocationPicker} transparent animationType="slide">
-        <View style={styles.modalOverlay}>
+      <Modal visible={showLocationPicker} animationType="slide" onRequestClose={() => setShowLocationPicker(false)}>
+        <View style={[styles.modalOverlay, { backgroundColor: theme.colors.background }]}>
           <View style={styles.locationModalContent}>
             <View style={styles.modalHeader}>
               <AppText variant="heading">{t(language, 'selectLocation')}</AppText>
@@ -398,6 +413,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 14,
   },
+  changeButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 12,
+    backgroundColor: 'rgba(82,183,129,0.1)',
+  },
   actions: {
     marginTop: 24,
     paddingBottom: 28,
@@ -414,7 +435,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 16,
     paddingBottom: 24,
-    maxHeight: '80%',
+    maxHeight: '85%',
+    flex: 1,
   },
   modalHeader: {
     flexDirection: 'row',
