@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, TextInput, View, Alert } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import { apiService } from '../api/services';
@@ -16,7 +16,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Otp'>;
 export function OtpScreen({ navigation, route }: Props) {
   const { phone, otpPreview: initialOtpPreview } = route.params;
   const hiddenInputRef = useRef<TextInput>(null);
-  const [otp, setOtp] = useState('');
+  const [otp, setOtp] = useState(initialOtpPreview ?? '');
   const [error, setError] = useState<string | null>(null);
   const [resendCooldown, setResendCooldown] = useState(30);
   const [otpPreview, setOtpPreview] = useState<string | null>(initialOtpPreview ?? null);
@@ -59,10 +59,13 @@ export function OtpScreen({ navigation, route }: Props) {
   const resendMutation = useMutation({
     mutationFn: async () => apiService.sendOtp(phone),
     onSuccess: (data) => {
-      setOtp('');
+      setOtp(data.otp ?? '');
       setError(null);
       setResendCooldown(30);
       setOtpPreview(data.otp ?? null);
+      if (data.otp) {
+        Alert.alert('Development OTP', `Your test code is: ${data.otp}\n\n(Auto-filled for testing)`);
+      }
     },
     onError: (mutationError: any) => {
       const message = mutationError?.message || t(language, 'failedToResendOtp');

@@ -2,7 +2,7 @@ import { IconMap } from '../components/IconMap';
 import { useMutation } from '@tanstack/react-query';
 
 import { useState } from 'react';
-import { ActivityIndicator, KeyboardAvoidingView, Platform, StyleSheet, TextInput, View } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, Platform, StyleSheet, TextInput, View, Alert } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import { apiService } from '../api/services';
@@ -42,7 +42,13 @@ export function LoginScreen({ navigation }: Props) {
     onSuccess: (data, normalizedPhone) => {
       setError(null);
       setPhoneDraft(normalizedPhone);
-      navigation.navigate('Otp', { phone: normalizedPhone, otpPreview: data.otp ?? null });
+      
+      const otpCode = data.otp ?? null;
+      if (otpCode) {
+        Alert.alert('Development OTP', `Your test code is: ${otpCode}\n\n(Auto-filled in the next screen)`);
+      }
+      
+      navigation.navigate('Otp', { phone: normalizedPhone, otpPreview: otpCode });
     },
     onError: (err: any) => {
       console.error('Send OTP error', err);
